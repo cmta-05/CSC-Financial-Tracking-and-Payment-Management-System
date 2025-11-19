@@ -17,7 +17,7 @@ This repository serves as:
 
 * A **safe and organized storage** for all project documents
 * A **version-controlled workspace** so nothing gets overwritten
-* A **central reference** for our outputs per Phase (1–3)
+* A **central reference** for our outputs per Phase
 
 Unlike Google Drive, files here **do not auto-convert** (e.g., Word → Google Docs), and
 formatting stays clean and consistent.
