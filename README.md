@@ -31,21 +31,60 @@ CSC-Financial-Tracking-and-Payment-Management-System/
 │
 ├── Phase_0_Initial_Requirement/
 │   └── Elicitation_Letter/
+│        ├── Letter_to_CSC_for_Data_Gathering.docx
+│        └── Signed_Elicitation_Letter.pdf
 │
 ├── Phase_1_Requirements_and_Specification/
+│   │
 │   ├── Step_1_Elicitation/
+│   │    ├── JADResults_CSC_Group3_v1.docx
+│   │    ├── ElicitationSummary_CSC_Group3_v1.docx
+│   │    └── JAD_Confirmation_Signatures.pdf       
+│   │
 │   ├── Step_2_Organization/
+│   │    ├── Functional_Requirements_CSC_Group3_v1.docx
+│   │    ├── NonFunctional_Requirements_CSC_Group3_v1.docx
+│   │    └── ReqMatrix_CSC_Group3_v1.xlsx
+│   │
 │   ├── Step_3_Analysis/
-│   ├── Step_4_Prototype/
+│   │    ├── ReqChecklist_CSC_Group3_v1.xlsx
+│   │    └── ReqMatrix_CSC_Group3_v2.xlsx          (updated)
+│   │
+│   ├── Step_4_Prototype/                          (optional)
+│   │    ├── Prototype_CSC_Group3_v1.pptx
+│   │    └── PrototypeScreens/           
+│   │          ├── screen1.png
+│   │          ├── screen2.png
+│   │          └── ...
+│   │
 │   └── Step_5_RDR_Compilation/
+│        ├── RDR_CSC_Financial_System_Group3_v1.docx
+│        ├── RDR_CSC_Financial_System_Group3_v1.pdf
+│        ├── RDR_Signoff_CSC_Group3_v1.pdf
+│        ├── SubmissionCoverSheet_CSC_Group3.pdf
+│        └── Group3_Phase1_Submission_v1.zip       (optional)
 │
-├── Phase_2_Architecture_and_Development/        (future)
-├── Phase_3_System_Integration_Design/           (future)
-│── Phase_4_Evaluation/                          (future)
-│── Phase_5_Feasibility_Analysis/                (future)
-│── Phase_6_Management_Plan/                     (future)
-│── Phase_7_Evaluation/                          (future)
-│── Phase_8_Implementation/                      (future)
+│
+├── Phase_2_Feasibility_Analysis/
+│   ├── Feasibility_Study_Report_CSC_Group3.pdf
+│   ├── CostBenefitAnalysis_CSC_Group3.pdf
+│   ├── RiskAssessment_CSC_Group3.pdf
+│   └── Phase2_Submission.zip                      (optional)
+│
+│
+├── Phase_3_Architecture_and_Development/
+│   │
+│   └──  UML_Diagrams/
+│        ├── UseCaseDiagram_CSC_Group3.png
+│        ├── ActivityDiagram_CSC_Group3.png
+│        └── ClassDiagram_CSC_Group3.png
+│   
+│
+│
+├── Phase_4_System_Integration_Design/             (future)
+├── Phase_5_Management_Plan/                       (future)
+├── Phase_6_Implementation/                        (future)
+└── Phase_7_Evaluation/                            (future)
 ```
 
 Only upload files inside the correct *step* folder.
