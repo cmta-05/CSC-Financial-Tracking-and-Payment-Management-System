@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Treasurer Dashboard - CSC Financial System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+  </head>
+  <body onload="initPage('treasurer-dashboard')">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <div class="logo-circle">CP</div>
+          <div>
+            <div class="fw-bold">CSC PayTrack</div>
+            <small>Treasurer</small>
+          </div>
+          <button
+            class="btn btn-sm sidebar-collapse"
+            type="button"
+            onclick="toggleSidebar()"
+          >
+            ☰
+          </button>
+        </div>
+        <div class="sidebar-label">Main Menu</div>
+        <nav>
+          <a class="nav-link" href="treasurer_dashboard.html">
+            <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+          </a>
+          <a class="nav-link" href="csc_fee.html">
+            <i class="bi bi-cash-stack"></i><span>CSC Fee</span>
+          </a>
+          <a class="nav-link" href="dispute_management.html">
+            <i class="bi bi-chat-dots"></i><span>Disputes</span>
+          </a>
+          <a class="nav-link" href="treasurer_reports.html">
+            <i class="bi bi-bar-chart"></i><span>Reports</span>
+          </a>
+        </nav>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <div>
+            <div class="topbar-title">
+              Bicol University Polangui - College Student Council PayTrack
+            </div>
+            <small id="currentDateTime" class="text-muted"></small>
+          </div>
+          <div class="topbar-actions">
+            <button
+              type="button"
+              class="icon-btn"
+              onclick="toggleTheme()"
+              aria-label="Toggle dark mode"
+            >
+              🌓
+            </button>
+            <button type="button" class="icon-btn" aria-label="Notifications">
+              🔔
+            </button>
+            <div class="user-menu">
+              <div
+                class="user-avatar"
+                onclick="toggleUserMenu()"
+                role="button"
+              >
+                VR
+              </div>
+              <div id="userDropdown" class="user-dropdown">
+                <div class="user-dropdown-header">
+                  <strong>VANNESA ROSE B.</strong>
+                  <div class="small text-muted">BSIT | 3rd Year</div>
+                </div>
+                <a href="#">Profile</a>
+                <a href="#">Manage Password</a>
+                <a href="#">FAQs</a>
+                <a href="#">Contact Admin</a>
+                <a href="#">Send Feedback</a>
+                <a href="../login.html" class="sign-out">Sign Out</a>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="page-content">
+          <section class="dashboard-hero">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <h2 class="mb-1">Treasurer Dashboard</h2>
+                <p class="hero-subtitle mb-0">
+                  Monitor CSC fee collections and keep track of student
+                  payments.
+                </p>
+              </div>
+              <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <button
+                  type="button"
+                  class="btn btn-primary me-2 mb-2 mb-md-0"
+                  onclick="navigateTo('csc_fee.html')"
+                >
+                  Manage CSC Fees
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  onclick="navigateTo('treasurer_reports.html')"
+                >
+                  View Reports
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-3">
+              <div class="card p-3 shadow-sm dashboard-card">
+                <h4 id="countCSC">0</h4>
+                <p class="text-muted mb-0">CSC Fee Records</p>
+              </div>
+            </div>
+
+            <div class="col-md-9">
+              <div class="card">
+                <div class="card-header">Recent CSC Fee Payments</div>
+                <div class="card-body table-wrapper">
+                  <table
+                    class="table table-striped table-bordered table-sm table-hover"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Student</th>
+                        <th>Receipt ID</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody id="treasurerRecentPaymentsBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Collections Overview</div>
+            <div class="card-body">
+              <canvas id="treasurerCollectionChart" height="120"></canvas>
+            </div>
+          </div>
+
+          <section class="announcement-area">
+            <h5 class="mb-3">Announcements</h5>
+            <div id="treasurerAnnouncements" class="announcement-grid"></div>
+          </section>
+        </div>
+
+        <footer class="app-footer">
+          <div class="d-flex justify-content-between flex-wrap gap-2">
+            <span
+              >CSC PayTrack · Bicol University Polangui - College Student
+              Council</span
+            >
+            <span class="meta-text">
+              Prototype UI · For academic purposes only
+            </span>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/forms.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        applyStoredTheme();
+        startClock("currentDateTime");
+        loadTreasurerDashboard();
+        renderAnnouncements("treasurerAnnouncements");
+      });
+    </script>
+  </body>
+</html>
+
+
