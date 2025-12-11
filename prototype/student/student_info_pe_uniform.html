@@ -2,22 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>My CSC Fee - CSC PayTrack</title>
+    <title>PE Uniform Info - CSC PayTrack</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link
-      rel="icon"
-      type="image/png"
-      href="../assets/img/csc-paytrack-logo.png"
-    />
     <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
-  <body onload="initPage('student-history')">
+  <body onload="initPage('student-info-pe')">
     <div class="app-shell">
       <aside class="sidebar">
         <div class="sidebar-brand">
@@ -102,7 +95,10 @@
                   <div class="small text-muted">BSIT | 3rd Year</div>
                 </div>
                 <a href="../profile.html">Profile</a>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#managePasswordModal"
+                <a
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#managePasswordModal"
                   >Manage Password</a
                 >
                 <a href="../faqs.html">FAQs</a>
@@ -127,22 +123,73 @@
 
         <div class="page-content">
           <div class="page-header">
-            <h2 class="fw-bold mb-1">My CSC Fee</h2>
-            <p class="placeholder-note mb-2">
-              View your CSC fee payment history per Academic Year, including
-              status and basic receipt information. This prototype uses static
-              mock data.
+            <h2 class="fw-bold mb-1">PE Uniform Information</h2>
+            <p class="placeholder-note">
+              Know the official PE uniform policy, sizing guidelines, and pickup
+              procedures before placing or claiming an order.
             </p>
-            <button
-              type="button"
-              class="btn btn-outline-primary btn-sm"
-              onclick="alert('CSC Fee information content is illustrative only.')"
-            >
-              View CSC Fee Info
-            </button>
           </div>
 
-          <section id="studentCscFeeHistory"></section>
+          <div class="row g-3">
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-header">Uniform Policy</div>
+                <div class="card-body">
+                  <ul class="mb-0">
+                    <li>Wear only the approved CSC-issued PE shirt and pants.</li>
+                    <li>No alteration of logos, colors, or seams.</li>
+                    <li>Use during official PE classes and campus fitness events.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-header">Required Attire</div>
+                <div class="card-body">
+                  <p class="mb-1">• PE Shirt: Navy base with CSC crest (₱300 bundle)</p>
+                  <p class="mb-1">• Jogging pants: Matching navy with side stripe</p>
+                  <p class="mb-0">• Optional: CSC-approved training jacket for evening classes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-3 mt-1">
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-header">Sizing Guide</div>
+                <div class="card-body">
+                  <p class="mb-1">Available sizes: XS to XXL</p>
+                  <p class="mb-1">
+                    For the best fit, measure chest (shirt) and waist (pants) before ordering.
+                  </p>
+                  <p class="mb-0">
+                    Exchanges are allowed only during release week and require the receipt.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-header">Pickup Guidelines</div>
+                <div class="card-body">
+                  <ul class="mb-3">
+                    <li>Wait for a “Ready for Pickup” status on your order.</li>
+                    <li>Bring your school ID and payment proof.</li>
+                    <li>Unclaimed uniforms after the deadline will be reassigned.</li>
+                  </ul>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    onclick="navigateTo('student_pe_uniform.html')"
+                  >
+                    View My PE Orders
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <footer class="app-footer">
@@ -159,9 +206,7 @@
       </div>
     </div>
 
-    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../assets/js/data.js"></script>
     <script src="../assets/js/forms.js"></script>
     <script src="../assets/js/main.js"></script>
@@ -169,7 +214,6 @@
       document.addEventListener("DOMContentLoaded", () => {
         applyStoredTheme();
         startClock("currentDateTime");
-        loadStudentHistoryTable();
       });
     </script>
   </body>

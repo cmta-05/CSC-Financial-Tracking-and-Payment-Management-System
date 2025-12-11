@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>My CSC Fee - CSC PayTrack</title>
+    <title>PE Uniform - CSC PayTrack</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap -->
@@ -10,14 +10,9 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link
-      rel="icon"
-      type="image/png"
-      href="../assets/img/csc-paytrack-logo.png"
-    />
     <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
-  <body onload="initPage('student-history')">
+  <body onload="initPage('student-pe-uniform')">
     <div class="app-shell">
       <aside class="sidebar">
         <div class="sidebar-brand">
@@ -91,7 +86,8 @@
             <div class="user-menu">
               <div
                 class="user-avatar"
-                onclick="toggleUserMenu()"
+                onclick="toggleUserMenu()
+"
                 role="button"
               >
                 VR
@@ -102,7 +98,10 @@
                   <div class="small text-muted">BSIT | 3rd Year</div>
                 </div>
                 <a href="../profile.html">Profile</a>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#managePasswordModal"
+                <a
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#managePasswordModal"
                   >Manage Password</a
                 >
                 <a href="../faqs.html">FAQs</a>
@@ -127,22 +126,99 @@
 
         <div class="page-content">
           <div class="page-header">
-            <h2 class="fw-bold mb-1">My CSC Fee</h2>
+            <h2 class="fw-bold mb-1">PE Uniform</h2>
             <p class="placeholder-note mb-2">
-              View your CSC fee payment history per Academic Year, including
-              status and basic receipt information. This prototype uses static
-              mock data.
+              Review the official PE uniform policy, available sizes, and the
+              status of your PE uniform orders.
             </p>
             <button
               type="button"
               class="btn btn-outline-primary btn-sm"
-              onclick="alert('CSC Fee information content is illustrative only.')"
+              onclick="alert('Informational content only in this prototype.')"
             >
-              View CSC Fee Info
+              View PE Uniform Info
             </button>
           </div>
 
-          <section id="studentCscFeeHistory"></section>
+          <div class="row g-3">
+            <div class="col-lg-4">
+              <div class="card h-100">
+                <div class="card-header">Official PE Uniform</div>
+                <div class="card-body">
+                  <p class="mb-2">
+                    <strong>Design:</strong> BU Polangui CSC Official PE Shirt
+                    and Jogging Pants
+                  </p>
+                  <p class="mb-2">
+                    <strong>Available Sizes:</strong> XS – XXL
+                  </p>
+                  <p class="mb-2">
+                    <strong>Guidelines:</strong> Wear only during official PE
+                    classes and follow campus dress code.
+                  </p>
+                  <p class="meta-text mb-0">
+                    Sizing charts and pickup guidelines will be displayed here
+                    once provided by the CSC Business Manager.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-5">
+              <div class="card h-100">
+                <div class="card-header d-flex justify-content-between">
+                  <span>Your PE Uniform Orders</span>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-primary"
+                    onclick="alert('Ordering is not enabled in this prototype.')"
+                  >
+                    View Order History
+                  </button>
+                </div>
+                <div class="card-body table-wrapper">
+                  <table
+                    class="table table-striped table-bordered table-sm table-hover"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Order ID</th>
+                        <th>Item</th>
+                        <th>Size</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="studentPeUniformTableBody"></tbody>
+                  </table>
+                  <p class="meta-text mb-0">
+                    Statuses such as Processing, Ready for Pickup, or Claimed
+                    will appear here.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3">
+              <div class="card h-100">
+                <div class="card-header">Announcements</div>
+                <div class="card-body">
+                  <p class="mb-1">
+                    • PE uniform claiming schedules and reminders will be posted
+                    here.
+                  </p>
+                  <p class="mb-1">
+                    • Stock availability updates will also appear in this panel.
+                  </p>
+                  <p class="placeholder-note mb-0">
+                    This is a static prototype page. In production, PE
+                    uniform-related announcements would sync with actual CSC
+                    posts.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <footer class="app-footer">
@@ -169,7 +245,7 @@
       document.addEventListener("DOMContentLoaded", () => {
         applyStoredTheme();
         startClock("currentDateTime");
-        loadStudentHistoryTable();
+        loadStudentPeUniform();
       });
     </script>
   </body>

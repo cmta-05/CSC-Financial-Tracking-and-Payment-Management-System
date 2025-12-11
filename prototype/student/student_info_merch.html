@@ -2,22 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>My CSC Fee - CSC PayTrack</title>
+    <title>Merch Info - CSC PayTrack</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link
-      rel="icon"
-      type="image/png"
-      href="../assets/img/csc-paytrack-logo.png"
-    />
     <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
-  <body onload="initPage('student-history')">
+  <body onload="initPage('student-info-merch')">
     <div class="app-shell">
       <aside class="sidebar">
         <div class="sidebar-brand">
@@ -102,7 +95,10 @@
                   <div class="small text-muted">BSIT | 3rd Year</div>
                 </div>
                 <a href="../profile.html">Profile</a>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#managePasswordModal"
+                <a
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#managePasswordModal"
                   >Manage Password</a
                 >
                 <a href="../faqs.html">FAQs</a>
@@ -127,22 +123,71 @@
 
         <div class="page-content">
           <div class="page-header">
-            <h2 class="fw-bold mb-1">My CSC Fee</h2>
-            <p class="placeholder-note mb-2">
-              View your CSC fee payment history per Academic Year, including
-              status and basic receipt information. This prototype uses static
-              mock data.
+            <h2 class="fw-bold mb-1">Merchandise Information</h2>
+            <p class="placeholder-note">
+              Explore CSC shirt designs, event tie-ins, and the policies for
+              pre-orders and on-hand sales.
             </p>
-            <button
-              type="button"
-              class="btn btn-outline-primary btn-sm"
-              onclick="alert('CSC Fee information content is illustrative only.')"
-            >
-              View CSC Fee Info
-            </button>
           </div>
 
-          <section id="studentCscFeeHistory"></section>
+          <div class="row g-3">
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-header">Shirt Designs</div>
+                <div class="card-body">
+                  <ul class="mb-0">
+                    <li>Standard CSC shirt (₱350.00) with two colorways.</li>
+                    <li>Event-specific merch (Unity Run, Tech Week, etc.).</li>
+                    <li>Limited collab drops with student orgs.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-header">Events tied to merch</div>
+                <div class="card-body">
+                  <p class="mb-1">• Unity Run: dri-fit performance shirts</p>
+                  <p class="mb-1">• CSC Week: commemorative tees and jackets</p>
+                  <p class="mb-0">• Freshmen Night: welcome kits with custom lanyards</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-3 mt-1">
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-header">Pre-order &amp; On-hand Schedules</div>
+                <div class="card-body">
+                  <ul class="mb-0">
+                    <li>Pre-order period: 2 weeks before release date.</li>
+                    <li>On-hand sales: During CSC booths and fairs.</li>
+                    <li>Updates posted in the Merch Items module and social media.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-header">Policies &amp; Reminders</div>
+                <div class="card-body">
+                  <ul class="mb-3">
+                    <li>No cancellation once payment is confirmed.</li>
+                    <li>Only paid orders are reserved for pickup.</li>
+                    <li>Bring ID + receipt when claiming to avoid disputes.</li>
+                  </ul>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    onclick="navigateTo('student_merchandise.html')"
+                  >
+                    View My Merch Orders
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <footer class="app-footer">
@@ -159,9 +204,7 @@
       </div>
     </div>
 
-    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../assets/js/data.js"></script>
     <script src="../assets/js/forms.js"></script>
     <script src="../assets/js/main.js"></script>
@@ -169,7 +212,6 @@
       document.addEventListener("DOMContentLoaded", () => {
         applyStoredTheme();
         startClock("currentDateTime");
-        loadStudentHistoryTable();
       });
     </script>
   </body>

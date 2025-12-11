@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Student Dashboard - CSC Financial System</title>
+    <title>Student Dashboard - CSC PayTrack</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap 5 -->
@@ -10,7 +10,17 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/img/csc-paytrack-logo.png"
+    />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
@@ -19,7 +29,9 @@
       <!-- Sidebar -->
       <aside class="sidebar">
         <div class="sidebar-brand">
-          <div class="logo-circle">CP</div>
+          <div class="logo-circle">
+            <img src="../assets/img/csc-paytrack-logo.png" alt="CSC PayTrack" />
+          </div>
           <div>
             <div class="fw-bold">CSC PayTrack</div>
             <small>Student Portal</small>
@@ -35,13 +47,22 @@
         <div class="sidebar-label">Main Menu</div>
         <nav>
           <a class="nav-link" href="student_dashboard.html">
-            <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+            <i class="bi bi-speedometer2"></i><span>Home</span>
           </a>
           <a class="nav-link" href="student_history.html">
             <i class="bi bi-receipt"></i><span>My CSC Fee</span>
           </a>
-          <a class="nav-link" href="#">
-            <i class="bi bi-bag"></i><span>My Merchandise Orders</span>
+          <a class="nav-link" href="student_lanyards.html">
+            <i class="bi bi-credit-card-2-front"></i><span>Lanyards</span>
+          </a>
+          <a class="nav-link" href="student_pe_uniform.html">
+            <i class="bi bi-basket3"></i><span>PE Uniform</span>
+          </a>
+          <a class="nav-link" href="student_seal_plate.html">
+            <i class="bi bi-patch-check"></i><span>Seal &amp; Plates</span>
+          </a>
+          <a class="nav-link" href="student_merchandise.html">
+            <i class="bi bi-bag"></i><span>Merch Items</span>
           </a>
           <a class="nav-link" href="student_dispute.html">
             <i class="bi bi-chat-dots"></i><span>Payment Concerns</span>
@@ -53,7 +74,6 @@
       <div class="workspace">
         <header class="topbar">
           <div>
-            <div class="topbar-title">CSC PayTrack</div>
             <div class="topbar-subtitle">
               Bicol University Polangui - College Student Council
             </div>
@@ -86,8 +106,8 @@
               </div>
               <div id="userDropdown" class="user-dropdown">
                 <div class="user-dropdown-header">
-                  <strong>VANNESA ROSE B.</strong>
-                  <div class="small text-muted">BSIT | 3rd Year</div>
+                  <strong>JUAN DELA CRUZ</strong>
+                  <div class="small text-muted">BSIT 3B</div>
                 </div>
                 <a href="../profile.html">Profile</a>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#managePasswordModal"
@@ -114,85 +134,110 @@
         </header>
 
         <div class="page-content">
-          <section class="dashboard-hero">
-            <div class="row align-items-center">
-              <div class="col-md-8">
-                <h2 class="mb-1">Welcome, VANNESA ROSE B.</h2>
-                <p class="hero-subtitle mb-0">
-                  CSC PayTrack lets you monitor your CSC fees, merchandise
-                  purchases, and disputes in one place.
+          <section class="dashboard-top mb-4 reveal-on-scroll">
+            <div class="row align-items-start g-4">
+              <div class="col-lg-8">
+                <h2 class="mb-2">
+                  Welcome, <span id="studentWelcomeName">Student</span> !🎉
+                </h2>
+                <p class="hero-subtitle mb-3">
+                  Monitor your CSC fee, lanyards, PE uniform, merch orders, and
+                  payment concerns in one place.
                 </p>
               </div>
-              <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                <button
-                  type="button"
-                  class="btn btn-primary me-2 mb-2 mb-md-0"
-                  onclick="navigateTo('student_history.html')"
-                >
-                  View History
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary"
-                  onclick="navigateTo('student_dispute.html')"
-                >
-                  File Dispute
-                </button>
-              </div>
-            </div>
-          </section>
-
-          <div class="row g-3 mb-3">
-            <div class="col-md-4">
-              <div class="card p-3 shadow-sm dashboard-card">
-                <h4 id="countStudentPayments">0</h4>
-                <p class="text-muted mb-1">CSC Fee Records</p>
-                <p class="mb-0">
-                  <strong>Current AY:</strong>
-                  <span id="studentCscAy">2023-2024</span><br />
-                  <strong>Status:</strong>
-                  <span id="studentCscStatus">Paid (Pending Verification)</span>
-                </p>
-              </div>
-            </div>
-
-            <div class="col-md-8">
-              <div class="card">
-                <div class="card-header">Recent Payments</div>
-                <div class="card-body table-wrapper">
-                  <table
-                    class="table table-striped table-bordered table-sm table-hover"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody id="studentRecentPaymentsBody"></tbody>
-                  </table>
-                  <p class="meta-text mb-0">
-                    Rendered from static CSC and merchandise data.
+              <div class="col-lg-4">
+                <div class="student-summary-card">
+                  <p class="mb-1">
+                    <strong>Student Name:</strong>
+                    <span id="studentSummaryName">—</span>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Student ID:</strong>
+                    <span id="2023-9135-16062">2023-9135-16062</span>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Course / Yr / Block:</strong>
+                    <span id="BSIT 3B">BSIT 3B</span>
+                  </p>
+                  <p class="mb-0">
+                    <strong>Academic Year:</strong>
+                    <span id="2025-2026">2025-2026</span>
                   </p>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
-          <!-- Chart -->
-          <div class="card">
-            <div class="card-header">Payment Summary</div>
-            <div class="card-body">
-              <canvas id="studentPaymentChart" height="120"></canvas>
+          <section class="reveal-on-scroll">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="mb-0">Modules &amp; Fees</h5>
+              <small class="text-muted">Click a card to view complete information.</small>
             </div>
-          </div>
+            <div class="module-card-grid" id="moduleCardGrid"></div>
+            <p class="mt-2 text-muted small">
+              Click a card to view complete information.
+            </p>
+          </section>
 
-          <!-- Announcements -->
-          <section class="announcement-area">
-            <h5 class="mb-3">Announcements</h5>
-            <div id="studentAnnouncements" class="announcement-grid"></div>
+          <section class="mt-4 reveal-on-scroll">
+            <div class="progress-status-card">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Module Status Overview</h5>
+                <small class="text-muted">Track progress across all requirements.</small>
+              </div>
+              <div id="moduleProgressList"></div>
+            </div>
+          </section>
+
+          <section class="mt-4 reveal-on-scroll">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="mb-0">Upcoming Deadlines</h5>
+              <small class="text-muted">Stay on top of cutoff dates.</small>
+            </div>
+            <div
+              id="deadlinesCarousel"
+              class="carousel slide deadlines-carousel"
+              data-bs-ride="carousel"
+            >
+              <div class="carousel-inner" id="deadlinesCarouselInner"></div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#deadlinesCarousel"
+                data-bs-slide="prev"
+              >
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#deadlinesCarousel"
+                data-bs-slide="next"
+              >
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="mt-4 reveal-on-scroll">
+            <div class="row g-3">
+              <div class="col-lg-7">
+                <div class="card h-100">
+                  <div class="card-header">Quick Reminders</div>
+                  <div class="card-body">
+                    <div class="row g-3" id="reminderGrid"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-5">
+                <div class="tips-card h-100">
+                  <h5 class="mb-3">How to Use CSC PayTrack</h5>
+                  <ul id="tipsList"></ul>
+                </div>
+              </div>
+            </div>
           </section>
         </div>
 
@@ -292,7 +337,6 @@
         applyStoredTheme();
         startClock("currentDateTime");
         loadStudentDashboard();
-        renderAnnouncements("studentAnnouncements");
       });
     </script>
   </body>

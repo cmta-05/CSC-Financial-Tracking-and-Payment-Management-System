@@ -1,3 +1,277 @@
+function getPrimaryStudent() {
+  return (
+    students.find((s) => s.id === PRIMARY_STUDENT_ID) || {
+      id: PRIMARY_STUDENT_ID,
+      name: "Student",
+      course: "Program",
+      year: "1",
+    }
+  );
+}
+
+function getLatestCscRecord(studentId) {
+  return cscFeePayments
+    .filter((p) => p.studentId === studentId)
+    .sort((a, b) => (a.academicYear || "").localeCompare(b.academicYear || ""))
+    .pop();
+}
+
+const moduleCardConfig = [
+  {
+    key: "csc",
+    label: "CSC FEE",
+    amount: "₱220.00",
+    description: "Mandatory council fee for student services.",
+    target: "student_info_csc_fee.html",
+    theme: "csc",
+  },
+  {
+    key: "lanyards",
+    label: "LANYARDS",
+    amount: "₱150.00",
+    description: "Official BU Polangui ID lace with guidelines.",
+    target: "student_info_lanyards.html",
+    theme: "lanyards",
+  },
+  {
+    key: "pe",
+    label: "PE UNIFORM",
+    amount: "₱300.00",
+    description: "Required attire for PE classes with sizing tips.",
+    target: "student_info_pe_uniform.html",
+    theme: "pe",
+  },
+  {
+    key: "seal",
+    label: "SEAL & PLATES",
+    amount: "₱50.00",
+    description: "CSC seal & plate for ID validation.",
+    target: "student_info_seal_plate.html",
+    theme: "seal",
+  },
+  {
+    key: "merch",
+    label: "MERCH SHIRT",
+    amount: "₱350.00",
+    description: "Event shirts and official CSC merchandise.",
+    target: "student_info_merch.html",
+    theme: "merch",
+  },
+];
+
+const dashboardDeadlines = [
+  {
+    title: "CSC Fee Payment Cutoff",
+    date: "March 10, 2025",
+    detail: "Submit your receipt before 5:00 PM.",
+  },
+  {
+    title: "Merch Pre-Order Close",
+    date: "February 28, 2025",
+    detail: "Reserve your shirt before slots run out.",
+  },
+  {
+    title: "PE Uniform Pickup Deadline",
+    date: "February 14, 2025",
+    detail: "Claim at the CSC booth with your receipt.",
+  },
+];
+
+const dashboardTips = [
+  "Upload a clear receipt photo when filing concerns.",
+  "Check module status bars weekly for pending requirements.",
+  "Use the info pages to review policies before pickups.",
+  "Contact CSC officers early if a payment is missing.",
+];
+
+const dashboardReminders = [
+  {
+    title: "Keep Proofs Ready",
+    body: "Take photos of every payment receipt for faster verification.",
+  },
+  {
+    title: "Watch Stock Notices",
+    body: "Lanyards, seal & plates, and merch drop announcements happen in batches.",
+  },
+  {
+    title: "Pickup Etiquette",
+    body: "Bring your ID and proof of payment when claiming PE uniforms or merch.",
+  },
+];
+
+function renderModuleCards() {
+  const container = document.getElementById("moduleCardGrid");
+  if (!container) return;
+  container.innerHTML = "";
+
+  moduleCardConfig.forEach((card) => {
+    const div = document.createElement("div");
+    div.className = `module-card ${card.theme}`;
+    div.setAttribute("role", "button");
+    div.innerHTML = `
+      <h5>${card.label}</h5>
+      <h3 class="fw-bold mb-1">${card.amount}</h3>
+      <span>${card.description}</span>
+      <div class="module-card-footer">Click to view info</div>
+    `;
+    div.addEventListener("click", () => navigateTo(card.target));
+    container.appendChild(div);
+  });
+}
+
+function getModuleStatusSnapshot() {
+  const latestCsc = getLatestCscRecord(PRIMARY_STUDENT_ID);
+  const latestLanyard = idLaceRequests
+    .filter((r) => r.studentId === PRIMARY_STUDENT_ID)
+    .pop();
+  const latestPe = peUniformOrders
+    .filter((o) => o.studentId === PRIMARY_STUDENT_ID)
+    .pop();
+  const latestSeal = sealPlateRequests
+    .filter((r) => r.studentId === PRIMARY_STUDENT_ID)
+    .pop();
+  const latestMerch = merchandiseOrders
+    .filter((o) => o.studentId === PRIMARY_STUDENT_ID)
+    .pop();
+
+  return [
+    {
+      label: "CSC Fee",
+      status: latestCsc?.status === "Verified"
+        ? "Paid (Verified)"
+        : latestCsc
+          ? "Pending Verification"
+          : "Not Paid",
+      variant: latestCsc
+        ? latestCsc.status === "Verified"
+          ? "success"
+          : "warning"
+        : "danger",
+    },
+    {
+      label: "Lanyards",
+      status: latestLanyard
+        ? latestLanyard.status === "Paid"
+          ? "Paid"
+          : "Pending"
+        : "No orders",
+      variant: latestLanyard
+        ? latestLanyard.status === "Paid"
+          ? "success"
+          : "warning"
+        : "secondary",
+    },
+    {
+      label: "PE Uniform",
+      status: latestPe
+        ? latestPe.status === "Paid"
+          ? "Paid"
+          : "Pending"
+        : "Not Paid",
+      variant: latestPe
+        ? latestPe.status === "Paid"
+          ? "success"
+          : "warning"
+        : "danger",
+    },
+    {
+      label: "Seal & Plate",
+      status: latestSeal
+        ? latestSeal.status === "Pending"
+          ? "Pending"
+          : "Paid"
+        : "No orders",
+      variant: latestSeal
+        ? latestSeal.status === "Pending"
+          ? "warning"
+          : "success"
+        : "secondary",
+    },
+    {
+      label: "Merch",
+      status: latestMerch
+        ? latestMerch.status === "Paid"
+          ? "Paid"
+          : "Pending"
+        : "Not Paid",
+      variant: latestMerch
+        ? latestMerch.status === "Paid"
+          ? "success"
+          : "warning"
+        : "danger",
+    },
+  ];
+}
+
+function renderModuleProgress() {
+  const container = document.getElementById("moduleProgressList");
+  if (!container) return;
+  container.innerHTML = "";
+
+  getModuleStatusSnapshot().forEach((module) => {
+    const row = document.createElement("div");
+    row.className = "module-progress-row";
+    row.innerHTML = `
+      <div class="label">${module.label}</div>
+      <div class="status">
+        <span class="status-dot bg-${module.variant}"></span>
+        <span>${module.status}</span>
+      </div>
+      <div class="progress">
+        <div class="progress-bar bg-${module.variant}"></div>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function renderUpcomingDeadlines() {
+  const inner = document.getElementById("deadlinesCarouselInner");
+  if (!inner) return;
+  inner.innerHTML = "";
+
+  dashboardDeadlines.forEach((deadline, index) => {
+    const item = document.createElement("div");
+    item.className = "carousel-item" + (index === 0 ? " active" : "");
+    item.innerHTML = `
+      <div class="deadline-card mx-4 my-2 text-center">
+        <h6>${deadline.title}</h6>
+        <p class="mb-1 fw-semibold">${deadline.date}</p>
+        <span>${deadline.detail}</span>
+      </div>
+    `;
+    inner.appendChild(item);
+  });
+}
+
+function renderQuickReminders() {
+  const grid = document.getElementById("reminderGrid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  dashboardReminders.forEach((reminder) => {
+    const col = document.createElement("div");
+    col.className = "col-sm-6 col-lg-4";
+    col.innerHTML = `
+      <div class="p-3 rounded border h-100">
+        <h6 class="fw-bold mb-1">${reminder.title}</h6>
+        <p class="mb-0 text-muted">${reminder.body}</p>
+      </div>
+    `;
+    grid.appendChild(col);
+  });
+}
+
+function renderTipsList() {
+  const list = document.getElementById("tipsList");
+  if (!list) return;
+  list.innerHTML = "";
+  dashboardTips.forEach((tip) => {
+    const li = document.createElement("li");
+    li.textContent = tip;
+    list.appendChild(li);
+  });
+}
 // CSC Financial Tracking and Payment Management System - Frontend Prototype
 // NOTE: No backend — all data is static and comes from in-memory JS arrays in data.js.
 
@@ -5,6 +279,8 @@
 function navigateTo(url) {
   window.location.href = url;
 }
+
+const PRIMARY_STUDENT_ID = "2025-001";
 
 // =========================
 // THEME + LAYOUT HELPERS
@@ -266,96 +542,35 @@ function aggregateByMonth(items, amountKey, dateKey) {
 // =========================
 
 function loadStudentDashboard() {
-  const recent = [];
+  const student = getPrimaryStudent();
+  if (student) {
+    const welcomeName = document.getElementById("studentWelcomeName");
+    if (welcomeName) welcomeName.textContent = student.name;
 
-  cscFeePayments.forEach((p) => {
-    recent.push({
-      date: p.date,
-      type: "CSC Fee",
-      amount: p.amount,
-      status: p.status,
-    });
-  });
+    const summaryName = document.getElementById("studentSummaryName");
+    const summaryId = document.getElementById("studentSummaryId");
+    const summaryCourse = document.getElementById("studentSummaryCourse");
 
-  merchandiseOrders.forEach((o) => {
-    recent.push({
-      date: o.date,
-      type: o.item,
-      amount: o.amount,
-      status: o.status,
-    });
-  });
-
-  peUniformOrders.forEach((o) => {
-    recent.push({
-      date: o.date,
-      type: o.item,
-      amount: o.amount,
-      status: o.status,
-    });
-  });
-
-  renderTable("studentRecentPaymentsBody", recent, [
-    "date",
-    "type",
-    "amount",
-    "status",
-  ]);
-
-  // Dashboard card counters (if present)
-  const countEl = document.getElementById("countStudentPayments");
-  if (countEl) countEl.innerText = cscFeePayments.length.toString();
-
-  // Current AY CSC fee status for primary student (prototype)
-  const primaryId = "2025-001";
-  const studentFees = cscFeePayments
-    .filter((p) => p.studentId === primaryId)
-    .sort((a, b) => (a.academicYear || "").localeCompare(b.academicYear || ""));
-  if (studentFees.length > 0) {
-    const latest = studentFees[studentFees.length - 1];
-    const ayEl = document.getElementById("studentCscAy");
-    const statusEl = document.getElementById("studentCscStatus");
-    if (ayEl) ayEl.textContent = latest.academicYear || "N/A";
-    if (statusEl) {
-      statusEl.textContent =
-        latest.status === "Verified"
-          ? "Paid (Verified)"
-          : "Paid (Pending Verification)";
+    if (summaryName) summaryName.textContent = student.name;
+    if (summaryId) summaryId.textContent = student.id;
+    if (summaryCourse) {
+      summaryCourse.textContent = `${student.course} • Year ${student.year}${
+        student.block ? ` • ${student.block}` : ""
+      }`;
     }
   }
 
-  // Chart: CSC fee per month
-  if (typeof Chart !== "undefined") {
-    const ctx = document.getElementById("studentPaymentChart");
-    if (ctx && cscFeePayments.length > 0) {
-      const agg = aggregateByMonth(cscFeePayments, "amount", "date");
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: agg.labels,
-          datasets: [
-            {
-              label: "CSC Fee Payments",
-              data: agg.values,
-              backgroundColor: "#2563eb88",
-              borderColor: "#2563eb",
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: true } },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: { stepSize: 50 },
-            },
-          },
-        },
-      });
-    }
+  const summaryAy = document.getElementById("studentSummaryAy");
+  if (summaryAy) {
+    const latest = getLatestCscRecord(PRIMARY_STUDENT_ID);
+    summaryAy.textContent = latest?.academicYear || "2024-2025";
   }
+
+  renderModuleCards();
+  renderModuleProgress();
+  renderUpcomingDeadlines();
+  renderQuickReminders();
+  renderTipsList();
 }
 
 function loadStudentHistoryTable() {
@@ -412,47 +627,123 @@ function loadStudentMerchandise() {
   renderTable(tbodyId, rows, ["date", "receiptId", "item", "amount", "status"]);
 }
 
+// Lanyard (ID Lace) requests for student
+function loadStudentLanyards() {
+  const tbodyId = "studentLanyardTableBody";
+  const primaryId = "2025-001";
+  const rows = idLaceRequests
+    .filter((r) => r.studentId === primaryId)
+    .map((r) => ({
+      date: r.date,
+      requestId: r.requestId,
+      item: r.item,
+      status: r.status,
+    }));
+
+  renderTable(tbodyId, rows, ["date", "requestId", "item", "status"]);
+}
+
+// PE Uniform orders for student
+function loadStudentPeUniform() {
+  const tbodyId = "studentPeUniformTableBody";
+  const primaryId = "2025-001";
+  const rows = peUniformOrders
+    .filter((o) => o.studentId === primaryId)
+    .map((o) => ({
+      date: o.date,
+      orderId: o.orderId,
+      item: o.item,
+      size: o.size,
+      status: o.status,
+    }));
+
+  renderTable(tbodyId, rows, ["date", "orderId", "item", "size", "status"]);
+}
+
+// Seal & Plate requests for student
+function loadStudentSealPlate() {
+  const tbodyId = "studentSealPlateTableBody";
+  const primaryId = "2025-001";
+  const rows = sealPlateRequests
+    .filter((r) => r.studentId === primaryId)
+    .map((r) => ({
+      date: r.date,
+      requestId: r.requestId,
+      item: r.item,
+      status: r.status,
+    }));
+
+  renderTable(tbodyId, rows, ["date", "requestId", "item", "status"]);
+}
+
 // Student dispute list for table id "student-disputes"
 function loadStudentDisputesTable() {
-  const data = disputes.map((d) => ({
-    disputeId: d.disputeId,
-    issue: d.issue,
-    date: d.date,
-    status: d.status,
-  }));
+  const primaryId = "2025-001";
+  const data = disputes
+    .filter((d) => d.studentId === primaryId)
+    .map((d) => ({
+      disputeId: d.disputeId,
+      concernType: d.concernType || "CSC Fee",
+      issue: d.issue,
+      date: d.date,
+      status: d.status,
+    }));
 
   renderTable("student-disputes", data, [
     "disputeId",
+    "concernType",
     "issue",
     "date",
     "status",
   ]);
+
+  // Also render to status panels
+  const newBody = document.getElementById("student-disputes-new");
+  const reviewBody = document.getElementById("student-disputes-review");
+  const resolvedBody = document.getElementById("student-disputes-resolved");
+
+  if (newBody) newBody.innerHTML = "";
+  if (reviewBody) reviewBody.innerHTML = "";
+  if (resolvedBody) resolvedBody.innerHTML = "";
+
+  data.forEach((d) => {
+    const rowHtml = `<tr><td>${d.disputeId}</td><td>${d.issue}</td></tr>`;
+    if (d.status === "New" && newBody) {
+      newBody.innerHTML += rowHtml;
+    } else if (d.status === "Pending" && reviewBody) {
+      reviewBody.innerHTML += rowHtml;
+    } else if (d.status === "Resolved" && resolvedBody) {
+      resolvedBody.innerHTML += rowHtml;
+    }
+  });
 }
 
 // Submit dispute (student side)
 function submitDispute() {
-  const issue = document.getElementById("form_details").value || "";
-  if (!issue.trim()) {
-    alert("Please enter dispute details.");
+  const concernType =
+    document.getElementById("form_concernType")?.value || "Missing payment";
+  const module =
+    document.getElementById("form_module")?.value || "CSC Fee";
+  const details = document.getElementById("form_details").value || "";
+
+  if (!details.trim()) {
+    alert("Please explain your issue.");
     return;
   }
 
   disputes.push({
     disputeId: generateId("D"),
     studentId: "2025-001", // fixed for prototype
-    issue,
+    concernType,
+    module,
+    issue: details,
     date: new Date().toISOString().split("T")[0],
-    status: "Pending",
+    status: "New",
   });
 
   closeModal("addRecordModal");
-  document.getElementById("form_details").value = "";
-  renderTable("student-disputes", disputes, [
-    "disputeId",
-    "issue",
-    "date",
-    "status",
-  ]);
+  document.getElementById("addRecordForm").reset();
+  loadStudentDisputesTable();
 }
 
 // ===========================
@@ -1153,8 +1444,34 @@ function initPage(pageId) {
   // No-op placeholder
 }
 
-// Attach global nav highlighter
-document.addEventListener("DOMContentLoaded", setActiveLink);
+// Attach global nav highlighter + reveal-on-scroll
+document.addEventListener("DOMContentLoaded", () => {
+  setActiveLink();
+  initRevealOnScroll();
+});
 
+function initRevealOnScroll() {
+  if (!("IntersectionObserver" in window)) {
+    document
+      .querySelectorAll(".reveal-on-scroll")
+      .forEach((el) => el.classList.add("reveal-visible"));
+    return;
+  }
 
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("reveal-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 },
+  );
+
+  document
+    .querySelectorAll(".reveal-on-scroll")
+    .forEach((el) => observer.observe(el));
+}
 
