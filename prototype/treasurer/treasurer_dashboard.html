@@ -10,41 +10,430 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+      /* Notification Styles */
+      .notification-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: white;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        width: 360px;
+        max-height: 500px;
+        display: none;
+        flex-direction: column;
+        z-index: 1050;
+      }
+
+      .notification-dropdown.show {
+        display: flex;
+      }
+
+      .notification-header {
+        padding: 0.75rem 1rem;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        border-radius: 6px 6px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .notification-list {
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .notification-item {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        gap: 0.75rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .notification-item:hover {
+        background-color: #f8f9fa;
+      }
+
+      .notification-item.unread {
+        background-color: #e7f3ff;
+      }
+
+      .notification-item.unread:hover {
+        background-color: #d4ecff;
+      }
+
+      .notification-icon {
+        font-size: 1.25rem;
+        flex-shrink: 0;
+      }
+
+      .notification-content {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .notification-title {
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 0.25rem;
+      }
+
+      .notification-text {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 0.25rem;
+      }
+
+      .notification-time {
+        font-size: 0.8rem;
+        color: #adb5bd;
+      }
+
+      .notification-footer {
+        padding: 0.75rem 1rem;
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+        border-radius: 0 0 6px 6px;
+      }
+
+      .badge-notification {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        font-size: 0.65rem;
+        padding: 0.22rem 0.36rem;
+        border-radius: 999px;
+        background-color: #dc3545;
+        color: #ffffff;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        line-height: 1;
+        z-index: 1060;
+      }
+
+      /* Notification button and container */
+      .notification-menu { position: relative; display: inline-block; }
+      .icon-btn {
+        background: transparent;
+        border: none;
+        color: inherit;
+        padding: 0.35rem 0.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        font-size: 1.05rem;
+      }
+
+      .icon-btn:focus {
+        outline: 3px solid rgba(99,179,237,0.18);
+        outline-offset: 2px;
+      }
+
+      /* Ensure dropdown sits above other elements */
+      .notification-dropdown {
+        z-index: 2000;
+        right: 0;
+        left: auto;
+      }
+
+      /* Responsive adjustments for small screens */
+      @media (max-width: 992px) {
+        .workspace {
+          padding-left: 0.5rem !important;
+          padding-right: 0.5rem !important;
+        }
+
+        .page-content {
+          padding: 0.5rem !important;
+        }
+
+        .card {
+          margin-bottom: 0.75rem !important;
+        }
+
+        /* Make notification dropdown full-width on small screens */
+        .notification-dropdown {
+          position: fixed !important;
+          top: 60px !important;
+          right: 10px !important;
+          left: 10px !important;
+          width: auto !important;
+          max-width: none !important;
+          border-radius: 8px !important;
+          box-shadow: 0 6px 18px rgba(0,0,0,0.4) !important;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .notification-dropdown {
+          top: 56px !important;
+          left: 8px !important;
+          right: 8px !important;
+        }
+
+        .notification-title {
+          font-size: 0.95rem !important;
+        }
+
+        .notification-text {
+          font-size: 0.88rem !important;
+        }
+      }
+
+      /* ---------------- Sidebar: fixed, collapsible (expanded -> collapsed icon-only) ---------------- */
+
+      :root {
+        --sidebar-width: 240px;
+        --sidebar-collapsed-width: 72px;
+      }
+
+      /* Make sidebar fixed and independent of page scroll */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: var(--sidebar-width);
+        padding: 1rem 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        z-index: 1500;
+        transition: width 220ms ease, background-color 200ms ease;
+        background-color: var(--surface-2, #f8fafc);
+        border-right: 1px solid rgba(0,0,0,0.06);
+        overflow: auto;
+      }
+
+      /* Keep the workspace offset when sidebar exists */
+      .workspace {
+        transition: margin-left 220ms ease;
+        margin-left: var(--sidebar-width);
+      }
+
+      /* Sidebar top (profile + collapse) */
+      .sidebar-top {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0 0.5rem;
+      }
+
+      /* Collapse button (left) */
+      .sidebar-collapse {
+        background: transparent;
+        border: none;
+        color: inherit;
+        font-size: 1.1rem;
+        cursor: pointer;
+      }
+
+      /* Profile area */
+      .sidebar-profile {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.4rem 0.6rem;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .sidebar-profile:focus { outline: none; box-shadow: 0 0 0 3px rgba(99,179,237,0.12); }
+
+      /* avatar circle */
+      .logo-circle {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: linear-gradient(135deg,#173A61,#17616E);
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+
+      /* profile meta (hidden in collapsed) */
+      .sidebar-profile-meta { display: block; }
+      .sidebar-profile .user-fullname { font-size: 0.95rem; }
+      .sidebar-profile .user-role { font-size: 0.78rem; }
+
+      /* Sidebar label */
+      .sidebar-label {
+        padding: 0.45rem 0.8rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        opacity: 0.65;
+        color: inherit;
+      }
+
+      /* Nav links */
+      .sidebar-nav { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.5rem 0.25rem; }
+      .sidebar .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0.55rem 0.75rem;
+        border-radius: 8px;
+        color: rgba(174, 163, 163, 0.048);
+        text-decoration: none;
+        transition: background-color 150ms ease, color 150ms ease;
+      }
+      .sidebar .nav-link i { font-size: 1.18rem; width: 24px; text-align: center; }
+
+      /* subtle active highlight (Option A) */
+      .sidebar .nav-link.active {
+        background-color: rgba(23,58,97,0.08);
+        color: #173A61;
+      }
+
+      /* hover */
+      .sidebar .nav-link:hover { background-color: rgba(23,58,97,0.06); color: #173A61; }
+
+      /* text label */
+      .nav-text { white-space: nowrap; }
+
+      /* footer */
+      .sidebar-footer { margin-top: auto; padding: 0.8rem; }
+
+      /* COLLAPSED STATE - applied on body.sidebar-collapsed */
+      body.sidebar-collapsed .sidebar {
+        width: var(--sidebar-collapsed-width);
+      }
+      body.sidebar-collapsed .workspace {
+        margin-left: var(--sidebar-collapsed-width);
+      }
+      /* hide text labels in collapsed */
+      body.sidebar-collapsed .nav-text,
+      body.sidebar-collapsed .sidebar-profile-meta,
+      body.sidebar-collapsed .sidebar-label,
+      body.sidebar-collapsed .sidebar-footer { display: none !important; }
+
+      /* center nav icons when collapsed */
+      body.sidebar-collapsed .nav-link { justify-content: center; padding: 0.6rem 0; }
+      body.sidebar-collapsed .nav-link i { font-size: 1.25rem; }
+
+      /* tooltips visibility (when collapsed) - bootstrap will handle showing the tooltip */
+      body.sidebar-collapsed .nav-link[title] { position: relative; }
+
+      /* Dark mode tweaks (merge-friendly with your existing dark vars) */
+      :root[data-theme="dark"] .sidebar { background-color: #1f2937 !important; border-right-color: #374151 !important; }
+      :root[data-theme="dark"] .sidebar .nav-link { color: #cbd5e0 !important; }
+      :root[data-theme="dark"] .sidebar .nav-link.active { background-color: rgba(99,179,237,0.08) !important; color: #63b3ed !important; }
+
+      /* small screens: allow default collapsed behavior */
+      @media (max-width: 992px) {
+        body:not(.sidebar-collapsed) .workspace { margin-left: var(--sidebar-collapsed-width); } /* mobile: keep smaller offset */
+        .sidebar { position: fixed; z-index: 1600; }
+      }
+
+
+      /* ------------------ LAYOUT HELPERS: CARDS & TABLES ------------------ */
+
+      /* Make stat card rows stretch so all cards are same height */
+      .row.align-items-stretch.d-flex {
+        align-items: stretch;
+      }
+
+      /* Ensure each card inside these columns grows to full height */
+      .card.h-100 {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Make card body expand so footer sticks to bottom */
+      .card.h-100 > .card-body {
+        flex: 1 1 auto;
+      }
+
+      /* Table wrapper with a max-height + vertical scroll */
+      .table-fixed-height {
+        max-height: 320px; /* adjust as desired */
+        overflow-y: auto;
+        padding-right: 0.25rem; /* avoid content touching edge */
+      }
+
+      /* Smaller max-height on mobile */
+      @media (max-width: 768px) {
+        .table-fixed-height { max-height: 260px; }
+      }
+
+      /* Make table rows more distinct on hover */
+      .table.table-hover tbody tr:hover {
+        background-color: rgba(0,0,0,0.03);
+      }
+
+      /* Visual / spacing tweaks */
+      .card .badge {
+        min-width: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      .card .card-footer {
+        border-top: 1px solid rgba(0,0,0,0.04);
+      }
+
+    </style>
   </head>
   <body onload="initPage('treasurer-dashboard')">
     <div class="app-shell">
-      <aside class="sidebar">
-        <div class="sidebar-brand">
-          <div class="logo-circle">CP</div>
-          <div>
-            <div class="fw-bold">CSC PayTrack</div>
-            <small>Treasurer</small>
+      <aside class="sidebar" id="appSidebar" aria-label="Sidebar">
+        <div class="sidebar-top">
+          <!-- USER PROFILE (click avatar to collapse) -->
+          <div class="sidebar-profile d-flex align-items-center" id="sidebarProfile" role="button" tabindex="0" title="Click to collapse sidebar">
+            <div class="logo-circle me-2">VR</div>
+            <div class="sidebar-profile-meta">
+              <div class="fw-bold user-fullname">VANNESA ROSE B.</div>
+              <div class="small user-role text-muted">Treasurer · BSIT</div>
+            </div>
           </div>
-          <button
-            class="btn btn-sm sidebar-collapse"
-            type="button"
-            onclick="toggleSidebar()"
-          >
-            ☰
-          </button>
         </div>
+
         <div class="sidebar-label">Main Menu</div>
-        <nav>
-          <a class="nav-link" href="treasurer_dashboard.html">
-            <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+
+        <nav class="sidebar-nav">
+          <a class="nav-link active" href="treasurer_dashboard.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+            <i class="bi bi-house-door"></i>
+            <span class="nav-text">Dashboard</span>
           </a>
-          <a class="nav-link" href="csc_fee.html">
-            <i class="bi bi-cash-stack"></i><span>CSC Fee</span>
+
+          <a class="nav-link" href="csc_fee.html" data-bs-toggle="tooltip" data-bs-placement="right" title="CSC Fee">
+            <i class="bi bi-cash-stack"></i>
+            <span class="nav-text">CSC Fee</span>
           </a>
-          <a class="nav-link" href="dispute_management.html">
-            <i class="bi bi-chat-dots"></i><span>Disputes</span>
+
+          <a class="nav-link" href="dispute_management.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Disputes">
+            <i class="bi bi-chat-left-dots"></i>
+            <span class="nav-text">Disputes</span>
           </a>
-          <a class="nav-link" href="treasurer_reports.html">
-            <i class="bi bi-bar-chart"></i><span>Reports</span>
+
+          <a class="nav-link" href="treasurer_reports.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Reports">
+            <i class="bi bi-graph-up"></i>
+            <span class="nav-text">Reports</span>
           </a>
         </nav>
+
+        <!-- Profile dropdown (small) - shown when expanded -->
+        <div class="sidebar-footer">
+          <div class="sidebar-actions d-flex flex-column">
+            <a href="#" class="small text-decoration-none text-muted">Profile</a>
+            <a href="../login.html" class="small text-decoration-none text-muted mt-1">Sign Out</a>
+          </div>
+        </div>
       </aside>
+
 
       <div class="workspace">
         <header class="topbar">
@@ -63,9 +452,47 @@
             >
               🌓
             </button>
-            <button type="button" class="icon-btn" aria-label="Notifications">
-              🔔
-            </button>
+            <div class="notification-menu">
+              <button type="button" class="icon-btn" onclick="toggleNotifications()" aria-label="Notifications">
+                🔔
+                <span id="notificationBadge" class="badge badge-notification">3</span>
+              </button>
+              <div id="notificationDropdown" class="notification-dropdown">
+                <div class="notification-header">
+                  <strong>Notifications</strong>
+                  <button type="button" class="btn-close" onclick="closeNotifications()" aria-label="Close"></button>
+                </div>
+                <div id="notificationList" class="notification-list">
+                  <div class="notification-item unread">
+                    <div class="notification-icon">⏳</div>
+                    <div class="notification-content">
+                      <div class="notification-title">Payment Pending Verification</div>
+                      <div class="notification-text">Maria Santos submitted ₱500 for verification</div>
+                      <div class="notification-time">2 hours ago</div>
+                    </div>
+                  </div>
+                  <div class="notification-item unread">
+                    <div class="notification-icon">⚠️</div>
+                    <div class="notification-content">
+                      <div class="notification-title">Dispute Submitted</div>
+                      <div class="notification-text">Carlos Reyes filed a dispute - Payment Not Reflected</div>
+                      <div class="notification-time">5 hours ago</div>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-icon">✓</div>
+                    <div class="notification-content">
+                      <div class="notification-title">Payment Verified</div>
+                      <div class="notification-text">Diana Lopez's payment (₱500) has been verified</div>
+                      <div class="notification-time">1 day ago</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="notification-footer">
+                  <button class="btn btn-sm btn-outline-primary w-100" onclick="closeNotifications()">Clear All</button>
+                </div>
+              </div>
+            </div>
             <div class="user-menu">
               <div
                 class="user-avatar"
@@ -91,75 +518,182 @@
         </header>
 
         <div class="page-content">
-          <section class="dashboard-hero">
+          <!-- Hero Section with Quick Actions -->
+          <section class="dashboard-hero mb-4">
             <div class="row align-items-center">
-              <div class="col-md-8">
+              <div class="col-md-12">
                 <h2 class="mb-1">Treasurer Dashboard</h2>
                 <p class="hero-subtitle mb-0">
-                  Monitor CSC fee collections and keep track of student
-                  payments.
+                  Quick overview of CSC fee collections, pending verifications, and disputes.
                 </p>
-              </div>
-              <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                <button
-                  type="button"
-                  class="btn btn-primary me-2 mb-2 mb-md-0"
-                  onclick="navigateTo('csc_fee.html')"
-                >
-                  Manage CSC Fees
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary"
-                  onclick="navigateTo('treasurer_reports.html')"
-                >
-                  View Reports
-                </button>
               </div>
             </div>
           </section>
 
-          <div class="row g-3 mb-3">
-            <div class="col-md-3">
-              <div class="card p-3 shadow-sm dashboard-card">
-                <h4 id="countCSC">0</h4>
-                <p class="text-muted mb-0">CSC Fee Records</p>
+          <!-- Statistical Overview Cards -->
+          <!-- NOTE: row classes updated to make cards equal height (only layout changes) -->
+          <div class="row g-3 mb-4 align-items-stretch d-flex">
+            <div class="col-md-6 col-lg-3">
+              <div class="card p-3 shadow-sm dashboard-card border-left-primary h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 id="totalCollected" class="text-primary fw-bold mb-1">₱0.00</h5>
+                    <p class="text-muted mb-0 small">Total Collected</p>
+                  </div>
+                  <span class="badge bg-primary">💰</span>
+                </div>
               </div>
             </div>
 
-            <div class="col-md-9">
-              <div class="card">
-                <div class="card-header">Recent CSC Fee Payments</div>
-                <div class="card-body table-wrapper">
-                  <table
-                    class="table table-striped table-bordered table-sm table-hover"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Student</th>
-                        <th>Receipt ID</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody id="treasurerRecentPaymentsBody"></tbody>
-                  </table>
+            <div class="col-md-6 col-lg-3">
+              <div class="card p-3 shadow-sm dashboard-card border-left-warning h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 id="pendingCount" class="text-warning fw-bold mb-1">0</h5>
+                    <p class="text-muted mb-0 small">Pending Verifications</p>
+                  </div>
+                  <span class="badge bg-warning">⏳</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+              <div class="card p-3 shadow-sm dashboard-card border-left-danger h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 id="openDisputes" class="text-danger fw-bold mb-1">0</h5>
+                    <p class="text-muted mb-0 small">Open Disputes</p>
+                  </div>
+                  <span class="badge bg-danger">⚠️</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+              <div class="card p-3 shadow-sm dashboard-card border-left-info h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 id="studentsNotPaid" class="text-info fw-bold mb-1">0</h5>
+                    <p class="text-muted mb-0 small">Students Not Yet Paid</p>
+                  </div>
+                  <span class="badge bg-info">👥</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="card">
-            <div class="card-header">Collections Overview</div>
-            <div class="card-body">
-              <canvas id="treasurerCollectionChart" height="120"></canvas>
+          <!-- Pending Verifications Preview -->
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Pending Verifications Preview</span>
+              <span id="pendingBadge" class="badge bg-warning">0</span>
+            </div>
+            <div class="card-body table-wrapper table-fixed-height">
+              <div class="table-responsive">
+                <table class="table table-striped table-sm table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Block</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                      <th>Reference</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pendingVerificationsBody">
+                    <tr>
+                      <td colspan="5" class="text-center text-muted py-3">No pending verifications</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer bg-light">
+              <button class="btn btn-sm btn-outline-primary" onclick="navigateTo('csc_fee.html')">
+                View All Pending → 
+              </button>
             </div>
           </div>
 
-          <section class="announcement-area">
-            <h5 class="mb-3">Announcements</h5>
-            <div id="treasurerAnnouncements" class="announcement-grid"></div>
-          </section>
+          <!-- Recent Verified Payments -->
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Recent Verified Payments</span>
+              <span id="verifiedBadge" class="badge bg-success">0</span>
+            </div>
+            <div class="card-body table-wrapper table-fixed-height">
+              <div class="table-responsive">
+                <table class="table table-striped table-sm table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Amount</th>
+                      <th>Date Verified</th>
+                      <th>Verified By</th>
+                    </tr>
+                  </thead>
+                  <tbody id="verifiedPaymentsBody">
+                    <tr>
+                      <td colspan="4" class="text-center text-muted py-3">No verified payments yet</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer bg-light">
+              <button class="btn btn-sm btn-outline-primary" onclick="navigateTo('treasurer_reports.html')">
+                View Full History →
+              </button>
+            </div>
+          </div>
+
+          <!-- Disputes Snapshot & Audit Activity -->
+          <div class="row mb-4">
+            <div class="col-lg-6">
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <span>Recent Disputes</span>
+                  <span id="disputesBadge" class="badge bg-danger">0</span>
+                </div>
+                <div class="card-body table-wrapper table-fixed-height">
+                  <div class="table-responsive">
+                    <table class="table table-sm table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th>Student</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="disputesSnapshotBody">
+                        <tr>
+                          <td colspan="2" class="text-center text-muted py-3">No disputes</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="card-footer bg-light">
+                  <button class="btn btn-sm btn-outline-primary" onclick="navigateTo('dispute_management.html')">
+                    View All Disputes →
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Audit Activity Log -->
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <span>Audit Activity Log</span>
+                </div>
+                <div class="card-body table-fixed-height" style="max-height:400px;">
+                  <div id="auditLogBody">
+                    <p class="text-muted text-center py-3">No activities logged yet</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <footer class="app-footer">
@@ -183,14 +717,246 @@
     <script src="../assets/js/forms.js"></script>
     <script src="../assets/js/main.js"></script>
     <script>
+      /* ----------------------- Mock Sample Data ----------------------- */
+      const mockStudentList = [
+        { id: 'BU2021001', name: 'Juan Dela Cruz', block: '1A', paid: true },
+        { id: 'BU2021002', name: 'Maria Santos', block: '1A', paid: false },
+        { id: 'BU2021003', name: 'Carlos Reyes', block: '1B', paid: false },
+        { id: 'BU2021004', name: 'Diana Lopez', block: '1B', paid: true },
+        { id: 'BU2021005', name: 'Fernando Torres', block: '2A', paid: false },
+        { id: 'BU2021006', name: 'Elena Rodriguez', block: '2A', paid: true },
+        { id: 'BU2021010', name: 'Anna Garcia', block: '2B', paid: true },
+        { id: 'BU2021011', name: 'Roberto Luna', block: '2B', paid: true },
+        { id: 'BU2021012', name: 'Sofia Morales', block: '3A', paid: true },
+        { id: 'BU2021013', name: 'Miguel Cruz', block: '3A', paid: true }
+      ];
+
+      const mockPendingVerifications = [
+        { studentId: 'BU2021002', studentName: 'Maria Santos', block: '1A', amount: 500, date: '2025-12-07', reference: 'PV001' },
+        { studentId: 'BU2021003', studentName: 'Carlos Reyes', block: '1B', amount: 500, date: '2025-12-06', reference: 'PV002' },
+        { studentId: 'BU2021005', studentName: 'Fernando Torres', block: '2A', amount: 500, date: '2025-12-05', reference: 'PV003' }
+      ];
+
+      const mockVerifiedPayments = [
+        { studentId: 'BU2021001', studentName: 'Juan Dela Cruz', amount: 500, dateVerified: '2025-12-04', verifiedBy: 'VANNESA ROSE B.' },
+        { studentId: 'BU2021004', studentName: 'Diana Lopez', amount: 500, dateVerified: '2025-12-03', verifiedBy: 'VANNESA ROSE B.' },
+        { studentId: 'BU2021006', studentName: 'Elena Rodriguez', amount: 500, dateVerified: '2025-12-02', verifiedBy: 'VANNESA ROSE B.' },
+        { studentId: 'BU2021010', studentName: 'Anna Garcia', amount: 500, dateVerified: '2025-12-01', verifiedBy: 'VANNESA ROSE B.' }
+      ];
+
+      const mockDisputes = [
+        { studentId: 'BU2021002', studentName: 'Maria Santos', status: 'Open', date: '2025-12-06' },
+        { studentId: 'BU2021003', studentName: 'Carlos Reyes', status: 'Open', date: '2025-12-05' },
+        { studentId: 'BU2021005', studentName: 'Fernando Torres', status: 'In Review', date: '2025-12-04' }
+      ];
+
+      let auditTrail = [
+        { timestamp: '2025-12-07 10:30:00', action: 'VIEWED_DASHBOARD', details: 'Accessed Treasurer Dashboard' },
+        { timestamp: '2025-12-06 15:45:00', action: 'VERIFIED_PAYMENT', details: "Verified payment from Diana Lopez (₱500)" },
+        { timestamp: '2025-12-05 09:20:00', action: 'VERIFIED_PAYMENT', details: "Verified payment from Elena Rodriguez (₱500)" },
+        { timestamp: '2025-12-04 14:10:00', action: 'VERIFIED_PAYMENT', details: "Verified payment from Anna Garcia (₱500)" }
+      ];
+
+      /* ----------------------- Rendering Functions ----------------------- */
+      function loadTreasurerDashboard() {
+        updateStatisticalCards();
+        loadPendingVerificationsPreview();
+        loadRecentVerifiedPaymentsPreview();
+        loadDisputesSnapshot();
+        loadAuditActivityLog();
+        updateNotificationBadge();
+      }
+
+      function updateStatisticalCards() {
+        const totalCollected = mockVerifiedPayments.reduce((sum, p) => sum + p.amount, 0);
+        const pendingCount = mockPendingVerifications.length;
+        const openDisputes = mockDisputes.filter(d => d.status === 'Open').length;
+        const studentsNotPaid = mockStudentList.filter(s => !s.paid).length;
+
+        const elTotal = document.getElementById('totalCollected');
+        const elPending = document.getElementById('pendingCount');
+        const elOpen = document.getElementById('openDisputes');
+        const elNotPaid = document.getElementById('studentsNotPaid');
+
+        if (elTotal) elTotal.textContent = '₱' + totalCollected.toLocaleString();
+        if (elPending) elPending.textContent = pendingCount;
+        if (elOpen) elOpen.textContent = openDisputes;
+        if (elNotPaid) elNotPaid.textContent = studentsNotPaid;
+
+        const pendingBadge = document.getElementById('pendingBadge');
+        if (pendingBadge) pendingBadge.textContent = pendingCount;
+      }
+
+      function loadPendingVerificationsPreview() {
+        const tbody = document.getElementById('pendingVerificationsBody');
+        if (!tbody) return;
+        if (mockPendingVerifications.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">No pending verifications</td></tr>';
+          return;
+        }
+        const preview = mockPendingVerifications.slice(0, 10);
+        tbody.innerHTML = preview.map(item => `\n          <tr>\n            <td><strong>${item.studentName}</strong></td>\n            <td>${item.block}</td>\n            <td>₱${item.amount.toFixed(2)}</td>\n            <td>${item.date}</td>\n            <td><span class="badge bg-secondary">${item.reference}</span></td>\n          </tr>\n        `).join('');
+      }
+
+      function loadRecentVerifiedPaymentsPreview() {
+        const tbody = document.getElementById('verifiedPaymentsBody');
+        if (!tbody) return;
+        if (mockVerifiedPayments.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-3">No verified payments yet</td></tr>';
+          return;
+        }
+        const preview = mockVerifiedPayments.slice(0, 10);
+        tbody.innerHTML = preview.map(item => `\n          <tr>\n            <td><strong>${item.studentName}</strong></td>\n            <td>₱${item.amount.toFixed(2)}</td>\n            <td>${item.dateVerified}</td>\n            <td>${item.verifiedBy}</td>\n          </tr>\n        `).join('');
+        const verifiedBadge = document.getElementById('verifiedBadge');
+        if (verifiedBadge) verifiedBadge.textContent = mockVerifiedPayments.length;
+      }
+
+      function loadDisputesSnapshot() {
+        const tbody = document.getElementById('disputesSnapshotBody');
+        if (!tbody) return;
+        if (mockDisputes.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="2" class="text-center text-muted py-3">No disputes</td></tr>';
+          return;
+        }
+        const preview = mockDisputes.slice(0, 5);
+        tbody.innerHTML = preview.map(item => `\n          <tr>\n            <td><strong>${item.studentName}</strong></td>\n            <td><span class="badge ${item.status === 'Open' ? 'bg-danger' : 'bg-warning'}">${item.status}</span></td>\n          </tr>\n        `).join('');
+        const disputesBadge = document.getElementById('disputesBadge');
+        if (disputesBadge) disputesBadge.textContent = mockDisputes.length;
+      }
+
+      function loadAuditActivityLog() {
+        const logContainer = document.getElementById('auditLogBody');
+        if (!logContainer) return;
+        if (auditTrail.length === 0) {
+          logContainer.innerHTML = '<p class="text-muted text-center py-3">No activities logged yet</p>';
+          return;
+        }
+        const preview = auditTrail.slice(0, 10);
+        logContainer.innerHTML = preview.map(item => `\n          <div class="audit-log-item">\n            <div class="audit-log-action">${item.action.replace(/_/g, ' ')}</div>\n            <small class="audit-log-time">${item.timestamp}</small>\n            <div class="text-muted" style="font-size: 0.85rem;">${item.details}</div>\n          </div>\n        `).join('');
+      }
+
+      /* Notifications: update badge count based on unread items in the DOM */
+      function updateNotificationBadge() {
+        const badge = document.getElementById('notificationBadge');
+        const list = document.querySelectorAll('#notificationList .notification-item.unread');
+        if (badge) badge.textContent = list.length;
+      }
+
+      /* Existing notification helpers */
+      function toggleNotifications() {
+        const dropdown = document.getElementById('notificationDropdown');
+        dropdown.classList.toggle('show');
+      }
+
+      function closeNotifications() {
+        const dropdown = document.getElementById('notificationDropdown');
+        dropdown.classList.remove('show');
+      }
+
+      function setupNotificationListeners() {
+        document.addEventListener('click', function(event) {
+          const notificationMenu = document.querySelector('.notification-menu');
+          const dropdown = document.getElementById('notificationDropdown');
+          if (notificationMenu && !notificationMenu.contains(event.target)) {
+            dropdown.classList.remove('show');
+          }
+        });
+      }
+
+      /* Optional helper if you want JS equalization (not required) */
+      function equalizeCardHeights() {
+        const cards = Array.from(document.querySelectorAll('.row.align-items-stretch.d-flex .col-md-6 .card.h-100'));
+        if (!cards.length) return;
+        cards.forEach(c => c.style.height = '');
+        let max = 0;
+        cards.forEach(c => { max = Math.max(max, c.offsetHeight); });
+        cards.forEach(c => c.style.height = max + 'px');
+      }
+
+      /* Initialize */
       document.addEventListener("DOMContentLoaded", () => {
-        applyStoredTheme();
-        startClock("currentDateTime");
+        applyStoredTheme && applyStoredTheme();
+        startClock && startClock("currentDateTime");
+        setupNotificationListeners();
         loadTreasurerDashboard();
-        renderAnnouncements("treasurerAnnouncements");
+        renderAnnouncements && renderAnnouncements("treasurerAnnouncements");
       });
+
+      (function () {
+        // Initialize Bootstrap tooltips (used when sidebar is collapsed)
+        function initTooltips() {
+          const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+          tooltipTriggerList.forEach(function (el) {
+            // eslint-disable-next-line no-undef
+            if (bootstrap && bootstrap.Tooltip) {
+              // destroy existing tooltip instance to avoid double-init
+              try {
+                const existing = bootstrap.Tooltip.getInstance(el);
+                if (existing) existing.dispose();
+              } catch (e) {}
+              new bootstrap.Tooltip(el, { trigger: 'hover focus', delay: { show: 100, hide: 50 } });
+            }
+          });
+        }
+
+        // Toggle collapse: clicking the profile area toggles collapsed state
+        const profile = document.getElementById('sidebarProfile');
+        const collapseBtn = document.getElementById('sidebarCollapseBtn');
+
+        function setCollapsed(collapsed) {
+          if (collapsed) {
+            document.body.classList.add('sidebar-collapsed');
+          } else {
+            document.body.classList.remove('sidebar-collapsed');
+          }
+          // Re-init tooltips (so they become active/usable)
+          setTimeout(initTooltips, 80);
+        }
+
+        // Toggle by clicking avatar/profile
+        profile && profile.addEventListener('click', function (e) {
+          e.preventDefault();
+          const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+          setCollapsed(!isCollapsed);
+        });
+
+        // Also support collapse button (left top)
+        collapseBtn && collapseBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+          setCollapsed(!isCollapsed);
+        });
+
+        // Ensure initial state based on saved preference
+        function loadSidebarPreference() {
+          try {
+            const pref = localStorage.getItem('sidebarCollapsed');
+            if (pref === 'true') setCollapsed(true);
+          } catch (e) { /* ignore */ }
+        }
+
+        // Save preference when toggled
+        const observer = new MutationObserver(function () {
+          try {
+            const collapsed = document.body.classList.contains('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', collapsed ? 'true' : 'false');
+          } catch (e) {}
+        });
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        // When DOM is ready, initialize tooltips and set initial state
+        document.addEventListener('DOMContentLoaded', function () {
+          initTooltips();
+          loadSidebarPreference();
+
+          // ensure sidebar is sticky and workspace margin is correct in case CSS loaded after JS
+          setTimeout(function () {
+            if (document.body.classList.contains('sidebar-collapsed')) {
+              document.querySelector('.workspace').style.marginLeft = getComputedStyle(document.documentElement).getPropertyValue('--sidebar-collapsed-width') || '72px';
+            }
+          }, 120);
+        });
+      })();
     </script>
   </body>
 </html>
-
-

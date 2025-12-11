@@ -6,200 +6,289 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/style.css" />
+
+    <style>
+      /* Sidebar hover effects */
+      .sidebar .nav-link {
+        transition: 0.2s;
+      }
+      .sidebar .nav-link:hover {
+        background: rgba(255,255,255,0.1);
+        border-radius: 6px;
+        padding-left: 10px;
+      }
+
+      /* Card icons */
+      .summary-icon {
+        font-size: 30px;
+        opacity: 0.8;
+      }
+
+      /* Sticky table header */
+      .table-sticky thead th {
+        position: sticky;
+        top: 0;
+        background: #222;
+        z-index: 10;
+      }
+
+      /* Responsive sidebar */
+      @media (max-width: 992px) {
+        .sidebar {
+          position: fixed;
+          left: -260px;
+          transition: 0.3s;
+        }
+        .sidebar.open {
+          left: 0;
+        }
+      }
+    </style>
   </head>
-  <body onload="initPage('treasurer-csc-fee')">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand fw-semibold" href="treasurer_dashboard.html">
-          CSC Financial - Treasurer
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#treasurerNavbar"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="treasurerNavbar">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="treasurer_dashboard.html">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="csc_fee.html">CSC Fee</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="dispute_management.html">Disputes</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="treasurer_reports.html">Reports</a>
-            </li>
-          </ul>
-          <a class="btn btn-outline-primary btn-sm" href="../login.html">
-            Logout
-          </a>
+
+  <body onload="initPage('treasurer-csc-fee')" class="dark-mode">
+    <div class="d-flex">
+
+      <!-- Sidebar -->
+      <aside class="sidebar bg-dark text-white p-3" id="sidebar" style="width:260px; min-height:100vh; transition:0.3s; overflow:hidden;">
+        <button class="btn btn-sm btn-outline-light mb-3" onclick="toggleSidebar()">≡</button>
+
+        <h4 class="fw-bold mb-4 text-center sidebar-label">CSC Treasurer</h4>
+
+        <ul class="nav flex-column gap-1">
+          <li><a class="nav-link text-white d-flex align-items-center" href="treasurer_dashboard.html">📊 <span class="ms-2 sidebar-label">Dashboard</span></a></li>
+          <li><a class="nav-link active text-primary fw-bold d-flex align-items-center" href="csc_fee.html">💰 <span class="ms-2 sidebar-label">CSC Fee</span></a></li>
+          <li><a class="nav-link text-white d-flex align-items-center" href="dispute_management.html">⚠️ <span class="ms-2 sidebar-label">Disputes</span></a></li>
+          <li><a class="nav-link text-white d-flex align-items-center" href="treasurer_reports.html">📑 <span class="ms-2 sidebar-label">Reports</span></a></li>
+          <li><a class="nav-link text-white d-flex align-items-center" href="#auditLog">📘 <span class="ms-2 sidebar-label">Audit Log</span></a></li>
+          <li><a class="nav-link text-white d-flex align-items-center" href="#academicYears">📅 <span class="ms-2 sidebar-label">Academic Years</span></a></li>
+        </ul>
+
+        <div class="mt-auto pt-4 text-center">
+          <a class="btn btn-outline-light btn-sm w-100 sidebar-label" href="../login.html">Logout</a>
         </div>
-      </div>
-    </nav>
+      </aside>
 
-    <!-- Content -->
-    <main class="container main-content">
-      <div
-        class="d-flex justify-content-between align-items-center mb-3 page-title-bar"
-      >
-        <h2 class="fw-bold">CSC Fee Payments</h2>
-        <button
-          class="btn btn-primary mb-0"
-          onclick="openModal('addRecordModal')"
-        >
-          + Add Entry
-        </button>
-      </div>
+      <script>
+        function toggleSidebar() {
+          const sidebar = document.getElementById('sidebar');
+          const labels = document.querySelectorAll('.sidebar-label');
 
-      <div class="card mb-3">
-        <div class="card-header">Search / Filter (Mock Controls)</div>
-        <div class="card-body row g-2">
+          if (sidebar.style.width === '260px') {
+            sidebar.style.width = '70px';
+            labels.forEach(label => label.style.display = 'none');
+          } else {
+            sidebar.style.width = '260px';
+            labels.forEach(label => label.style.display = 'inline');
+          }
+        }
+      </script>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-grow-1 p-4">
+
+        <!-- HEADER -->
+        <header class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm position-sticky top-0 z-3 border" id="main-header" style="backdrop-filter: blur(6px);">
+          <div>
+            <h3 class="fw-bold m-0 text-dark">Bicol University Polangui - College Student Council</h3>
+            <h5 class="text-primary m-0">PayTrack</h5>
+            <small id="liveDateTime" class="text-secondary"></small>
+          </div>
+
+          <div class="d-flex align-items-center gap-3">
+            <!-- Light/Dark Mode Toggle (Icon Only) -->
+            <span class="fs-4" role="button" onclick="toggleTheme()" id="themeToggle" style="cursor:pointer;">🌙</span>
+
+            <!-- Notification Dropdown (Icon Only) -->
+            <div class="dropdown">
+              <span class="fs-4 position-relative" role="button" data-bs-toggle="dropdown" style="cursor:pointer;">🔔
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+              </span>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li class="dropdown-header fw-semibold">Notifications</li>
+                <li><a class="dropdown-item" href="#">✔ Payment verified</a></li>
+                <li><a class="dropdown-item" href="#">⚠ Pending verification</a></li>
+                <li><a class="dropdown-item" href="#">📄 New report available</a></li>
+              </ul>
+            </div>
+
+            <!-- Profile Avatar (Icon Only, No Square Button) -->
+            <div class="dropdown">
+              <span class="d-flex align-items-center gap-2" role="button" data-bs-toggle="dropdown" style="cursor:pointer;">
+                <img src="https://via.placeholder.com/32" class="rounded-circle border" />
+              </span>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">My Account</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="../login.html">Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </header>
+
+        <script>
+          function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formatted = now.toLocaleDateString('en-US', options) + " | " + now.toLocaleTimeString();
+            document.getElementById('liveDateTime').innerText = formatted;
+          }
+          setInterval(updateDateTime, 1000);
+          updateDateTime();
+
+          function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeToggle');
+            btn.innerText = document.body.classList.contains('dark-mode') ? '🌙' : '☀️';
+          }
+        </script>
+
+        <script>
+          function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formatted = now.toLocaleDateString('en-US', options) + " | " + now.toLocaleTimeString();
+            document.getElementById('liveDateTime').innerText = formatted;
+          }
+          setInterval(updateDateTime, 1000);
+          updateDateTime();
+
+          function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeToggle');
+            btn.innerText = document.body.classList.contains('dark-mode') ? '🌙' : '☀️';
+          }
+        </script>
+
+        <script>
+          function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formatted = now.toLocaleDateString('en-US', options) + " | " + now.toLocaleTimeString();
+            document.getElementById('liveDateTime').innerText = formatted;
+          }
+          setInterval(updateDateTime, 1000);
+          updateDateTime();
+
+          function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+          }
+        </script>
+
+        <!-- SUMMARY CARDS -->
+        <div class="row g-3 mb-4">
           <div class="col-md-3">
-            <input
-              class="form-control"
-              placeholder="Search by Student ID or Name (mock)"
-            />
+            <div class="card p-3 text-center">
+              <div class="summary-icon mb-2">👥</div>
+              <h6>Total Students</h6>
+              <h3 id="sum_total_students">0</h3>
+            </div>
           </div>
           <div class="col-md-3">
-            <select class="form-select">
-              <option>All Terms (mock)</option>
-              <option>1st Semester</option>
-              <option>2nd Semester</option>
-            </select>
+            <div class="card p-3 text-center">
+              <div class="summary-icon mb-2">✅</div>
+              <h6>Paid (Verified)</h6>
+              <h3 id="sum_verified">0</h3>
+            </div>
           </div>
           <div class="col-md-3">
-            <select class="form-select">
-              <option>All Statuses</option>
-              <option>Verified</option>
-              <option>Pending</option>
-            </select>
+            <div class="card p-3 text-center">
+              <div class="summary-icon mb-2">⏳</div>
+              <h6>Pending</h6>
+              <h3 id="sum_pending">0</h3>
+            </div>
           </div>
-          <div class="col-md-3 d-grid">
-            <button class="btn btn-primary" type="button">
-              Apply Filter (Simulated)
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div
-          class="card-header d-flex justify-content-between align-items-center"
-        >
-          <span>CSC Fee Records</span>
-          <button
-            class="btn btn-sm btn-outline-primary"
-            type="button"
-            onclick="openModal('addRecordModal')"
-          >
-            + Add Entry
-          </button>
-        </div>
-        <div class="card-body table-wrapper">
-          <table
-            class="table table-striped table-bordered table-sm table-hover"
-          >
-            <thead>
-              <tr>
-                <th>Receipt ID</th>
-                <th>Student</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="table-csc-fee"></tbody>
-          </table>
-          <p class="meta-text mb-0">
-            Actions only simulate behavior in this prototype.
-          </p>
-        </div>
-      </div>
-    </main>
-
-    <!-- Add Entry Modal -->
-    <div class="modal fade" id="addRecordModal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Add New Entry</h5>
-            <button
-              type="button"
-              class="btn-close"
-              onclick="closeModal('addRecordModal')"
-            ></button>
-          </div>
-
-          <div class="modal-body">
-            <form id="addRecordForm">
-              <div class="mb-3">
-                <label class="form-label">Student ID</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="form_studentId"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Amount</label>
-                <input type="number" class="form-control" id="form_amount" />
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Details</label>
-                <input type="text" class="form-control" id="form_details" />
-              </div>
-            </form>
-          </div>
-
-          <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              onclick="closeModal('addRecordModal')"
-            >
-              Cancel
-            </button>
-            <button class="btn btn-primary" id="submitRecordBtn" type="button">
-              Submit
-            </button>
+          <div class="col-md-3">
+            <div class="card p-3 text-center">
+              <div class="summary-icon mb-2">💵</div>
+              <h6>Total Collected</h6>
+              <h3 id="sum_collected">₱0</h3>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <footer class="text-center mt-5 mb-3 text-muted">
-      <small>CSC Financial Tracking System Prototype — Group 3</small>
-    </footer>
+        <!-- FILTERS -->
+        <div class="card mb-4">
+          <div class="card-header fw-semibold">Search / Filters</div>
+          <div class="card-body row g-3">
+            <div class="col-md-3"><input class="form-control" id="filter_search" placeholder="Search Student" /></div>
+            <div class="col-md-3">
+              <select class="form-select" id="filter_year">
+                <option>All Academic Years</option>
+                <option>2023-2024</option>
+                <option>2024-2025</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select" id="filter_status">
+                <option>All Status</option>
+                <option>Paid (Verified)</option>
+                <option>Pending</option>
+                <option>Unpaid</option>
+              </select>
+            </div>
+            <div class="col-md-3 d-grid"><button class="btn btn-primary" onclick="applyFilters()">Apply</button></div>
+          </div>
+        </div>
 
-    <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../assets/js/data.js"></script>
-    <script src="../assets/js/forms.js"></script>
-    <script src="../assets/js/main.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        renderCscFeeTable();
-        document.getElementById("submitRecordBtn").onclick = addCSCfee;
-      });
-    </script>
-  </body>
-</html>
+        <!-- BLOCK SUMMARY -->
+        <div class="card mb-4">
+          <div class="card-header fw-semibold">Block Summary Overview</div>
+          <div class="card-body">
+            <table class="table table-bordered table-sm table-hover table-sticky">
+              <thead class="table-dark"><tr><th>Block</th><th>Total</th><th>Paid</th><th>Pending</th><th>Unpaid</th><th>Total Amount</th></tr></thead>
+              <tbody id="block-summary"></tbody>
+            </table>
+          </div>
+        </div>
 
+        <!-- VERIFICATION PANEL -->
+        <div class="card mb-4">
+          <div class="card-header fw-semibold">Pending Verification</div>
+          <div class="card-body">
+            <table class="table table-bordered table-sm table-hover table-sticky">
+              <thead class="table-warning"><tr><th>Receipt ID</th><th>Student</th><th>Amount</th><th>Date</th><th>Actions</th></tr></thead>
+              <tbody id="pending-verification"></tbody>
+            </table>
+          </div>
+        </div>
 
+        <!-- MAIN TABLE -->
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between">
+            <span class="fw-semibold">CSC Fee Records</span>
+            <div>
+              <button class="btn btn-sm btn-outline-success">Export Excel</button>
+              <button class="btn btn-sm btn-outline-danger">Export PDF</button>
+            </div>
+          </div>
+          <div class="card-body table-wrapper">
+            <table class="table table table-bordered table-sm table-hover table-sticky">
+              <thead><tr><th>Receipt</th><th>Student</th><th>Amount</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="table-csc-fee"></tbody>
+            </table>
+          </div>
+        </div>
 
+        <!-- AUDIT LOG PANEL -->
+        <div class="card mb-4" id="auditLog">
+          <div class="card-header fw-semibold">Audit Log</div>
+          <div class="card-body">
+            <table class="table table-bordered table-sm table-hover table-sticky">
+              <thead class="table-info"><tr><th>User</th><th>Action</th><th>Details</th><th>Date</th></tr></thead>
+              <tbody id="audit-log-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ACADEMIC YEAR MANAGER -->
+        <div class="card mb-4" id="academicYears">
+          <div class="card-header fw-semibold">Academic Year Manager</div>
+          <div class="card-body">
+            <div class="d-flex mb-3">
+              <input class="form-control me-2" id="new-academic-year" placeholder="e.g., 2024-2025" />
+              <button class="btn btn-primary" onclick="addAcademicYear()">Add Academic Year</button>
+            </div>
