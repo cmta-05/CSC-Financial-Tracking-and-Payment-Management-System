@@ -414,9 +414,9 @@
             <span class="nav-text">CSC Fee</span>
           </a>
 
-          <a class="nav-link" href="dispute_management.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Disputes">
+          <a class="nav-link" href="concerns.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Concerns">
             <i class="bi bi-chat-left-dots"></i>
-            <span class="nav-text">Disputes</span>
+            <span class="nav-text">Concerns</span>
           </a>
 
           <a class="nav-link" href="treasurer_reports.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Reports">
@@ -474,8 +474,8 @@
                   <div class="notification-item unread">
                     <div class="notification-icon">⚠️</div>
                     <div class="notification-content">
-                      <div class="notification-title">Dispute Submitted</div>
-                      <div class="notification-text">Carlos Reyes filed a dispute - Payment Not Reflected</div>
+                      <div class="notification-title">Concern Submitted</div>
+                      <div class="notification-text">Carlos Reyes filed a concern - Payment Not Reflected</div>
                       <div class="notification-time">5 hours ago</div>
                     </div>
                   </div>
@@ -524,7 +524,7 @@
               <div class="col-md-12">
                 <h2 class="mb-1">Treasurer Dashboard</h2>
                 <p class="hero-subtitle mb-0">
-                  Quick overview of CSC fee collections, pending verifications, and disputes.
+                  Quick overview of CSC fee collections, pending verifications, and concerns.
                 </p>
               </div>
             </div>
@@ -561,8 +561,8 @@
               <div class="card p-3 shadow-sm dashboard-card border-left-danger h-100">
                 <div class="d-flex justify-content-between align-items-start">
                   <div>
-                    <h5 id="openDisputes" class="text-danger fw-bold mb-1">0</h5>
-                    <p class="text-muted mb-0 small">Open Disputes</p>
+                    <h5 id="openConcerns" class="text-danger fw-bold mb-1">0</h5>
+                    <p class="text-muted mb-0 small">Open Concerns</p>
                   </div>
                   <span class="badge bg-danger">⚠️</span>
                 </div>
@@ -647,13 +647,13 @@
             </div>
           </div>
 
-          <!-- Disputes Snapshot & Audit Activity -->
+          <!-- Concerns Snapshot & Audit Activity -->
           <div class="row mb-4">
             <div class="col-lg-6">
               <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                  <span>Recent Disputes</span>
-                  <span id="disputesBadge" class="badge bg-danger">0</span>
+                  <span>Recent Concerns</span>
+                  <span id="concernsBadge" class="badge bg-danger">0</span>
                 </div>
                 <div class="card-body table-wrapper table-fixed-height">
                   <div class="table-responsive">
@@ -664,17 +664,17 @@
                           <th>Status</th>
                         </tr>
                       </thead>
-                      <tbody id="disputesSnapshotBody">
+                      <tbody id="concernsSnapshotBody">
                         <tr>
-                          <td colspan="2" class="text-center text-muted py-3">No disputes</td>
+                          <td colspan="2" class="text-center text-muted py-3">No concerns</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
                 <div class="card-footer bg-light">
-                  <button class="btn btn-sm btn-outline-primary" onclick="navigateTo('dispute_management.html')">
-                    View All Disputes →
+                  <button class="btn btn-sm btn-outline-primary" onclick="navigateTo('concerns.html')">
+                    View All Concerns →
                   </button>
                 </div>
               </div>
@@ -744,7 +744,7 @@
         { studentId: 'BU2021010', studentName: 'Anna Garcia', amount: 500, dateVerified: '2025-12-01', verifiedBy: 'VANNESA ROSE B.' }
       ];
 
-      const mockDisputes = [
+      const mockConcerns = [
         { studentId: 'BU2021002', studentName: 'Maria Santos', status: 'Open', date: '2025-12-06' },
         { studentId: 'BU2021003', studentName: 'Carlos Reyes', status: 'Open', date: '2025-12-05' },
         { studentId: 'BU2021005', studentName: 'Fernando Torres', status: 'In Review', date: '2025-12-04' }
@@ -762,7 +762,7 @@
         updateStatisticalCards();
         loadPendingVerificationsPreview();
         loadRecentVerifiedPaymentsPreview();
-        loadDisputesSnapshot();
+        loadConcernsSnapshot();
         loadAuditActivityLog();
         updateNotificationBadge();
       }
@@ -770,17 +770,17 @@
       function updateStatisticalCards() {
         const totalCollected = mockVerifiedPayments.reduce((sum, p) => sum + p.amount, 0);
         const pendingCount = mockPendingVerifications.length;
-        const openDisputes = mockDisputes.filter(d => d.status === 'Open').length;
+        const openConcerns = mockConcerns.filter(d => d.status === 'Open').length;
         const studentsNotPaid = mockStudentList.filter(s => !s.paid).length;
 
         const elTotal = document.getElementById('totalCollected');
         const elPending = document.getElementById('pendingCount');
-        const elOpen = document.getElementById('openDisputes');
+        const elOpen = document.getElementById('openConcerns');
         const elNotPaid = document.getElementById('studentsNotPaid');
 
         if (elTotal) elTotal.textContent = '₱' + totalCollected.toLocaleString();
         if (elPending) elPending.textContent = pendingCount;
-        if (elOpen) elOpen.textContent = openDisputes;
+        if (elOpen) elOpen.textContent = openConcerns;
         if (elNotPaid) elNotPaid.textContent = studentsNotPaid;
 
         const pendingBadge = document.getElementById('pendingBadge');
@@ -811,17 +811,17 @@
         if (verifiedBadge) verifiedBadge.textContent = mockVerifiedPayments.length;
       }
 
-      function loadDisputesSnapshot() {
-        const tbody = document.getElementById('disputesSnapshotBody');
+      function loadConcernsSnapshot() {
+        const tbody = document.getElementById('concernsSnapshotBody');
         if (!tbody) return;
-        if (mockDisputes.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="2" class="text-center text-muted py-3">No disputes</td></tr>';
+        if (mockConcerns.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="2" class="text-center text-muted py-3">No concerns</td></tr>';
           return;
         }
-        const preview = mockDisputes.slice(0, 5);
+        const preview = mockConcerns.slice(0, 5);
         tbody.innerHTML = preview.map(item => `\n          <tr>\n            <td><strong>${item.studentName}</strong></td>\n            <td><span class="badge ${item.status === 'Open' ? 'bg-danger' : 'bg-warning'}">${item.status}</span></td>\n          </tr>\n        `).join('');
-        const disputesBadge = document.getElementById('disputesBadge');
-        if (disputesBadge) disputesBadge.textContent = mockDisputes.length;
+        const concernsBadge = document.getElementById('concernsBadge');
+        if (concernsBadge) concernsBadge.textContent = mockConcerns.length;
       }
 
       function loadAuditActivityLog() {

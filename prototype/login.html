@@ -11,9 +11,112 @@
       rel="stylesheet"
     />
 
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="assets/css/style.css" />
     <style>
+      /* ====== ANIMATED BACKGROUND ====== */
+      .login-wrapper {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-wrapper::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          rgba(184, 134, 11, 0.1) 0%,
+          rgba(255, 165, 0, 0.15) 25%,
+          rgba(255, 192, 203, 0.1) 50%,
+          rgba(147, 112, 219, 0.15) 75%,
+          rgba(184, 134, 11, 0.1) 100%
+        );
+        animation: none; /* keep static to remove moving background lines */
+        z-index: 0;
+      }
+
+      .login-wrapper::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 70%, rgba(255, 20, 147, 0.12) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(184, 134, 11, 0.1) 0%, transparent 70%);
+        animation: none; /* keep static to remove moving background lines */
+        z-index: 0;
+      }
+
+      @keyframes gradientShift {
+        0%, 100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+          transform: translate(-10%, -10%) rotate(90deg);
+        }
+        50% {
+          transform: translate(-5%, 5%) rotate(180deg);
+        }
+        75% {
+          transform: translate(5%, -5%) rotate(270deg);
+        }
+      }
+
+      @keyframes holographicShift {
+        0%, 100% {
+          opacity: 1;
+          filter: hue-rotate(0deg);
+        }
+        25% {
+          opacity: 0.9;
+          filter: hue-rotate(90deg);
+        }
+        50% {
+          opacity: 0.95;
+          filter: hue-rotate(180deg);
+        }
+        75% {
+          opacity: 0.85;
+          filter: hue-rotate(270deg);
+        }
+      }
+
+      body.theme-dark .login-wrapper::before {
+        background: linear-gradient(
+          45deg,
+          rgba(184, 134, 11, 0.2) 0%,
+          rgba(255, 165, 0, 0.25) 25%,
+          rgba(255, 192, 203, 0.2) 50%,
+          rgba(147, 112, 219, 0.25) 75%,
+          rgba(184, 134, 11, 0.2) 100%
+        );
+      }
+
+      body.theme-dark .login-wrapper::after {
+        background: 
+          radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+          radial-gradient(circle at 80% 70%, rgba(255, 20, 147, 0.18) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(184, 134, 11, 0.15) 0%, transparent 70%);
+      }
+
+      .login-panel {
+        position: relative;
+        z-index: 1;
+      }
+
       /* ====== ILLUSTRATION STYLES ====== */
       .login-illustration {
         position: relative;
@@ -30,17 +133,12 @@
         opacity: 0.35;
         pointer-events: none;
         z-index: 0;
-        animation: imageShineIntense 2s ease-in-out infinite !important;
+        animation: imageShineIntense 3s ease-in-out infinite;
       }
 
+      /* Removed radial glow to drop the center circle overlay */
       .login-illustration::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.4) 0%, transparent 50%);
-        pointer-events: none;
-        z-index: 0.5;
-        animation: glowPulseIntense 2s ease-in-out infinite !important;
+        content: none;
       }
 
       .login-illustration > * {
@@ -48,71 +146,66 @@
         z-index: 1;
       }
 
-      .login-illustration::before {
-        animation: imageShineIntense 2s ease-in-out infinite !important;
-      }
-
-      .login-illustration::after {
-        animation: glowPulseIntense 2s ease-in-out infinite !important;
-      }
 
       body.theme-dark .login-illustration::before {
-        animation: imageShineIntenseDark 2s ease-in-out infinite !important;
+        animation: imageShineIntenseDark 3s ease-in-out infinite;
       }
 
       body.theme-dark .login-illustration::after {
-        animation: glowPulseIntenseDark 2s ease-in-out infinite !important;
+        animation: glowPulseIntenseDark 4s ease-in-out infinite;
       }
 
       @keyframes imageShineIntense {
         0% {
-          opacity: 0.4;
-          filter: brightness(1.1) drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+          opacity: 0.35;
+          filter: brightness(1.1) drop-shadow(0 0 20px rgba(184, 134, 11, 0.4));
         }
         50% {
-          opacity: 0.65;
-          filter: brightness(1.3) drop-shadow(0 0 50px rgba(255, 215, 0, 0.8));
+          opacity: 0.6;
+          filter: brightness(1.4) drop-shadow(0 0 50px rgba(255, 215, 0, 0.8));
         }
         100% {
-          opacity: 0.4;
-          filter: brightness(1.1) drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+          opacity: 0.35;
+          filter: brightness(1.1) drop-shadow(0 0 20px rgba(184, 134, 11, 0.4));
         }
       }
 
       @keyframes glowPulseIntense {
         0% {
           background: radial-gradient(circle at 0% 0%, 
-            rgba(255, 215, 0, 0.5) 0%, 
-            transparent 50%);
+            rgba(184, 134, 11, 0.4) 0%,
+            rgba(255, 215, 0, 0.25) 30%,
+            rgba(255, 192, 203, 0.15) 60%,
+            transparent 100%);
         }
         25% {
           background: radial-gradient(circle at 100% 0%, 
-            rgba(255, 215, 0, 0.5) 0%, 
-            transparent 50%);
+            rgba(255, 165, 0, 0.4) 0%,
+            rgba(255, 215, 0, 0.25) 30%,
+            rgba(147, 112, 219, 0.15) 60%,
+            transparent 100%);
         }
         50% {
           background: radial-gradient(circle at 100% 100%, 
-            rgba(255, 215, 0, 0.5) 0%, 
-            transparent 50%);
+            rgba(255, 192, 203, 0.4) 0%,
+            rgba(255, 215, 0, 0.25) 30%,
+            rgba(184, 134, 11, 0.15) 60%,
+            transparent 100%);
         }
         75% {
           background: radial-gradient(circle at 0% 100%, 
-            rgba(255, 215, 0, 0.5) 0%, 
-            transparent 50%);
+            rgba(147, 112, 219, 0.4) 0%,
+            rgba(255, 215, 0, 0.25) 30%,
+            rgba(255, 165, 0, 0.15) 60%,
+            transparent 100%);
         }
         100% {
           background: radial-gradient(circle at 0% 0%, 
-            rgba(255, 215, 0, 0.5) 0%, 
-            transparent 50%);
+            rgba(184, 134, 11, 0.4) 0%,
+            rgba(255, 215, 0, 0.25) 30%,
+            rgba(255, 192, 203, 0.15) 60%,
+            transparent 100%);
         }
-      }
-
-      body.theme-dark .login-illustration:hover::before {
-        animation: imageShineIntenseDark 2s ease-in-out infinite !important;
-      }
-
-      body.theme-dark .login-illustration:hover::after {
-        animation: glowPulseIntenseDark 2s ease-in-out infinite !important;
       }
 
       @keyframes imageShineIntenseDark {
@@ -121,8 +214,8 @@
           filter: brightness(1) drop-shadow(0 0 20px rgba(255, 165, 0, 0.4));
         }
         50% {
-          opacity: 0.7;
-          filter: brightness(1.25) drop-shadow(0 0 60px rgba(255, 165, 0, 1));
+          opacity: 0.75;
+          filter: brightness(1.3) drop-shadow(0 0 60px rgba(255, 215, 0, 1));
         }
         100% {
           opacity: 0.45;
@@ -133,29 +226,124 @@
       @keyframes glowPulseIntenseDark {
         0% {
           background: radial-gradient(circle at 0% 0%, 
-            rgba(255, 165, 0, 0.6) 0%, 
-            transparent 50%);
+            rgba(255, 165, 0, 0.5) 0%,
+            rgba(255, 215, 0, 0.3) 30%,
+            rgba(255, 192, 203, 0.2) 60%,
+            transparent 100%);
         }
         25% {
           background: radial-gradient(circle at 100% 0%, 
-            rgba(255, 165, 0, 0.6) 0%, 
-            transparent 50%);
+            rgba(255, 215, 0, 0.5) 0%,
+            rgba(147, 112, 219, 0.3) 30%,
+            rgba(255, 165, 0, 0.2) 60%,
+            transparent 100%);
         }
         50% {
           background: radial-gradient(circle at 100% 100%, 
-            rgba(255, 165, 0, 0.6) 0%, 
-            transparent 50%);
+            rgba(255, 192, 203, 0.5) 0%,
+            rgba(255, 215, 0, 0.3) 30%,
+            rgba(184, 134, 11, 0.2) 60%,
+            transparent 100%);
         }
         75% {
           background: radial-gradient(circle at 0% 100%, 
-            rgba(255, 165, 0, 0.6) 0%, 
-            transparent 50%);
+            rgba(147, 112, 219, 0.5) 0%,
+            rgba(255, 215, 0, 0.3) 30%,
+            rgba(255, 165, 0, 0.2) 60%,
+            transparent 100%);
         }
         100% {
           background: radial-gradient(circle at 0% 0%, 
-            rgba(255, 165, 0, 0.6) 0%, 
-            transparent 50%);
+            rgba(255, 165, 0, 0.5) 0%,
+            rgba(255, 215, 0, 0.3) 30%,
+            rgba(255, 192, 203, 0.2) 60%,
+            transparent 100%);
         }
+      }
+
+      /* ====== LOGIN BRANDING ====== */
+      .login-brand {
+        text-align: center;
+      }
+
+      .login-logo {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        animation: logoGlow 3s ease-in-out infinite;
+      }
+
+      .login-brand-name {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: -0.5px;
+        margin: 0;
+      }
+
+      body.theme-dark .login-brand-name {
+        color: #f1f5f9;
+      }
+
+      .login-brand h2 {
+        text-align: center !important;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .login-brand p {
+        text-align: center !important;
+        margin-bottom: 2rem;
+      }
+
+      @keyframes logoGlow {
+        0%, 100% {
+          filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+          transform: scale(1);
+        }
+        50% {
+          filter: drop-shadow(0 4px 16px rgba(253, 137, 22, 0.4));
+          transform: scale(1.05);
+        }
+      }
+
+      /* ====== INPUT FIELD ICONS ====== */
+      .input-with-icon {
+        position: relative;
+      }
+
+      .input-with-icon i:first-of-type {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #64748b;
+        font-size: 1.1rem;
+        z-index: 5;
+        transition: color 0.3s ease;
+        pointer-events: none;
+      }
+
+      .input-with-icon .form-control {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+
+      .input-with-icon.has-toggle .form-control {
+        padding-right: 3.5rem;
+      }
+
+      .input-with-icon:focus-within i:first-of-type {
+        color: var(--color-orange);
+      }
+
+      body.theme-dark .input-with-icon i:first-of-type {
+        color: #94a3b8;
+      }
+
+      body.theme-dark .input-with-icon:focus-within i:first-of-type {
+        color: #ffd700;
       }
 
       /* ====== PASSWORD TOGGLE ====== */
@@ -163,15 +351,51 @@
       .toggle-password-modal {
         position: absolute;
         right: 12px;
-        top: 8px;
+        top: 50%;
+        transform: translateY(-50%);
         cursor: pointer;
-        font-size: 14px;
-        color: #555;
+        font-size: 1.1rem;
+        color: #64748b;
         user-select: none;
+        z-index: 10;
+        transition: all 0.3s ease;
+        background: transparent;
+        border: none;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
       }
 
-      .toggle-password {
-        top: 36px; /* Adjust for login form */
+      .toggle-password:hover,
+      .toggle-password-modal:hover {
+        color: var(--color-orange);
+        background: rgba(253, 137, 22, 0.1);
+      }
+
+      .toggle-password:active,
+      .toggle-password-modal:active {
+        transform: translateY(-50%) scale(0.95);
+      }
+
+      .toggle-password i,
+      .toggle-password-modal i {
+        pointer-events: none;
+        display: block;
+      }
+
+      body.theme-dark .toggle-password,
+      body.theme-dark .toggle-password-modal {
+        color: #94a3b8;
+      }
+
+      body.theme-dark .toggle-password:hover,
+      body.theme-dark .toggle-password-modal:hover {
+        color: #ffd700;
+        background: rgba(255, 215, 0, 0.15);
       }
 
       /* ====== FORM TRANSITIONS ====== */
@@ -183,6 +407,79 @@
 
       .login-form .form-control:focus {
         transform: translateY(-1px);
+        box-shadow: 0 0 0 4px rgba(253, 137, 22, 0.15), 
+                    0 4px 12px rgba(184, 134, 11, 0.2),
+                    inset 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+
+      body.theme-dark .login-form .form-control:focus {
+        box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.25), 
+                    0 4px 12px rgba(184, 134, 11, 0.3),
+                    inset 0 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      /* ====== INTERACTIVE ELEMENTS ====== */
+      .login-form .btn-primary {
+        background: linear-gradient(135deg, #d4a574 0%, #ff8c42 50%, #ff6b6b 100%);
+        background-size: 200% 200%;
+        animation: gradientFlow 3s ease infinite;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-form .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s;
+      }
+
+      .login-form .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      @keyframes gradientFlow {
+        0%, 100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      body.theme-dark .login-form .btn-primary {
+        background: linear-gradient(135deg, #b8860b 0%, #ff8c42 50%, #ff1493 100%);
+        background-size: 200% 200%;
+      }
+
+      /* ====== NETWORK CONNECTIONS ANIMATED BACKGROUND ====== */
+      .network-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.4;
+      }
+
+      .network-canvas {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+      .network-canvas svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      body.theme-dark .network-bg {
+        opacity: 0.6;
       }
 
       /* ====== DARK MODE FOR MODAL ====== */
@@ -245,21 +542,153 @@
 
   <body>
     <div class="login-wrapper">
+      <div class="network-bg">
+        <svg class="network-canvas" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#b8860b;stop-opacity:0" />
+              <stop offset="50%" style="stop-color:#ffd700;stop-opacity:0.6" />
+              <stop offset="100%" style="stop-color:#b8860b;stop-opacity:0" />
+            </linearGradient>
+            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#ff8c42;stop-opacity:0" />
+              <stop offset="50%" style="stop-color:#ffc0cb;stop-opacity:0.6" />
+              <stop offset="100%" style="stop-color:#ff8c42;stop-opacity:0" />
+            </linearGradient>
+            <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#9370db;stop-opacity:0" />
+              <stop offset="50%" style="stop-color:#ff1493;stop-opacity:0.6" />
+              <stop offset="100%" style="stop-color:#9370db;stop-opacity:0" />
+            </linearGradient>
+          </defs>
+          
+          <!-- Connection lines -->
+          <line x1="346" y1="130" x2="998" y2="302" stroke="url(#grad1)" stroke-width="2" opacity="0.3" />
+          <circle cx="672" cy="216" r="3" fill="#ffd700" opacity="0.8">
+            <animateMotion dur="4s" repeatCount="indefinite">
+              <mpath href="#line1" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" repeatCount="indefinite" />
+          </circle>
+          <path id="line1" d="M 346,130 L 998,302" fill="none" />
+
+          <line x1="998" y1="302" x2="1574" y2="173" stroke="url(#grad1)" stroke-width="2" opacity="0.3" />
+          <circle cx="1286" cy="238" r="3" fill="#ff8c42" opacity="0.8">
+            <animateMotion dur="4s" begin="0.8s" repeatCount="indefinite">
+              <mpath href="#line2" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" begin="0.8s" repeatCount="indefinite" />
+          </circle>
+          <path id="line2" d="M 998,302 L 1574,173" fill="none" />
+
+          <line x1="346" y1="130" x2="422" y2="486" stroke="url(#grad2)" stroke-width="2" opacity="0.3" />
+          <circle cx="384" cy="308" r="3" fill="#ffc0cb" opacity="0.8">
+            <animateMotion dur="4s" begin="1.5s" repeatCount="indefinite">
+              <mpath href="#line3" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" begin="1.5s" repeatCount="indefinite" />
+          </circle>
+          <path id="line3" d="M 346,130 L 422,486" fill="none" />
+
+          <line x1="422" y1="486" x2="1248" y2="594" stroke="url(#grad2)" stroke-width="2" opacity="0.3" />
+          <circle cx="835" cy="540" r="3" fill="#9370db" opacity="0.8">
+            <animateMotion dur="4s" begin="2s" repeatCount="indefinite">
+              <mpath href="#line4" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" begin="2s" repeatCount="indefinite" />
+          </circle>
+          <path id="line4" d="M 422,486 L 1248,594" fill="none" />
+
+          <line x1="1248" y1="594" x2="1728" y2="432" stroke="url(#grad3)" stroke-width="2" opacity="0.3" />
+          <circle cx="1488" cy="513" r="3" fill="#ff1493" opacity="0.8">
+            <animateMotion dur="4s" begin="0.5s" repeatCount="indefinite">
+              <mpath href="#line5" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" begin="0.5s" repeatCount="indefinite" />
+          </circle>
+          <path id="line5" d="M 1248,594 L 1728,432" fill="none" />
+
+          <line x1="422" y1="486" x2="614" y2="758" stroke="url(#grad2)" stroke-width="2" opacity="0.3" />
+          <circle cx="518" cy="622" r="3" fill="#ffa500" opacity="0.8">
+            <animateMotion dur="4s" begin="1.2s" repeatCount="indefinite">
+              <mpath href="#line6" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" begin="1.2s" repeatCount="indefinite" />
+          </circle>
+          <path id="line6" d="M 422,486 L 614,758" fill="none" />
+
+          <line x1="1248" y1="594" x2="1440" y2="778" stroke="url(#grad3)" stroke-width="2" opacity="0.3" />
+          <circle cx="1344" cy="686" r="3" fill="#b8860b" opacity="0.8">
+            <animateMotion dur="4s" begin="0.7s" repeatCount="indefinite">
+              <mpath href="#line7" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" begin="0.7s" repeatCount="indefinite" />
+          </circle>
+          <path id="line7" d="M 1248,594 L 1440,778" fill="none" />
+
+          <line x1="1440" y1="778" x2="922" y2="918" stroke="url(#grad1)" stroke-width="2" opacity="0.3" />
+          <circle cx="1181" cy="848" r="3" fill="#ffd700" opacity="0.8">
+            <animateMotion dur="4s" begin="1.8s" repeatCount="indefinite">
+              <mpath href="#line8" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" begin="1.8s" repeatCount="indefinite" />
+          </circle>
+          <path id="line8" d="M 1440,778 L 922,918" fill="none" />
+
+          <!-- Network nodes -->
+          <circle cx="346" cy="130" r="6" fill="#b8860b" opacity="0.8">
+            <animate attributeName="r" values="6;9;6" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="998" cy="302" r="6" fill="#ffd700" opacity="0.8">
+            <animate attributeName="r" values="6;9;6" dur="4s" begin="0.6s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" begin="0.6s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="1574" cy="173" r="6" fill="#ff8c42" opacity="0.8">
+            <animate attributeName="r" values="6;9;6" dur="4s" begin="1.2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" begin="1.2s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="422" cy="486" r="6" fill="#ffc0cb" opacity="0.8">
+            <animate attributeName="r" values="6;9;6" dur="4s" begin="1.8s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" begin="1.8s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="1248" cy="594" r="6" fill="#9370db" opacity="0.8">
+            <animate attributeName="r" values="6;9;6" dur="4s" begin="0.4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" begin="0.4s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="1728" cy="432" r="6" fill="#ff1493" opacity="0.8">
+            <animate attributeName="r" values="6;9;6" dur="4s" begin="1s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" begin="1s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="614" cy="758" r="6" fill="#ffa500" opacity="0.8">
+            <animate attributeName="r" values="6;9;6" dur="4s" begin="1.6s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" begin="1.6s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="1440" cy="778" r="6" fill="#b8860b" opacity="0.8">
+            <animate attributeName="r" values="6;9;6" dur="4s" begin="0.8s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" begin="0.8s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="922" cy="918" r="6" fill="#ffd700" opacity="0.8">
+            <animate attributeName="r" values="6;9;6" dur="4s" begin="2.2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" begin="2.2s" repeatCount="indefinite" />
+          </circle>
+        </svg>
+      </div>
       <div class="login-panel">
 
         <!-- ====== ILLUSTRATION / BRANDING ====== -->
         <section class="login-illustration d-none d-md-flex">
           <div>
             <div class="mb-4 text-center">
-              <p style="font-size: 16px; color: #ffd700; font-weight: 600; letter-spacing: 0.5px; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+              <p style="font-size: 16px; color: #ffffff; font-weight: 600; letter-spacing: 0.5px; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
                 Bicol University Polangui<br />College Student Council
               </p>
             </div>
           </div>
           <div class="mt-4 text-center">
-            <p class="mb-1 fw-semibold">Track. Pay. Stay Updated.</p>
+            <p class="mb-1 fw-semibold">Pay. Track. Stay Updated.</p>
             <p class="small mb-0">
-              Monitor CSC fees, merchandise, and financial activities in one unified portal.
+              Monitor CSC fees, merchandise, and other financial activities in one unified portal.
             </p>
           </div>
         </section>
@@ -270,21 +699,33 @@
             <button type="button" class="icon-btn" onclick="toggleTheme()" aria-label="Toggle dark mode">🌓</button>
           </div>
 
-          <h2>Sign in to CSC PayTrack</h2>
-          <p>Use your assigned credentials to access your role dashboard.</p>
+          <div class="login-brand text-center mb-4">
+            <img src="assets/img/csc-paytrack-logo.png" alt="SynTrack Logo" class="login-logo mb-2" />
+            <h1 class="login-brand-name mb-3">SynTrack</h1>
+            <h2 class="mb-2">LOGIN TO YOUR ACCOUNT</h2>
+            <p class="mb-4">Financial Management System</p>
+          </div>
 
           <form class="login-form" onsubmit="handleLoginSubmit(event)">
             <div id="loginError" class="login-error"></div>
 
             <div class="mb-3">
-              <label class="form-label">Student ID / Username</label>
-              <input type="text" class="form-control" id="loginUsername" autocomplete="username" placeholder="Enter Student ID or email" />
+              <label class="form-label">Student ID / Email</label>
+              <div class="input-with-icon position-relative">
+                <i class="bi bi-person-fill"></i>
+                <input type="text" class="form-control" id="loginUsername" autocomplete="username" placeholder="Enter Student ID or email" />
+              </div>
             </div>
 
             <div class="mb-2 position-relative">
               <label class="form-label">Password</label>
-              <input type="password" class="form-control" id="loginPassword" autocomplete="current-password" placeholder="Enter your password" />
-              <span class="toggle-password" onclick="togglePassword()">Show</span>
+              <div class="input-with-icon has-toggle position-relative">
+                <i class="bi bi-lock-fill"></i>
+                <input type="password" class="form-control" id="loginPassword" autocomplete="current-password" placeholder="Enter your password" />
+                <button type="button" class="toggle-password" onclick="togglePassword()" aria-label="Toggle password visibility">
+                  <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                </button>
+              </div>
             </div>
 
             <div class="remember-area d-flex justify-content-between align-items-center mb-3">
@@ -295,11 +736,11 @@
               <a href="#" class="small" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot password?</a>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 mb-2">Sign in</button>
+            <button type="submit" class="btn btn-primary w-100 mb-2">Login</button>
           </form>
 
           <div class="login-footer-note text-center mt-3">
-            <div class="mb-1 fw-semibold">Bicol University Polangui - College Student Council PayTrack</div>
+            <div class="mb-1 fw-semibold">Bicol University Polangui - College Student Council SynTrack</div>
           </div>
         </section>
       </div>
@@ -324,13 +765,17 @@
             <label class="form-label">New Password</label>
             <div class="position-relative mb-3">
               <input type="password" id="resetPass1" class="form-control">
-              <span class="toggle-password-modal" onclick="toggleModalPassword('resetPass1', this)">Show</span>
+              <button type="button" class="toggle-password-modal" onclick="toggleModalPassword('resetPass1', this)" aria-label="Toggle password visibility">
+                <i class="bi bi-eye"></i>
+              </button>
             </div>
             
             <label class="form-label">Confirm Password</label>
             <div class="position-relative mb-3">
               <input type="password" id="resetPass2" class="form-control">
-              <span class="toggle-password-modal" onclick="toggleModalPassword('resetPass2', this)">Show</span>
+              <button type="button" class="toggle-password-modal" onclick="toggleModalPassword('resetPass2', this)" aria-label="Toggle password visibility">
+                <i class="bi bi-eye"></i>
+              </button>
             </div>
           </div>
 
@@ -355,28 +800,41 @@
         hydrateLoginForm();
       });
 
-      // ====== TOGGLE PASSWORD LOGIN ======
+      // ====== TOGGLE PASSWORD LOGIN ====== 
       function togglePassword() {
         const pass = document.getElementById("loginPassword");
-        const toggle = document.querySelector(".toggle-password");
+        const toggleIcon = document.getElementById("togglePasswordIcon");
         if (pass.type === "password") {
           pass.type = "text";
-          toggle.textContent = "Hide";
+          toggleIcon.classList.remove("bi-eye");
+          toggleIcon.classList.add("bi-eye-slash");
         } else {
           pass.type = "password";
-          toggle.textContent = "Show";
+          toggleIcon.classList.remove("bi-eye-slash");
+          toggleIcon.classList.add("bi-eye");
         }
       }
 
       // ====== TOGGLE PASSWORD MODAL ======
       function toggleModalPassword(id, el) {
         const input = document.getElementById(id);
+        const icon = el.querySelector("i");
         if (input.type === "password") {
           input.type = "text";
-          el.textContent = "Hide";
+          if (icon) {
+            icon.classList.remove("bi-eye");
+            icon.classList.add("bi-eye-slash");
+          } else {
+            el.textContent = "Hide";
+          }
         } else {
           input.type = "password";
-          el.textContent = "Show";
+          if (icon) {
+            icon.classList.remove("bi-eye-slash");
+            icon.classList.add("bi-eye");
+          } else {
+            el.textContent = "Show";
+          }
         }
       }
 

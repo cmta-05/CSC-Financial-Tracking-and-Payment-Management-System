@@ -12,38 +12,22 @@
   <body onload="initPage('treasurer-csc-fee')" class="theme-dark">
     <div class="app-shell">
       <!-- Sidebar -->
-      <aside class="sidebar" id="appSidebar" aria-label="Sidebar">
-        <div class="sidebar-top">
-          <div class="sidebar-profile d-flex align-items-center" id="sidebarProfile" role="button" tabindex="0" title="Click to collapse sidebar">
-            <div class="logo-circle me-2">VR</div>
-            <div class="sidebar-profile-meta">
-              <div class="fw-bold user-fullname">VANNESA ROSE B.</div>
-              <div class="small user-role text-muted">Treasurer · BSIT</div>
-            </div>
-          </div>
-        </div>
+      <aside class="sidebar bg-dark text-white p-3" id="sidebar" style="width:260px; min-height:100vh; transition:0.3s; overflow:hidden;">
+        <button class="btn btn-sm btn-outline-light mb-3" onclick="toggleSidebar()">≡</button>
 
-        <div class="sidebar-label">Main Menu</div>
-        <nav class="sidebar-nav">
-          <a class="nav-link" href="treasurer_dashboard.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
-            <i class="bi bi-house-door"></i><span class="nav-text">Dashboard</span>
-          </a>
-          <a class="nav-link active" href="csc_fee.html" data-bs-toggle="tooltip" data-bs-placement="right" title="CSC Fee">
-            <i class="bi bi-cash-stack"></i><span class="nav-text">CSC Fee</span>
-          </a>
-          <a class="nav-link" href="dispute_management.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Disputes">
-            <i class="bi bi-chat-left-dots"></i><span class="nav-text">Disputes</span>
-          </a>
-          <a class="nav-link" href="treasurer_reports.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Reports">
-            <i class="bi bi-graph-up"></i><span class="nav-text">Reports</span>
-          </a>
-        </nav>
+        <h4 class="fw-bold mb-4 text-center sidebar-label">CSC Treasurer</h4>
 
-        <div class="sidebar-footer">
-          <div class="sidebar-actions d-flex flex-column">
-            <a href="#" class="small text-decoration-none text-muted">Profile</a>
-            <a href="../login.html" class="small text-decoration-none text-muted mt-1">Sign Out</a>
-          </div>
+        <ul class="nav flex-column gap-1">
+          <li><a class="nav-link text-white d-flex align-items-center" href="treasurer_dashboard.html">📊 <span class="ms-2 sidebar-label">Dashboard</span></a></li>
+          <li><a class="nav-link active text-primary fw-bold d-flex align-items-center" href="csc_fee.html">💰 <span class="ms-2 sidebar-label">CSC Fee</span></a></li>
+          <li><a class="nav-link text-white d-flex align-items-center" href="dispute_management.html">⚠️ <span class="ms-2 sidebar-label">Disputes</span></a></li>
+          <li><a class="nav-link text-white d-flex align-items-center" href="treasurer_reports.html">📑 <span class="ms-2 sidebar-label">Reports</span></a></li>
+          <li><a class="nav-link text-white d-flex align-items-center" href="#auditLog">📘 <span class="ms-2 sidebar-label">Audit Log</span></a></li>
+          <li><a class="nav-link text-white d-flex align-items-center" href="#academicYears">📅 <span class="ms-2 sidebar-label">Academic Years</span></a></li>
+        </ul>
+
+        <div class="mt-auto pt-4 text-center">
+          <a class="btn btn-outline-light btn-sm w-100 sidebar-label" href="../login.html">Logout</a>
         </div>
       </aside>
 
