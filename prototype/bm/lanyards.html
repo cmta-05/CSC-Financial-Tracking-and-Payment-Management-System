@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>PE Uniform Management - BM Module</title>
+    <title>Lanyard Management - BM Module</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap -->
@@ -22,7 +22,7 @@
     />
     <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
-  <body onload="initPage('bm-pe-uniform')">
+  <body onload="initPage('bm-lanyards')">
     <div class="app-shell">
       <aside class="sidebar" id="appSidebar" aria-label="Sidebar">
         <div class="sidebar-brand">
@@ -46,10 +46,10 @@
           <a class="nav-link" href="bm_dashboard.html">
             <span>Dashboard</span>
           </a>
-          <a class="nav-link" href="lanyards.html">
+          <a class="nav-link active" href="lanyards.html">
             <span>Lanyards</span>
           </a>
-          <a class="nav-link active" href="pe_uniform.html">
+          <a class="nav-link" href="pe_uniform.html">
             <span>PE Uniform</span>
           </a>
           <a class="nav-link" href="seal_plate.html">
@@ -141,8 +141,8 @@
           <div class="page-header mb-4">
             <div class="d-flex justify-content-between align-items-start">
               <div>
-                <h2 class="fw-bold mb-2">PE Uniform Management</h2>
-                <p class="mb-0">Track and manage PE uniform orders with payment verification and order status tracking. Monitor orders from placement to completion.</p>
+                <h2 class="fw-bold mb-2">Lanyard Management</h2>
+                <p class="mb-0">Track and manage CSC lanyards orders with verification status.</p>
               </div>
               <button
                 class="btn btn-primary"
@@ -230,16 +230,6 @@
                     <option value="Pending Verification">Pending Verification</option>
                   </select>
                 </div>
-                <div class="col-md-3">
-                  <label class="form-label small text-muted mb-1">Order Status</label>
-                  <select class="form-select form-select-sm" id="filterOrderStatus" onchange="filterTable()">
-                    <option value="">All Status</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Ready for Pickup">Ready for Pickup</option>
-                    <option value="Completed">Completed</option>
-                  </select>
-                </div>
               </div>
             </div>
           </div>
@@ -247,7 +237,7 @@
           <!-- Records Table -->
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center bg-gradient">
-              <span>PE UNIFORM RECORDS</span>
+              <span>LANYARDS RECORDS</span>
               <button class="btn btn-sm btn-outline-primary" type="button">
                 <i class="bi bi-file-earmark-pdf me-1"></i>Download PDF
               </button>
@@ -266,42 +256,26 @@
                     <th>Date</th>
                     <th>Payment Status</th>
                     <th>Payment Actions</th>
-                    <th>Order Status</th>
-                    <th>Order Actions</th>
                   </tr>
                 </thead>
-                <tbody id="peUniformTableBody">
+                <tbody id="lanyardsTableBody">
                   <tr>
                     <td>JUAN DELA CRUZ</td>
                     <td>2025-2026</td>
                     <td>3 BSIT BSIT3B</td>
-                    <td>PE Uniform (Size M)</td>
+                    <td>CSC Official BU Polangui Lanyard</td>
                     <td>1</td>
-                    <td>₱450.00</td>
-                    <td>PE-001</td>
+                    <td>₱120.00</td>
+                    <td>LN-001</td>
                     <td>2025-01-10</td>
                     <td><span class="badge bg-success">Paid</span></td>
                     <td>
                       <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" onclick="verifyPayment('PE-001')" title="Verify Payment">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('LN-001')" title="Verify Payment">
                           <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectPayment('PE-001')" title="Reject Payment">
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('LN-001')" title="Reject Payment">
                           <i class="bi bi-x-circle"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td><span class="badge bg-info">Processing</span></td>
-                    <td>
-                      <div class="btn-group-vertical btn-group-sm">
-                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('PE-001')" title="Mark as Processing">
-                          <i class="bi bi-hourglass-split"></i> Processing
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('PE-001')" title="Mark as Ready for Pickup">
-                          <i class="bi bi-box-arrow-up"></i> Ready
-                        </button>
-                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('PE-001')" title="Mark as Complete">
-                          <i class="bi bi-check2-all"></i> Complete
                         </button>
                       </div>
                     </td>
@@ -310,33 +284,19 @@
                     <td>MARIA SANTOS</td>
                     <td>2025-2026</td>
                     <td>2 BSCS BSCS2A</td>
-                    <td>PE Uniform (Size S)</td>
-                    <td>1</td>
-                    <td>₱450.00</td>
-                    <td>PE-002</td>
+                    <td>CSC Official BU Polangui Lanyard</td>
+                    <td>2</td>
+                    <td>₱240.00</td>
+                    <td>LN-002</td>
                     <td>2025-01-15</td>
                     <td><span class="badge bg-warning text-dark">Pending Verification</span></td>
                     <td>
                       <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" onclick="verifyPayment('PE-002')" title="Verify Payment">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('LN-002')" title="Verify Payment">
                           <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectPayment('PE-002')" title="Reject Payment">
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('LN-002')" title="Reject Payment">
                           <i class="bi bi-x-circle"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td><span class="badge bg-secondary">Pending</span></td>
-                    <td>
-                      <div class="btn-group-vertical btn-group-sm">
-                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('PE-002')" title="Mark as Processing">
-                          <i class="bi bi-hourglass-split"></i> Processing
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('PE-002')" title="Mark as Ready for Pickup">
-                          <i class="bi bi-box-arrow-up"></i> Ready
-                        </button>
-                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('PE-002')" title="Mark as Complete">
-                          <i class="bi bi-check2-all"></i> Complete
                         </button>
                       </div>
                     </td>
@@ -345,33 +305,19 @@
                     <td>JOHN SMITH</td>
                     <td>2025-2026</td>
                     <td>4 BSIT BSIT4A</td>
-                    <td>PE Uniform (Size L)</td>
+                    <td>CSC Official BU Polangui Lanyard</td>
                     <td>1</td>
-                    <td>₱450.00</td>
-                    <td>PE-003</td>
+                    <td>₱120.00</td>
+                    <td>LN-003</td>
                     <td>2025-01-20</td>
-                    <td><span class="badge bg-success">Paid</span></td>
+                    <td><span class="badge bg-danger">Payment Pending</span></td>
                     <td>
                       <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" onclick="verifyPayment('PE-003')" title="Verify Payment">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('LN-003')" title="Verify Payment">
                           <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectPayment('PE-003')" title="Reject Payment">
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('LN-003')" title="Reject Payment">
                           <i class="bi bi-x-circle"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td><span class="badge bg-warning text-dark">Ready for Pickup</span></td>
-                    <td>
-                      <div class="btn-group-vertical btn-group-sm">
-                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('PE-003')" title="Mark as Processing">
-                          <i class="bi bi-hourglass-split"></i> Processing
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('PE-003')" title="Mark as Ready for Pickup">
-                          <i class="bi bi-box-arrow-up"></i> Ready
-                        </button>
-                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('PE-003')" title="Mark as Complete">
-                          <i class="bi bi-check2-all"></i> Complete
                         </button>
                       </div>
                     </td>
@@ -380,33 +326,19 @@
                     <td>ANNA LEE</td>
                     <td>2025-2026</td>
                     <td>1 BSN BSN1B</td>
-                    <td>PE Uniform (Size S)</td>
+                    <td>CSC Official BU Polangui Lanyard</td>
                     <td>1</td>
-                    <td>₱450.00</td>
-                    <td>PE-004</td>
+                    <td>₱120.00</td>
+                    <td>LN-004</td>
                     <td>2025-01-22</td>
                     <td><span class="badge bg-success">Paid</span></td>
                     <td>
                       <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" onclick="verifyPayment('PE-004')" title="Verify Payment">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('LN-004')" title="Verify Payment">
                           <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectPayment('PE-004')" title="Reject Payment">
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('LN-004')" title="Reject Payment">
                           <i class="bi bi-x-circle"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td><span class="badge bg-info">Processing</span></td>
-                    <td>
-                      <div class="btn-group-vertical btn-group-sm">
-                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('PE-004')" title="Mark as Processing">
-                          <i class="bi bi-hourglass-split"></i> Processing
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('PE-004')" title="Mark as Ready for Pickup">
-                          <i class="bi bi-box-arrow-up"></i> Ready
-                        </button>
-                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('PE-004')" title="Mark as Complete">
-                          <i class="bi bi-check2-all"></i> Complete
                         </button>
                       </div>
                     </td>
@@ -415,33 +347,82 @@
                     <td>CARLOS REYES</td>
                     <td>2025-2026</td>
                     <td>2 BSENT BSENT2A</td>
-                    <td>PE Uniform (Size M)</td>
+                    <td>CSC Official BU Polangui Lanyard</td>
                     <td>1</td>
-                    <td>₱450.00</td>
-                    <td>PE-005</td>
+                    <td>₱120.00</td>
+                    <td>LN-005</td>
                     <td>2025-01-25</td>
                     <td><span class="badge bg-warning text-dark">Pending Verification</span></td>
                     <td>
                       <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" onclick="verifyPayment('PE-005')" title="Verify Payment">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('LN-005')" title="Verify Payment">
                           <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectPayment('PE-005')" title="Reject Payment">
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('LN-005')" title="Reject Payment">
                           <i class="bi bi-x-circle"></i>
                         </button>
                       </div>
                     </td>
-                    <td><span class="badge bg-secondary">Pending</span></td>
+                  </tr>
+                  <tr>
+                    <td>PATRICIA ALCANTARA</td>
+                    <td>2025-2026</td>
+                    <td>1 BSIT BSIT1A</td>
+                    <td>CSC Official BU Polangui Lanyard</td>
+                    <td>1</td>
+                    <td>₱120.00</td>
+                    <td>LN-006</td>
+                    <td>2025-01-26</td>
+                    <td><span class="badge bg-success">Paid</span></td>
                     <td>
-                      <div class="btn-group-vertical btn-group-sm">
-                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('PE-005')" title="Mark as Processing">
-                          <i class="bi bi-hourglass-split"></i> Processing
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('LN-006')" title="Verify Payment">
+                          <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('PE-005')" title="Mark as Ready for Pickup">
-                          <i class="bi bi-box-arrow-up"></i> Ready
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('LN-006')" title="Reject Payment">
+                          <i class="bi bi-x-circle"></i>
                         </button>
-                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('PE-005')" title="Mark as Complete">
-                          <i class="bi bi-check2-all"></i> Complete
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>KEVIN TAN</td>
+                    <td>2025-2026</td>
+                    <td>2 BSCS BSCS2B</td>
+                    <td>CSC Official BU Polangui Lanyard</td>
+                    <td>1</td>
+                    <td>₱120.00</td>
+                    <td>LN-007</td>
+                    <td>2025-01-27</td>
+                    <td><span class="badge bg-warning text-dark">Pending Verification</span></td>
+                    <td>
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('LN-007')" title="Verify Payment">
+                          <i class="bi bi-check-circle"></i>
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('LN-007')" title="Reject Payment">
+                          <i class="bi bi-x-circle"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>RICO VILLANUEVA</td>
+                    <td>2025-2026</td>
+                    <td>2 BSIT Animation BSIT-ANIM2A</td>
+                    <td>CSC Official BU Polangui Lanyard</td>
+                    <td>1</td>
+                    <td>₱120.00</td>
+                    <td>LN-008</td>
+                    <td>2025-01-28</td>
+                    <td><span class="badge bg-success">Paid</span></td>
+                    <td>
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('LN-008')" title="Verify Payment">
+                          <i class="bi bi-check-circle"></i>
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('LN-008')" title="Reject Payment">
+                          <i class="bi bi-x-circle"></i>
                         </button>
                       </div>
                     </td>
@@ -475,22 +456,22 @@
                     <td>2025-01-10 10:30 AM</td>
                     <td>Payment Verified</td>
                     <td>Business Manager</td>
-                    <td>PE-001</td>
+                    <td>LN-001</td>
                     <td>Payment verified for JUAN DELA CRUZ</td>
                   </tr>
                   <tr>
                     <td>2025-01-15 02:15 PM</td>
                     <td>Record Added</td>
                     <td>Business Manager</td>
-                    <td>PE-002</td>
-                    <td>New PE uniform order recorded</td>
+                    <td>LN-002</td>
+                    <td>New lanyard order recorded</td>
                   </tr>
                   <tr>
                     <td>2025-01-20 09:45 AM</td>
-                    <td>Order Status Updated</td>
+                    <td>Record Added</td>
                     <td>Business Manager</td>
-                    <td>PE-003</td>
-                    <td>Order status changed to Ready for Pickup</td>
+                    <td>LN-003</td>
+                    <td>New lanyard order recorded</td>
                   </tr>
                 </tbody>
               </table>
@@ -588,15 +569,13 @@
         const course = document.getElementById('filterCourse').value;
         const block = document.getElementById('filterBlock').value;
         const paymentStatus = document.getElementById('filterPaymentStatus').value;
-        const orderStatus = document.getElementById('filterOrderStatus').value;
-        const rows = document.querySelectorAll('#peUniformTableBody tr');
+        const rows = document.querySelectorAll('#lanyardsTableBody tr');
 
         rows.forEach(row => {
           const studentName = row.cells[0].textContent.toLowerCase();
           const receiptNo = row.cells[6].textContent.toLowerCase();
           const rowCourseBlock = row.cells[2].textContent;
           const rowPaymentStatus = row.cells[8].textContent.trim();
-          const rowOrderStatus = row.cells[10].textContent.trim();
 
           const matchesSearch = !searchTerm || studentName.includes(searchTerm) || receiptNo.includes(searchTerm);
           
@@ -615,9 +594,10 @@
             matchesDepartment = courses.some(c => rowCourseBlock.includes(c));
           }
           
+          // Course matching
           const matchesCourse = !course || rowCourseBlock.includes(course);
           
-          // Block matching
+          // Block matching (extract block from format like "3 BSIT BSIT3B")
           let matchesBlock = true;
           if (block) {
             const blockMatch = rowCourseBlock.match(/\d+([A-Z])/);
@@ -626,39 +606,22 @@
           }
           
           const matchesPaymentStatus = !paymentStatus || rowPaymentStatus.includes(paymentStatus);
-          const matchesOrderStatus = !orderStatus || rowOrderStatus.includes(orderStatus);
 
-          row.style.display = matchesSearch && matchesDepartment && matchesCourse && matchesBlock && matchesPaymentStatus && matchesOrderStatus ? '' : 'none';
+          row.style.display = matchesSearch && matchesDepartment && matchesCourse && matchesBlock && matchesPaymentStatus ? '' : 'none';
         });
       }
 
       function verifyPayment(receiptId) {
         if (confirm(`Verify payment for receipt ${receiptId}?`)) {
           alert(`Payment ${receiptId} verified successfully!`);
+          // In production, this would update the database
         }
       }
 
       function rejectPayment(receiptId) {
         if (confirm(`Reject payment for receipt ${receiptId}?`)) {
           alert(`Payment ${receiptId} rejected.`);
-        }
-      }
-
-      function markProcessing(receiptId) {
-        if (confirm(`Mark order ${receiptId} as Processing?`)) {
-          alert(`Order ${receiptId} marked as Processing.`);
-        }
-      }
-
-      function markReady(receiptId) {
-        if (confirm(`Mark order ${receiptId} as Ready for Pickup?`)) {
-          alert(`Order ${receiptId} marked as Ready for Pickup.`);
-        }
-      }
-
-      function markComplete(receiptId) {
-        if (confirm(`Mark order ${receiptId} as Completed?`)) {
-          alert(`Order ${receiptId} marked as Completed.`);
+          // In production, this would update the database
         }
       }
 
@@ -684,3 +647,4 @@
     </script>
   </body>
 </html>
+

@@ -1,0 +1,238 @@
+<!-- Common Modals Template for Business Manager Pages -->
+<!-- Profile Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-3">
+          <div class="user-avatar mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; font-size: 3rem; color: var(--color-orange);">
+            <i class="bi bi-person-circle"></i>
+          </div>
+          <h5>BU POLANGUI CSC</h5>
+          <p class="text-muted mb-0">Business Manager</p>
+        </div>
+        <div class="mb-3">
+          <strong>Role:</strong> Business Manager
+        </div>
+        <div class="mb-3">
+          <strong>Email:</strong> bm@bupc.csc.bicol-u.edu.ph
+        </div>
+        <div class="mb-3">
+          <strong>Office:</strong> CSC Office, Bicol University Polangui
+        </div>
+        <div class="mb-0">
+          <strong>Responsibilities:</strong> Manage merchandise, PE uniforms, seal & plates, and lanyards orders and payments.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Manage Password Modal -->
+<div class="modal fade" id="managePasswordModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Manage Account Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="meta-text">
+          Changing your password here is for SynTrack prototype only. No real accounts will be updated.
+        </p>
+        <div class="mb-3">
+          <label class="form-label">Current Password *</label>
+          <input type="password" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">New Password *</label>
+          <input type="password" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Confirm New Password *</label>
+          <input type="password" class="form-control" />
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="showPwd" />
+          <label class="form-check-label" for="showPwd">Show password</label>
+        </div>
+        <div class="meta-text">
+          <strong>Required Password Format:</strong>
+          <ul>
+            <li>Must be 8 characters or more</li>
+            <li>At least one uppercase character</li>
+            <li>At least one lowercase character</li>
+            <li>At least one number</li>
+            <li>At least one symbol</li>
+            <li>Passwords must match</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Admin Modal -->
+<div class="modal fade" id="contactAdminModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Contact Admin</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>For technical support, system issues, or account problems, please contact the system administrator:</p>
+        <div class="mb-3">
+          <strong>Email:</strong> admin@bicol-u.edu.ph
+        </div>
+        <div class="mb-3">
+          <strong>Office:</strong> CSC Office, Bicol University Polangui
+        </div>
+        <div class="mb-3">
+          <strong>Hours:</strong> Monday to Friday, 8:00 AM - 5:00 PM
+        </div>
+        <div class="mb-0">
+          <strong>Emergency Contact:</strong> For urgent matters, contact the CSC Adviser directly.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Send Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Send Feedback</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Subject *</label>
+          <input type="text" class="form-control" placeholder="Enter feedback subject" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Message *</label>
+          <textarea class="form-control" rows="5" placeholder="Enter your feedback or suggestions about the Business Manager portal"></textarea>
+        </div>
+        <p class="text-muted small mb-0">Your feedback helps us improve SynTrack for Business Managers.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Send Feedback</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- About Developers Modal -->
+<div class="modal fade" id="aboutDevelopersModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">About the Developers</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-4">
+          <h4 class="fw-bold">BSIT 3B – Group 3</h4>
+          <p class="text-muted">Bicol University Polangui</p>
+        </div>
+
+        <!-- Project Overview -->
+        <div class="card shadow-sm p-4 mb-4">
+          <h5 class="fw-bold mb-3">Project Overview</h5>
+          <p class="mb-0">
+            This prototype is part of the System Integration and Architecture (SIA) course and serves as a
+            front-end simulation of the SynTrack – Bicol University Polangui College Student Council Financial Tracking System. The goal of this
+            system is to streamline the recording, monitoring, and verification of CSC-related payments,
+            including CSC Fees, Merchandise, PE Uniforms, Seal & Plates, and ID Lace transactions. All features
+            are focused on transparency, ease of access, and supporting CSC financial operations.
+          </p>
+        </div>
+
+        <!-- Development Team -->
+        <h5 class="fw-bold mb-3">Development Team</h5>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="card shadow-sm p-3 text-center">
+              <img src="../assets/img/user.png" class="rounded-circle mb-3" width="80" alt="Developer avatar" />
+              <h6 class="fw-bold">Charlene Mae Adille</h6>
+              <p class="text-muted small mb-0">Project Leader &amp; Documentation Head</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm p-3 text-center">
+              <img src="../assets/img/user.png" class="rounded-circle mb-3" width="80" alt="Developer avatar" />
+              <h6 class="fw-bold">Hazel Marie Balunsay</h6>
+              <p class="text-muted small mb-0">Lead for Elicitation &amp; JAD Documentation</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm p-3 text-center">
+              <img src="../assets/img/user.png" class="rounded-circle mb-3" width="80" alt="Developer avatar" />
+              <h6 class="fw-bold">Jhon Kenneth Aguilar</h6>
+              <p class="text-muted small mb-0">Requirements Matrix &amp; Analysis</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm p-3 text-center">
+              <img src="../assets/img/user.png" class="rounded-circle mb-3" width="80" alt="Developer avatar" />
+              <h6 class="fw-bold">Maristela Yebra</h6>
+              <p class="text-muted small mb-0">Prototype &amp; UI/UX Design</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm p-3 text-center">
+              <img src="../assets/img/user.png" class="rounded-circle mb-3" width="80" alt="Developer avatar" />
+              <h6 class="fw-bold">Trisha Pauline Besa</h6>
+              <p class="text-muted small mb-0">Requirements Checklist &amp; Validation</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm p-3 text-center">
+              <img src="../assets/img/user.png" class="rounded-circle mb-3" width="80" alt="Developer avatar" />
+              <h6 class="fw-bold">Andrew Fajardo</h6>
+              <p class="text-muted small mb-0">Test Plan &amp; NFR Coordination</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm p-3 text-center">
+              <img src="../assets/img/user.png" class="rounded-circle mb-3" width="80" alt="Developer avatar" />
+              <h6 class="fw-bold">Delia Portes</h6>
+              <p class="text-muted small mb-0">Documentation Formatting &amp; Final Compilation</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Adviser -->
+        <div class="card shadow-sm p-4">
+          <h5 class="fw-bold mb-3">Adviser</h5>
+          <p class="mb-0">
+            <strong>Ms. Aika Dorosan</strong><br />
+            <span class="text-muted">CSC Adviser / SIA Instructor</span>
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+

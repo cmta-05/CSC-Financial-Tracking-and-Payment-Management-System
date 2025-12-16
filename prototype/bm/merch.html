@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>PE Uniform Management - BM Module</title>
+    <title>Merch Items Management - BM Module</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap -->
@@ -22,7 +22,7 @@
     />
     <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
-  <body onload="initPage('bm-pe-uniform')">
+  <body onload="initPage('bm-merch')">
     <div class="app-shell">
       <aside class="sidebar" id="appSidebar" aria-label="Sidebar">
         <div class="sidebar-brand">
@@ -49,13 +49,13 @@
           <a class="nav-link" href="lanyards.html">
             <span>Lanyards</span>
           </a>
-          <a class="nav-link active" href="pe_uniform.html">
+          <a class="nav-link" href="pe_uniform.html">
             <span>PE Uniform</span>
           </a>
           <a class="nav-link" href="seal_plate.html">
             <span>Seal &amp; Plates</span>
           </a>
-          <a class="nav-link" href="merch.html">
+          <a class="nav-link active" href="merch.html">
             <span>Merch Items</span>
           </a>
           <a class="nav-link" href="bm_concerns.html">
@@ -141,8 +141,8 @@
           <div class="page-header mb-4">
             <div class="d-flex justify-content-between align-items-start">
               <div>
-                <h2 class="fw-bold mb-2">PE Uniform Management</h2>
-                <p class="mb-0">Track and manage PE uniform orders with payment verification and order status tracking. Monitor orders from placement to completion.</p>
+                <h2 class="fw-bold mb-2">Merch Items Management</h2>
+                <p class="mb-0">Manage CSC merchandise orders including t-shirts, jackets, and other branded items with payment verification and order tracking.</p>
               </div>
               <button
                 class="btn btn-primary"
@@ -247,7 +247,7 @@
           <!-- Records Table -->
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center bg-gradient">
-              <span>PE UNIFORM RECORDS</span>
+              <span>MERCH ITEMS RECORDS</span>
               <button class="btn btn-sm btn-outline-primary" type="button">
                 <i class="bi bi-file-earmark-pdf me-1"></i>Download PDF
               </button>
@@ -270,23 +270,23 @@
                     <th>Order Actions</th>
                   </tr>
                 </thead>
-                <tbody id="peUniformTableBody">
+                <tbody id="merchTableBody">
                   <tr>
                     <td>JUAN DELA CRUZ</td>
                     <td>2025-2026</td>
                     <td>3 BSIT BSIT3B</td>
-                    <td>PE Uniform (Size M)</td>
-                    <td>1</td>
-                    <td>₱450.00</td>
-                    <td>PE-001</td>
+                    <td>CSC T-Shirt</td>
+                    <td>2</td>
+                    <td>₱500.00</td>
+                    <td>MR-001</td>
                     <td>2025-01-10</td>
                     <td><span class="badge bg-success">Paid</span></td>
                     <td>
                       <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" onclick="verifyPayment('PE-001')" title="Verify Payment">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('MR-001')" title="Verify Payment">
                           <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectPayment('PE-001')" title="Reject Payment">
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('MR-001')" title="Reject Payment">
                           <i class="bi bi-x-circle"></i>
                         </button>
                       </div>
@@ -294,13 +294,13 @@
                     <td><span class="badge bg-info">Processing</span></td>
                     <td>
                       <div class="btn-group-vertical btn-group-sm">
-                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('PE-001')" title="Mark as Processing">
+                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('MR-001')" title="Mark as Processing">
                           <i class="bi bi-hourglass-split"></i> Processing
                         </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('PE-001')" title="Mark as Ready for Pickup">
+                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('MR-001')" title="Mark as Ready for Pickup">
                           <i class="bi bi-box-arrow-up"></i> Ready
                         </button>
-                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('PE-001')" title="Mark as Complete">
+                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('MR-001')" title="Mark as Complete">
                           <i class="bi bi-check2-all"></i> Complete
                         </button>
                       </div>
@@ -310,18 +310,18 @@
                     <td>MARIA SANTOS</td>
                     <td>2025-2026</td>
                     <td>2 BSCS BSCS2A</td>
-                    <td>PE Uniform (Size S)</td>
+                    <td>CSC Jacket</td>
                     <td>1</td>
-                    <td>₱450.00</td>
-                    <td>PE-002</td>
+                    <td>₱800.00</td>
+                    <td>MR-002</td>
                     <td>2025-01-15</td>
                     <td><span class="badge bg-warning text-dark">Pending Verification</span></td>
                     <td>
                       <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" onclick="verifyPayment('PE-002')" title="Verify Payment">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('MR-002')" title="Verify Payment">
                           <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectPayment('PE-002')" title="Reject Payment">
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('MR-002')" title="Reject Payment">
                           <i class="bi bi-x-circle"></i>
                         </button>
                       </div>
@@ -329,13 +329,13 @@
                     <td><span class="badge bg-secondary">Pending</span></td>
                     <td>
                       <div class="btn-group-vertical btn-group-sm">
-                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('PE-002')" title="Mark as Processing">
+                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('MR-002')" title="Mark as Processing">
                           <i class="bi bi-hourglass-split"></i> Processing
                         </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('PE-002')" title="Mark as Ready for Pickup">
+                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('MR-002')" title="Mark as Ready for Pickup">
                           <i class="bi bi-box-arrow-up"></i> Ready
                         </button>
-                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('PE-002')" title="Mark as Complete">
+                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('MR-002')" title="Mark as Complete">
                           <i class="bi bi-check2-all"></i> Complete
                         </button>
                       </div>
@@ -345,18 +345,18 @@
                     <td>JOHN SMITH</td>
                     <td>2025-2026</td>
                     <td>4 BSIT BSIT4A</td>
-                    <td>PE Uniform (Size L)</td>
+                    <td>CSC Hoodie</td>
                     <td>1</td>
-                    <td>₱450.00</td>
-                    <td>PE-003</td>
+                    <td>₱600.00</td>
+                    <td>MR-003</td>
                     <td>2025-01-20</td>
                     <td><span class="badge bg-success">Paid</span></td>
                     <td>
                       <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" onclick="verifyPayment('PE-003')" title="Verify Payment">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('MR-003')" title="Verify Payment">
                           <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectPayment('PE-003')" title="Reject Payment">
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('MR-003')" title="Reject Payment">
                           <i class="bi bi-x-circle"></i>
                         </button>
                       </div>
@@ -364,13 +364,13 @@
                     <td><span class="badge bg-warning text-dark">Ready for Pickup</span></td>
                     <td>
                       <div class="btn-group-vertical btn-group-sm">
-                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('PE-003')" title="Mark as Processing">
+                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('MR-003')" title="Mark as Processing">
                           <i class="bi bi-hourglass-split"></i> Processing
                         </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('PE-003')" title="Mark as Ready for Pickup">
+                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('MR-003')" title="Mark as Ready for Pickup">
                           <i class="bi bi-box-arrow-up"></i> Ready
                         </button>
-                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('PE-003')" title="Mark as Complete">
+                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('MR-003')" title="Mark as Complete">
                           <i class="bi bi-check2-all"></i> Complete
                         </button>
                       </div>
@@ -380,32 +380,32 @@
                     <td>ANNA LEE</td>
                     <td>2025-2026</td>
                     <td>1 BSN BSN1B</td>
-                    <td>PE Uniform (Size S)</td>
+                    <td>CSC T-Shirt</td>
                     <td>1</td>
-                    <td>₱450.00</td>
-                    <td>PE-004</td>
+                    <td>₱250.00</td>
+                    <td>MR-004</td>
                     <td>2025-01-22</td>
                     <td><span class="badge bg-success">Paid</span></td>
                     <td>
                       <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" onclick="verifyPayment('PE-004')" title="Verify Payment">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('MR-004')" title="Verify Payment">
                           <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectPayment('PE-004')" title="Reject Payment">
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('MR-004')" title="Reject Payment">
                           <i class="bi bi-x-circle"></i>
                         </button>
                       </div>
                     </td>
-                    <td><span class="badge bg-info">Processing</span></td>
+                    <td><span class="badge bg-success">Completed</span></td>
                     <td>
                       <div class="btn-group-vertical btn-group-sm">
-                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('PE-004')" title="Mark as Processing">
+                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('MR-004')" title="Mark as Processing">
                           <i class="bi bi-hourglass-split"></i> Processing
                         </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('PE-004')" title="Mark as Ready for Pickup">
+                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('MR-004')" title="Mark as Ready for Pickup">
                           <i class="bi bi-box-arrow-up"></i> Ready
                         </button>
-                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('PE-004')" title="Mark as Complete">
+                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('MR-004')" title="Mark as Complete">
                           <i class="bi bi-check2-all"></i> Complete
                         </button>
                       </div>
@@ -415,18 +415,18 @@
                     <td>CARLOS REYES</td>
                     <td>2025-2026</td>
                     <td>2 BSENT BSENT2A</td>
-                    <td>PE Uniform (Size M)</td>
+                    <td>CSC Cap</td>
                     <td>1</td>
-                    <td>₱450.00</td>
-                    <td>PE-005</td>
+                    <td>₱200.00</td>
+                    <td>MR-005</td>
                     <td>2025-01-25</td>
                     <td><span class="badge bg-warning text-dark">Pending Verification</span></td>
                     <td>
                       <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-success" onclick="verifyPayment('PE-005')" title="Verify Payment">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('MR-005')" title="Verify Payment">
                           <i class="bi bi-check-circle"></i>
                         </button>
-                        <button class="btn btn-outline-danger" onclick="rejectPayment('PE-005')" title="Reject Payment">
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('MR-005')" title="Reject Payment">
                           <i class="bi bi-x-circle"></i>
                         </button>
                       </div>
@@ -434,13 +434,13 @@
                     <td><span class="badge bg-secondary">Pending</span></td>
                     <td>
                       <div class="btn-group-vertical btn-group-sm">
-                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('PE-005')" title="Mark as Processing">
+                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('MR-005')" title="Mark as Processing">
                           <i class="bi bi-hourglass-split"></i> Processing
                         </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('PE-005')" title="Mark as Ready for Pickup">
+                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('MR-005')" title="Mark as Ready for Pickup">
                           <i class="bi bi-box-arrow-up"></i> Ready
                         </button>
-                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('PE-005')" title="Mark as Complete">
+                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('MR-005')" title="Mark as Complete">
                           <i class="bi bi-check2-all"></i> Complete
                         </button>
                       </div>
@@ -475,21 +475,21 @@
                     <td>2025-01-10 10:30 AM</td>
                     <td>Payment Verified</td>
                     <td>Business Manager</td>
-                    <td>PE-001</td>
+                    <td>MR-001</td>
                     <td>Payment verified for JUAN DELA CRUZ</td>
                   </tr>
                   <tr>
                     <td>2025-01-15 02:15 PM</td>
                     <td>Record Added</td>
                     <td>Business Manager</td>
-                    <td>PE-002</td>
-                    <td>New PE uniform order recorded</td>
+                    <td>MR-002</td>
+                    <td>New merch order recorded</td>
                   </tr>
                   <tr>
                     <td>2025-01-20 09:45 AM</td>
                     <td>Order Status Updated</td>
                     <td>Business Manager</td>
-                    <td>PE-003</td>
+                    <td>MR-003</td>
                     <td>Order status changed to Ready for Pickup</td>
                   </tr>
                 </tbody>
@@ -589,7 +589,7 @@
         const block = document.getElementById('filterBlock').value;
         const paymentStatus = document.getElementById('filterPaymentStatus').value;
         const orderStatus = document.getElementById('filterOrderStatus').value;
-        const rows = document.querySelectorAll('#peUniformTableBody tr');
+        const rows = document.querySelectorAll('#merchTableBody tr');
 
         rows.forEach(row => {
           const studentName = row.cells[0].textContent.toLowerCase();
@@ -684,3 +684,4 @@
     </script>
   </body>
 </html>
+

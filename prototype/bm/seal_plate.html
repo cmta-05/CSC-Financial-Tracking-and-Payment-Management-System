@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Seal & Plate Requests - BM Module</title>
+    <title>Seal & Plates Management - BM Module</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap -->
@@ -10,147 +10,549 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/img/csc-paytrack-logo.png"
+    />
     <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
   <body onload="initPage('bm-seal-plate')">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand fw-semibold" href="bm_dashboard.html">
-          CSC Financial - Business Manager
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#bmNavbar"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="bmNavbar">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="bm_dashboard.html">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="merchandise.html">Merchandise</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pe_uniform.html">PE Uniform</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="seal_plate.html">Seal & Plate</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="id_lace.html">ID Lace</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="bm_reports.html">Reports</a>
-            </li>
-          </ul>
-          <a class="btn btn-outline-primary btn-sm" href="../login.html">
-            Logout
-          </a>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Content -->
-    <main class="container main-content">
-      <div
-        class="d-flex justify-content-between align-items-center mb-3 page-title-bar"
-      >
-        <h2 class="fw-bold">Seal & Plate Requests</h2>
-        <button
-          class="btn btn-primary"
-          type="button"
-          onclick="openModal('addRecordModal')"
-        >
-          + Add Entry
-        </button>
-      </div>
-
-      <div class="card">
-        <div class="card-header">Requests</div>
-        <div class="card-body table-wrapper">
-          <table
-            class="table table-striped table-bordered table-sm table-hover"
+    <div class="app-shell">
+      <aside class="sidebar" id="appSidebar" aria-label="Sidebar">
+        <div class="sidebar-brand">
+          <div class="sidebar-logo-wrapper">
+            <img src="../assets/img/csc-paytrack-logo.png" alt="SynTrack" class="sidebar-logo" />
+          </div>
+          <div class="sidebar-brand-text">
+            <div class="fw-bold" style="font-size: 1.5rem;">SynTrack</div>
+            <small>CSC Business Manager Portal</small>
+          </div>
+          <button
+            class="btn btn-sm sidebar-collapse"
+            type="button"
+            onclick="toggleSidebar()"
           >
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Student / Org</th>
-                <th>Details</th>
-                <th>Amount</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="bmSealPlateTableBody"></tbody>
-          </table>
+            ☰
+          </button>
         </div>
-      </div>
-    </main>
+        <div class="sidebar-label">Main Menu</div>
+        <nav>
+          <a class="nav-link" href="bm_dashboard.html">
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-link" href="lanyards.html">
+            <span>Lanyards</span>
+          </a>
+          <a class="nav-link" href="pe_uniform.html">
+            <span>PE Uniform</span>
+          </a>
+          <a class="nav-link active" href="seal_plate.html">
+            <span>Seal &amp; Plates</span>
+          </a>
+          <a class="nav-link" href="merch.html">
+            <span>Merch Items</span>
+          </a>
+          <a class="nav-link" href="bm_concerns.html">
+            <span>Concerns</span>
+          </a>
+          <a class="nav-link" href="bm_reports.html">
+            <span>Reports</span>
+          </a>
+        </nav>
+        <div class="sidebar-label-text">
+          Bicol University Polangui<br>
+          College Student Council<br>
+          Financial Tracking System
+        </div>
+      </aside>
 
-    <!-- Add Entry Modal -->
-    <div class="modal fade" id="addRecordModal" tabindex="-1">
-      <div class="modal-dialog">
+      <div class="workspace">
+        <header class="topbar">
+          <div class="topbar-left">
+            <i class="bi bi-calendar3 topbar-date-icon"></i>
+            <small id="currentDateTime" class="text-muted"></small>
+          </div>
+          <div class="topbar-actions">
+            <button
+              type="button"
+              class="icon-btn theme-toggle-btn"
+              onclick="toggleTheme()"
+              aria-label="Toggle dark mode"
+            >
+              🌓
+            </button>
+            <button
+              type="button"
+              class="icon-btn notification-btn"
+              aria-label="Notifications"
+              onclick="toggleNotifications()"
+            >
+              <span class="notification-badge">2</span>
+              🔔
+            </button>
+            <div class="user-menu">
+              <div
+                class="user-avatar"
+                onclick="toggleUserMenu()"
+                role="button"
+              >
+                <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+              </div>
+              <div id="userDropdown" class="user-dropdown">
+                <div class="user-dropdown-header">
+                  <strong>BU POLANGUI CSC</strong>
+                  <div class="small text-muted">Business Manager</div>
+                </div>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Profile</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#managePasswordModal">Manage Password</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#contactAdminModal">Contact Admin</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#feedbackModal">Send Feedback</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#aboutDevelopersModal">About Developers</a>
+                <a href="../login.html" class="sign-out">Sign Out</a>
+              </div>
+              <div id="notificationPanel" class="notification-panel">
+                <div class="notification-item unread">
+                  <strong>New Concern Submitted</strong>
+                  <p>A student reported a payment issue with a lanyard order.</p>
+                  <small>Just now</small>
+                </div>
+                <div class="notification-item unread">
+                  <strong>Concern Requires Review</strong>
+                  <p>PE Uniform concern needs verification.</p>
+                  <small>1 hour ago</small>
+                </div>
+                <div class="notification-item">
+                  <strong>Concern Resolved</strong>
+                  <p>Merch Items concern has been resolved.</p>
+                  <small>2 hours ago</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="page-content">
+          <div class="page-header mb-4">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h2 class="fw-bold mb-2">Seal & Plates Management</h2>
+                <p class="mb-0">Manage official seal and plate orders for students and organizations. Track payment verification and order fulfillment status including walk-in purchases.</p>
+              </div>
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#attachRecordModal"
+              >
+                <i class="bi bi-camera me-2"></i>Attach New Records
+              </button>
+            </div>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label small text-muted mb-1">Search</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="searchInput"
+                    placeholder="Search by student name, receipt number, etc."
+                    onkeyup="filterTable()"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-3">
+                  <label class="form-label small text-muted mb-1">Department</label>
+                  <select class="form-select form-select-sm" id="filterDepartment" onchange="filterTable()">
+                    <option value="">All Departments</option>
+                    <option value="Nursing">Nursing</option>
+                    <option value="Computer Studies">Computer Studies</option>
+                    <option value="Entrepreneurship">Entrepreneurship</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Teacher Education">Teacher Education</option>
+                    <option value="Technology">Technology</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small text-muted mb-1">Course</label>
+                  <select class="form-select form-select-sm" id="filterCourse" onchange="filterTable()">
+                    <option value="">All Courses</option>
+                    <option value="BSN">BSN</option>
+                    <option value="BSIT">BSIT</option>
+                    <option value="BSIS">BSIS</option>
+                    <option value="BSCS">BSCS</option>
+                    <option value="BSIT Animation">BSIT Animation</option>
+                    <option value="BSENT">BSENT</option>
+                    <option value="BSCpE">BSCpE</option>
+                    <option value="BSECE">BSECE</option>
+                    <option value="BEED">BEED</option>
+                    <option value="BSED">BSED</option>
+                    <option value="BSAT">BSAT</option>
+                    <option value="BSET">BSET</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small text-muted mb-1">Block</label>
+                  <select class="form-select form-select-sm" id="filterBlock" onchange="filterTable()">
+                    <option value="">All Blocks</option>
+                    <option value="1A">1A</option>
+                    <option value="1B">1B</option>
+                    <option value="2A">2A</option>
+                    <option value="2B">2B</option>
+                    <option value="3A">3A</option>
+                    <option value="3B">3B</option>
+                    <option value="4A">4A</option>
+                    <option value="4B">4B</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small text-muted mb-1">Payment Status</label>
+                  <select class="form-select form-select-sm" id="filterPaymentStatus" onchange="filterTable()">
+                    <option value="">All Status</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Payment Pending">Payment Pending</option>
+                    <option value="Pending Verification">Pending Verification</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label small text-muted mb-1">Order Status</label>
+                  <select class="form-select form-select-sm" id="filterOrderStatus" onchange="filterTable()">
+                    <option value="">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Ready for Pickup">Ready for Pickup</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Walk-in Purchased">Walk-in Purchased</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Records Table -->
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center bg-gradient">
+              <span>SEAL & PLATES RECORDS</span>
+              <button class="btn btn-sm btn-outline-primary" type="button">
+                <i class="bi bi-file-earmark-pdf me-1"></i>Download PDF
+              </button>
+            </div>
+            <div class="card-body table-wrapper">
+              <table class="table table-striped table-bordered table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>A.Y.</th>
+                    <th>Yr. Course, Block</th>
+                    <th>Item</th>
+                    <th>No. of Items</th>
+                    <th>Amount</th>
+                    <th>Receipt No.</th>
+                    <th>Date</th>
+                    <th>Payment Status</th>
+                    <th>Payment Actions</th>
+                    <th>Order Status</th>
+                    <th>Order Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="sealPlateTableBody">
+                  <tr>
+                    <td>JUAN DELA CRUZ</td>
+                    <td>2025-2026</td>
+                    <td>3 BSIT BSIT3B</td>
+                    <td>Official Seal & Plate Set</td>
+                    <td>1</td>
+                    <td>₱350.00</td>
+                    <td>SP-001</td>
+                    <td>2025-01-10</td>
+                    <td><span class="badge bg-success">Paid</span></td>
+                    <td>
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('SP-001')" title="Verify Payment">
+                          <i class="bi bi-check-circle"></i>
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('SP-001')" title="Reject Payment">
+                          <i class="bi bi-x-circle"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td><span class="badge bg-info">Processing</span></td>
+                    <td>
+                      <div class="btn-group-vertical btn-group-sm">
+                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('SP-001')" title="Mark as Processing">
+                          <i class="bi bi-hourglass-split"></i> Processing
+                        </button>
+                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('SP-001')" title="Mark as Ready for Pickup">
+                          <i class="bi bi-box-arrow-up"></i> Ready
+                        </button>
+                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('SP-001')" title="Mark as Complete">
+                          <i class="bi bi-check2-all"></i> Complete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>MARIA SANTOS</td>
+                    <td>2025-2026</td>
+                    <td>2 BSCS BSCS2A</td>
+                    <td>Official Seal & Plate Set</td>
+                    <td>1</td>
+                    <td>₱350.00</td>
+                    <td>SP-002</td>
+                    <td>2025-01-15</td>
+                    <td><span class="badge bg-warning text-dark">Pending Verification</span></td>
+                    <td>
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('SP-002')" title="Verify Payment">
+                          <i class="bi bi-check-circle"></i>
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('SP-002')" title="Reject Payment">
+                          <i class="bi bi-x-circle"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td><span class="badge bg-secondary">Pending</span></td>
+                    <td>
+                      <div class="btn-group-vertical btn-group-sm">
+                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('SP-002')" title="Mark as Processing">
+                          <i class="bi bi-hourglass-split"></i> Processing
+                        </button>
+                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('SP-002')" title="Mark as Ready for Pickup">
+                          <i class="bi bi-box-arrow-up"></i> Ready
+                        </button>
+                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('SP-002')" title="Mark as Complete">
+                          <i class="bi bi-check2-all"></i> Complete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>JOHN SMITH</td>
+                    <td>2025-2026</td>
+                    <td>4 BSIT BSIT4A</td>
+                    <td>Official Seal & Plate Set</td>
+                    <td>1</td>
+                    <td>₱350.00</td>
+                    <td>SP-003</td>
+                    <td>2025-01-20</td>
+                    <td><span class="badge bg-success">Paid</span></td>
+                    <td>
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('SP-003')" title="Verify Payment">
+                          <i class="bi bi-check-circle"></i>
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('SP-003')" title="Reject Payment">
+                          <i class="bi bi-x-circle"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td><span class="badge bg-primary">Walk-in Purchased</span></td>
+                    <td>
+                      <div class="btn-group-vertical btn-group-sm">
+                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('SP-003')" title="Mark as Processing">
+                          <i class="bi bi-hourglass-split"></i> Processing
+                        </button>
+                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('SP-003')" title="Mark as Ready for Pickup">
+                          <i class="bi bi-box-arrow-up"></i> Ready
+                        </button>
+                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('SP-003')" title="Mark as Complete">
+                          <i class="bi bi-check2-all"></i> Complete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>ANNA LEE</td>
+                    <td>2025-2026</td>
+                    <td>1 BSN BSN1B</td>
+                    <td>Official Seal & Plate Set</td>
+                    <td>1</td>
+                    <td>₱350.00</td>
+                    <td>SP-004</td>
+                    <td>2025-01-22</td>
+                    <td><span class="badge bg-success">Paid</span></td>
+                    <td>
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('SP-004')" title="Verify Payment">
+                          <i class="bi bi-check-circle"></i>
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('SP-004')" title="Reject Payment">
+                          <i class="bi bi-x-circle"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td><span class="badge bg-success">Completed</span></td>
+                    <td>
+                      <div class="btn-group-vertical btn-group-sm">
+                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('SP-004')" title="Mark as Processing">
+                          <i class="bi bi-hourglass-split"></i> Processing
+                        </button>
+                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('SP-004')" title="Mark as Ready for Pickup">
+                          <i class="bi bi-box-arrow-up"></i> Ready
+                        </button>
+                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('SP-004')" title="Mark as Complete">
+                          <i class="bi bi-check2-all"></i> Complete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>CARLOS REYES</td>
+                    <td>2025-2026</td>
+                    <td>2 BSENT BSENT2A</td>
+                    <td>Official Seal & Plate Set</td>
+                    <td>1</td>
+                    <td>₱350.00</td>
+                    <td>SP-005</td>
+                    <td>2025-01-25</td>
+                    <td><span class="badge bg-warning text-dark">Pending Verification</span></td>
+                    <td>
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-success" onclick="verifyPayment('SP-005')" title="Verify Payment">
+                          <i class="bi bi-check-circle"></i>
+                        </button>
+                        <button class="btn btn-outline-danger" onclick="rejectPayment('SP-005')" title="Reject Payment">
+                          <i class="bi bi-x-circle"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td><span class="badge bg-secondary">Pending</span></td>
+                    <td>
+                      <div class="btn-group-vertical btn-group-sm">
+                        <button class="btn btn-outline-primary btn-sm" onclick="markProcessing('SP-005')" title="Mark as Processing">
+                          <i class="bi bi-hourglass-split"></i> Processing
+                        </button>
+                        <button class="btn btn-outline-warning btn-sm" onclick="markReady('SP-005')" title="Mark as Ready for Pickup">
+                          <i class="bi bi-box-arrow-up"></i> Ready
+                        </button>
+                        <button class="btn btn-outline-success btn-sm" onclick="markComplete('SP-005')" title="Mark as Complete">
+                          <i class="bi bi-check2-all"></i> Complete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Audit Logs -->
+          <div class="card mt-3">
+            <div class="card-header d-flex justify-content-between align-items-center bg-gradient">
+              <span>Audit Logs</span>
+              <button class="btn btn-sm btn-outline-primary" type="button">
+                <i class="bi bi-file-earmark-pdf me-1"></i>Download PDF
+              </button>
+            </div>
+            <div class="card-body table-wrapper">
+              <table class="table table-striped table-bordered table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th>Date & Time</th>
+                    <th>Action</th>
+                    <th>User</th>
+                    <th>Record ID</th>
+                    <th>Details</th>
+                  </tr>
+                </thead>
+                <tbody id="auditLogsTableBody">
+                  <tr>
+                    <td>2025-01-10 10:30 AM</td>
+                    <td>Payment Verified</td>
+                    <td>Business Manager</td>
+                    <td>SP-001</td>
+                    <td>Payment verified for JUAN DELA CRUZ</td>
+                  </tr>
+                  <tr>
+                    <td>2025-01-15 02:15 PM</td>
+                    <td>Record Added</td>
+                    <td>Business Manager</td>
+                    <td>SP-002</td>
+                    <td>New seal & plate order recorded</td>
+                  </tr>
+                  <tr>
+                    <td>2025-01-20 09:45 AM</td>
+                    <td>Walk-in Purchase</td>
+                    <td>Business Manager</td>
+                    <td>SP-003</td>
+                    <td>Walk-in purchase recorded and completed</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <footer class="app-footer">
+          <div class="container-fluid">
+            <div class="row align-items-center">
+              <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
+                  <img src="../assets/img/csc-paytrack-logo.png" alt="SynTrack Logo" style="width: 32px; height: 32px; object-fit: contain;" />
+                  <span class="fw-semibold">SynTrack</span>
+                </div>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                <div class="small">
+                  <div class="mb-1">Bicol University Polangui - College Student Council</div>
+                  <div class="text-muted">Financial Tracking and Payment Management System</div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3 pt-3 border-top">
+              <div class="col-12 text-center">
+                <div class="mb-2">
+                  <a href="https://www.facebook.com/bupc.csc.one" target="_blank" rel="noopener noreferrer" class="facebook-link">
+                    <i class="bi bi-facebook me-2"></i>Bicol University Polangui College Student Council Facebook Page
+                  </a>
+                </div>
+                <small class="text-muted">© 2025 SynTrack. All rights reserved.</small>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Attach New Records Modal -->
+    <div class="modal fade" id="attachRecordModal" tabindex="-1" aria-labelledby="attachRecordModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Add New Entry</h5>
-            <button
-              type="button"
-              class="btn-close"
-              onclick="closeModal('addRecordModal')"
-            ></button>
+            <h5 class="modal-title" id="attachRecordModalLabel">Attach New Records</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-
-          <div class="modal-body">
-            <form id="addRecordForm">
-              <div class="mb-3">
-                <label class="form-label">Student ID</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="form_studentId"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Amount</label>
-                <input type="number" class="form-control" id="form_amount" />
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Details</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="form_details"
-                  placeholder="Seal and Plate details"
-                />
-              </div>
-            </form>
+          <div class="modal-body text-center">
+            <div class="display-4 mb-3">
+              <i class="bi bi-camera-fill" style="color: var(--color-orange);"></i>
+            </div>
+            <p class="mb-2">Camera indicator for prototype sample only.</p>
           </div>
-
           <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              onclick="closeModal('addRecordModal')"
-            >
-              Cancel
-            </button>
-            <button class="btn btn-primary" id="submitRecordBtn" type="button">
-              Submit
-            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
 
-    <footer class="text-center mt-5 mb-3 text-muted">
-      <small>SynTrack – Bicol University Polangui College Student Council Financial Tracking System</small>
-    </footer>
+    <!-- Include all modals from common_modals.html -->
+    <div id="commonModals"></div>
 
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -158,15 +560,128 @@
     <script src="../assets/js/data.js"></script>
     <script src="../assets/js/forms.js"></script>
     <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/modals.js"></script>
     <script>
+      // Load common modals
+      fetch('common_modals.html')
+        .then(r => {
+          if (!r.ok) throw new Error('Failed to load modals');
+          return r.text();
+        })
+        .then(html => {
+          const container = document.getElementById('commonModals');
+          if (container) {
+            container.innerHTML = html;
+            setTimeout(() => {
+              if (typeof initializeModals === 'function') {
+                initializeModals();
+              }
+            }, 100);
+          }
+        })
+        .catch(err => {
+          console.error('Error loading modals:', err);
+        });
+
+      function filterTable() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const department = document.getElementById('filterDepartment').value;
+        const course = document.getElementById('filterCourse').value;
+        const block = document.getElementById('filterBlock').value;
+        const paymentStatus = document.getElementById('filterPaymentStatus').value;
+        const orderStatus = document.getElementById('filterOrderStatus').value;
+        const rows = document.querySelectorAll('#sealPlateTableBody tr');
+
+        rows.forEach(row => {
+          const studentName = row.cells[0].textContent.toLowerCase();
+          const receiptNo = row.cells[6].textContent.toLowerCase();
+          const rowCourseBlock = row.cells[2].textContent;
+          const rowPaymentStatus = row.cells[8].textContent.trim();
+          const rowOrderStatus = row.cells[10].textContent.trim();
+
+          const matchesSearch = !searchTerm || studentName.includes(searchTerm) || receiptNo.includes(searchTerm);
+          
+          // Department matching
+          let matchesDepartment = true;
+          if (department) {
+            const deptMap = {
+              'Nursing': ['BSN'],
+              'Computer Studies': ['BSIT', 'BSIS', 'BSCS', 'BSIT Animation'],
+              'Entrepreneurship': ['BSENT'],
+              'Engineering': ['BSCpE', 'BSECE'],
+              'Teacher Education': ['BEED', 'BSED'],
+              'Technology': ['BSAT', 'BSET']
+            };
+            const courses = deptMap[department] || [];
+            matchesDepartment = courses.some(c => rowCourseBlock.includes(c));
+          }
+          
+          const matchesCourse = !course || rowCourseBlock.includes(course);
+          
+          // Block matching
+          let matchesBlock = true;
+          if (block) {
+            const blockMatch = rowCourseBlock.match(/\d+([A-Z])/);
+            const rowBlock = blockMatch ? blockMatch[1] : '';
+            matchesBlock = rowBlock === block.replace(/\d+/, '');
+          }
+          
+          const matchesPaymentStatus = !paymentStatus || rowPaymentStatus.includes(paymentStatus);
+          const matchesOrderStatus = !orderStatus || rowOrderStatus.includes(orderStatus);
+
+          row.style.display = matchesSearch && matchesDepartment && matchesCourse && matchesBlock && matchesPaymentStatus && matchesOrderStatus ? '' : 'none';
+        });
+      }
+
+      function verifyPayment(receiptId) {
+        if (confirm(`Verify payment for receipt ${receiptId}?`)) {
+          alert(`Payment ${receiptId} verified successfully!`);
+        }
+      }
+
+      function rejectPayment(receiptId) {
+        if (confirm(`Reject payment for receipt ${receiptId}?`)) {
+          alert(`Payment ${receiptId} rejected.`);
+        }
+      }
+
+      function markProcessing(receiptId) {
+        if (confirm(`Mark order ${receiptId} as Processing?`)) {
+          alert(`Order ${receiptId} marked as Processing.`);
+        }
+      }
+
+      function markReady(receiptId) {
+        if (confirm(`Mark order ${receiptId} as Ready for Pickup?`)) {
+          alert(`Order ${receiptId} marked as Ready for Pickup.`);
+        }
+      }
+
+      function markComplete(receiptId) {
+        if (confirm(`Mark order ${receiptId} as Completed?`)) {
+          alert(`Order ${receiptId} marked as Completed.`);
+        }
+      }
+
+      function bindUserDropdownModalTriggers() {
+        const dropdownLinks = document.querySelectorAll('#userDropdown a[data-bs-toggle="modal"]');
+        dropdownLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetModal = this.getAttribute('data-bs-target');
+            if (targetModal) {
+              const modal = new bootstrap.Modal(document.querySelector(targetModal));
+              modal.show();
+            }
+          });
+        });
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
-        loadBmSealPlateTable();
-        document.getElementById("submitRecordBtn").onclick =
-          addSealPlateRequest;
+        applyStoredTheme && applyStoredTheme();
+        startClock && startClock("currentDateTime");
+        bindUserDropdownModalTriggers();
       });
     </script>
   </body>
 </html>
-
-
-
