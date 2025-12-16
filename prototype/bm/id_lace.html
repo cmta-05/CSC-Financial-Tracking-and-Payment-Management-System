@@ -13,83 +13,159 @@
     <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
   <body onload="initPage('bm-id-lace')">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand fw-semibold" href="bm_dashboard.html">
-          CSC Financial - Business Manager
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#bmNavbar"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="bmNavbar">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="bm_dashboard.html">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="merchandise.html">Merchandise</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pe_uniform.html">PE Uniform</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="seal_plate.html">Seal & Plate</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="id_lace.html">ID Lace</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="bm_reports.html">Reports</a>
-            </li>
-          </ul>
-          <a class="btn btn-outline-primary btn-sm" href="../login.html">
-            Logout
-          </a>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Content -->
-    <main class="container main-content">
-      <div
-        class="d-flex justify-content-between align-items-center mb-3 page-title-bar"
-      >
-        <h2 class="fw-bold">ID Lace Requests</h2>
-        <button
-          class="btn btn-primary"
-          type="button"
-          onclick="openModal('addRecordModal')"
-        >
-          + Add Entry
-        </button>
-      </div>
-
-      <div class="card">
-        <div class="card-header">Requests</div>
-        <div class="card-body table-wrapper">
-          <table
-            class="table table-striped table-bordered table-sm table-hover"
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <div class="sidebar-logo-wrapper">
+            <img src="../assets/img/csc-paytrack-logo.png" alt="SynTrack" class="sidebar-logo" />
+          </div>
+          <div class="sidebar-brand-text">
+            <div class="fw-bold" style="font-size: 1.5rem;">SynTrack</div>
+            <small>CSC Business Manager Portal</small>
+          </div>
+          <button
+            class="btn btn-sm sidebar-collapse"
+            type="button"
+            onclick="toggleSidebar()"
           >
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Student</th>
-                <th>Item</th>
-                <th>Total Amount</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="bmIdLaceTableBody"></tbody>
-          </table>
+            ☰
+          </button>
+        </div>
+        <div class="sidebar-label">Main Menu</div>
+        <nav>
+          <a class="nav-link" href="bm_dashboard.html">
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-link active" href="id_lace.html">
+            <span>Lanyards</span>
+          </a>
+          <a class="nav-link" href="pe_uniform.html">
+            <span>PE Uniform</span>
+          </a>
+          <a class="nav-link" href="seal_plate.html">
+            <span>Seal &amp; Plates</span>
+          </a>
+          <a class="nav-link" href="merchandise.html">
+            <span>Merch Items</span>
+          </a>
+          <a class="nav-link" href="bm_reports.html">
+            <span>Concerns</span>
+          </a>
+          <a class="nav-link" href="bm_reports.html">
+            <span>Reports</span>
+          </a>
+        </nav>
+        <div class="sidebar-label-text">
+          Bicol University Polangui<br>
+          College Student Council<br>
+          Financial Tracking System
+        </div>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <div class="topbar-left">
+            <i class="bi bi-calendar3 topbar-date-icon"></i>
+            <small id="currentDateTime" class="text-muted"></small>
+          </div>
+          <div class="topbar-actions">
+            <button
+              type="button"
+              class="icon-btn theme-toggle-btn"
+              onclick="toggleTheme()"
+              aria-label="Toggle dark mode"
+            >
+              🌓
+            </button>
+            <button
+              type="button"
+              class="icon-btn notification-btn"
+              aria-label="Notifications"
+              onclick="toggleNotifications()"
+            >
+              <span class="notification-badge">0</span>
+              🔔
+            </button>
+            <div class="user-menu">
+              <div
+                class="user-avatar"
+                onclick="toggleUserMenu()"
+                role="button"
+              >
+                <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+              </div>
+              <div id="userDropdown" class="user-dropdown">
+                <div class="user-dropdown-header">
+                  <strong>VANNESA ROSE B.</strong>
+                  <div class="small text-muted">BSIT | 3rd Year</div>
+                </div>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Profile</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#managePasswordModal">Manage Password</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#contactAdminModal">Contact Admin</a>
+                <a href="../login.html" class="sign-out">Sign Out</a>
+              </div>
+              <div id="notificationPanel" class="notification-panel">
+                <div class="notification-item">
+                  <strong>No notifications</strong>
+                  <p>You're all caught up!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="page-content">
+          <div class="page-header mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <h2 class="fw-bold mb-1">ID Lace Requests</h2>
+              <p class="mb-0">Track and manage CSC ID lace orders with verification status.</p>
+            </div>
+            <button
+              class="btn btn-primary"
+              type="button"
+              onclick="openModal('addRecordModal')"
+            >
+              + Add Entry
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="card-header bg-gradient">Requests</div>
+            <div class="card-body table-wrapper">
+              <table
+                class="table table-striped table-bordered table-sm table-hover"
+              >
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Student</th>
+                    <th>Item</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="bmIdLaceTableBody">
+                  <tr>
+                    <td>2025-01-10</td>
+                    <td>JUAN DELA CRUZ</td>
+                    <td>CSC Official BU Polangui Lanyard</td>
+                    <td>₱120.00</td>
+                    <td><span class="badge bg-success">Paid & Verified</span></td>
+                  </tr>
+                  <tr>
+                    <td>2024-12-02</td>
+                    <td>MARIA SANTOS</td>
+                    <td>CSC Official BU Polangui Lanyard</td>
+                    <td>₱120.00</td>
+                    <td><span class="badge bg-warning text-dark">Pending Verification</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-    </main>
+    </div>
 
     <!-- Add Entry Modal -->
     <div class="modal fade" id="addRecordModal" tabindex="-1">

@@ -21,12 +21,12 @@
     <div class="app-shell">
       <aside class="sidebar">
         <div class="sidebar-brand">
-          <div class="logo-circle">
-            <img src="../assets/img/csc-paytrack-logo.png" alt="SynTrack" />
+          <div class="sidebar-logo-wrapper">
+            <img src="../assets/img/csc-paytrack-logo.png" alt="SynTrack" class="sidebar-logo" />
           </div>
-          <div>
-            <div class="fw-bold">SynTrack</div>
-            <small>Business Manager</small>
+          <div class="sidebar-brand-text">
+            <div class="fw-bold" style="font-size: 1.5rem;">SynTrack</div>
+            <small>CSC Business Manager Portal</small>
           </div>
           <button
             class="btn btn-sm sidebar-collapse"
@@ -38,45 +38,57 @@
         </div>
         <div class="sidebar-label">Main Menu</div>
         <nav>
-          <a class="nav-link" href="bm_dashboard.html">
-            <i class="bi bi-speedometer2"></i><span>Dashboard</span>
-          </a>
-          <a class="nav-link" href="merchandise.html">
-            <i class="bi bi-bag"></i><span>Merchandise</span>
-          </a>
-          <a class="nav-link" href="pe_uniform.html">
-            <i class="bi bi-people"></i><span>PE Uniform</span>
-          </a>
-          <a class="nav-link" href="seal_plate.html">
-            <i class="bi bi-shield"></i><span>Seal & Plate</span>
+          <a class="nav-link active" href="bm_dashboard.html">
+            <span>Dashboard</span>
           </a>
           <a class="nav-link" href="id_lace.html">
-            <i class="bi bi-card-heading"></i><span>ID Lace</span>
+            <span>Lanyards</span>
+          </a>
+          <a class="nav-link" href="pe_uniform.html">
+            <span>PE Uniform</span>
+          </a>
+          <a class="nav-link" href="seal_plate.html">
+            <span>Seal &amp; Plates</span>
+          </a>
+          <a class="nav-link" href="merchandise.html">
+            <span>Merch Items</span>
           </a>
           <a class="nav-link" href="bm_reports.html">
-            <i class="bi bi-bar-chart"></i><span>Reports</span>
+            <span>Concerns</span>
+          </a>
+          <a class="nav-link" href="bm_reports.html">
+            <span>Reports</span>
           </a>
         </nav>
+        <div class="sidebar-label-text">
+          Bicol University Polangui<br>
+          College Student Council<br>
+          Financial Tracking System
+        </div>
       </aside>
 
       <div class="workspace">
         <header class="topbar">
-          <div>
-            <div class="topbar-title">
-              Bicol University Polangui - College Student Council PayTrack
-            </div>
+          <div class="topbar-left">
+            <i class="bi bi-calendar3 topbar-date-icon"></i>
             <small id="currentDateTime" class="text-muted"></small>
           </div>
           <div class="topbar-actions">
             <button
               type="button"
-              class="icon-btn"
+              class="icon-btn theme-toggle-btn"
               onclick="toggleTheme()"
               aria-label="Toggle dark mode"
             >
               🌓
             </button>
-            <button type="button" class="icon-btn" aria-label="Notifications">
+            <button
+              type="button"
+              class="icon-btn notification-btn"
+              aria-label="Notifications"
+              onclick="toggleNotifications()"
+            >
+              <span class="notification-badge">0</span>
               🔔
             </button>
             <div class="user-menu">
@@ -85,7 +97,7 @@
                 onclick="toggleUserMenu()"
                 role="button"
               >
-                VR
+                <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
               </div>
               <div id="userDropdown" class="user-dropdown">
                 <div class="user-dropdown-header">
@@ -98,6 +110,12 @@
                 <a href="#">Contact Admin</a>
                 <a href="#">Send Feedback</a>
                 <a href="../login.html" class="sign-out">Sign Out</a>
+              </div>
+              <div id="notificationPanel" class="notification-panel">
+                <div class="notification-item">
+                  <strong>No notifications</strong>
+                  <p>You're all caught up!</p>
+                </div>
               </div>
             </div>
           </div>

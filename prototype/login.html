@@ -126,7 +126,7 @@
         content: "";
         position: absolute;
         inset: 0;
-        background-image: url("images/csc.jpg");
+        background-image: url("assets/img/csc.jpg");
         background-size: cover;
         background-position: center bottom;
         background-repeat: no-repeat;
@@ -535,6 +535,27 @@
       .form-control,
       .btn {
         transition: all 0.3s ease;
+      }
+
+      /* ====== REMEMBER ME CHECKBOX - YELLOW IN BOTH MODES ====== */
+      .form-check-input:checked {
+        background-color: #ffd700 !important;
+        border-color: #ffd700 !important;
+      }
+
+      .form-check-input:focus {
+        border-color: #ffd700 !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25) !important;
+      }
+
+      body.theme-dark .form-check-input:checked {
+        background-color: #ffd700 !important;
+        border-color: #ffd700 !important;
+      }
+
+      body.theme-dark .form-check-input:focus {
+        border-color: #ffd700 !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25) !important;
       }
 
     </style>

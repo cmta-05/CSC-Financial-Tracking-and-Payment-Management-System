@@ -293,7 +293,8 @@ body.sidebar-collapsed .sidebar {
 
 body.sidebar-collapsed .sidebar .nav-link span,
 body.sidebar-collapsed .sidebar .sidebar-label,
-body.sidebar-collapsed .sidebar .sidebar-brand div {
+body.sidebar-collapsed .sidebar .sidebar-brand div,
+body.sidebar-collapsed .sidebar .sidebar-label-text {
   display: none;
 }
 
@@ -1915,6 +1916,18 @@ body.theme-dark .dashboard-top h2 span {
   color: #ffed4e !important;
 }
 
+/* Fix welcome message visibility in dark mode */
+body.theme-dark .dashboard-top h2 {
+  color: #ffd700 !important;
+  text-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  font-weight: 700;
+}
+
+.dashboard-top h2 {
+  color: #1e1010 !important;
+  font-weight: 700;
+}
+
 /* ====== CARD HEADER TITLES - LIGHT MODE ====== */
 .card-header.bg-gradient {
   color: white !important;
@@ -1928,11 +1941,29 @@ body.theme-dark .dashboard-top h2 span {
 
 /* ====== SECTION TITLES VISIBILITY ====== */
 section h4.fw-bold {
-  color: #1e1010;
+  color: #1e1010 !important;
   font-weight: 700;
 }
 
 body.theme-dark section h4.fw-bold {
+  color: #ffd700 !important;
+}
+
+/* Fix card header titles in light mode */
+.card-header.bg-gradient span {
+  color: white !important;
+}
+
+/* Fix section titles that are not visible in light mode */
+h4.fw-bold,
+.card-header.bg-gradient h4,
+.card-header.bg-gradient h5 {
+  color: #1e1010 !important;
+}
+
+body.theme-dark h4.fw-bold,
+body.theme-dark .card-header.bg-gradient h4,
+body.theme-dark .card-header.bg-gradient h5 {
   color: #ffd700 !important;
 }
 
@@ -1943,6 +1974,19 @@ body.theme-dark section h4.fw-bold {
 
 body.theme-dark .card-header {
   color: #ffd700 !important;
+}
+
+/* Gradient headers: dark text on light mode, white on dark mode */
+body:not(.theme-dark) .card-header.bg-gradient,
+body:not(.theme-dark) .card-header.bg-gradient * {
+  color: #1e1010 !important;
+  text-shadow: none !important;
+}
+
+body.theme-dark .card-header.bg-gradient,
+body.theme-dark .card-header.bg-gradient * {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
 /* ====== TABLE ENHANCEMENTS ====== */
@@ -1979,11 +2023,28 @@ body.theme-dark .table tbody td {
 }
 
 body.theme-dark .table-striped > tbody > tr:nth-of-type(odd) {
-  background-color: rgba(255, 215, 0, 0.05);
+  background-color: rgba(255, 215, 0, 0.05) !important;
 }
 
 body.theme-dark .table-striped > tbody > tr:nth-of-type(even) {
-  background-color: rgba(27, 17, 16, 0.4);
+  background-color: rgba(27, 17, 16, 0.4) !important;
+}
+
+/* Consistent table rows in dark mode */
+body.theme-dark .table tbody tr {
+  background-color: rgba(27, 17, 16, 0.4) !important;
+}
+
+body.theme-dark .table tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 215, 0, 0.05) !important;
+}
+
+body.theme-dark .table tbody tr:nth-of-type(even) {
+  background-color: rgba(27, 17, 16, 0.4) !important;
+}
+
+body.theme-dark .table tbody tr td {
+  background-color: transparent !important;
 }
 
 /* ====== LIGHT MODE TABLE ====== */

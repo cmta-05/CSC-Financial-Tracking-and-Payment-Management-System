@@ -12,48 +12,94 @@
   <body onload="initPage('treasurer-csc-fee')" class="theme-dark">
     <div class="app-shell">
       <!-- Sidebar -->
-      <aside class="sidebar bg-dark text-white p-3" id="sidebar" style="width:260px; min-height:100vh; transition:0.3s; overflow:hidden;">
-        <button class="btn btn-sm btn-outline-light mb-3" onclick="toggleSidebar()">≡</button>
-
-        <h4 class="fw-bold mb-4 text-center sidebar-label">CSC Treasurer</h4>
-
-        <ul class="nav flex-column gap-1">
-          <li><a class="nav-link text-white d-flex align-items-center" href="treasurer_dashboard.html">📊 <span class="ms-2 sidebar-label">Dashboard</span></a></li>
-          <li><a class="nav-link active text-primary fw-bold d-flex align-items-center" href="csc_fee.html">💰 <span class="ms-2 sidebar-label">CSC Fee</span></a></li>
-          <li><a class="nav-link text-white d-flex align-items-center" href="dispute_management.html">⚠️ <span class="ms-2 sidebar-label">Disputes</span></a></li>
-          <li><a class="nav-link text-white d-flex align-items-center" href="treasurer_reports.html">📑 <span class="ms-2 sidebar-label">Reports</span></a></li>
-          <li><a class="nav-link text-white d-flex align-items-center" href="#auditLog">📘 <span class="ms-2 sidebar-label">Audit Log</span></a></li>
-          <li><a class="nav-link text-white d-flex align-items-center" href="#academicYears">📅 <span class="ms-2 sidebar-label">Academic Years</span></a></li>
-        </ul>
-
-        <div class="mt-auto pt-4 text-center">
-          <a class="btn btn-outline-light btn-sm w-100 sidebar-label" href="../login.html">Logout</a>
+      <aside class="sidebar" id="appSidebar" aria-label="Sidebar">
+        <div class="sidebar-brand">
+          <div class="sidebar-logo-wrapper">
+            <img src="../assets/img/csc-paytrack-logo.png" alt="SynTrack" class="sidebar-logo" />
+          </div>
+          <div class="sidebar-brand-text">
+            <div class="fw-bold" style="font-size: 1.5rem;">SynTrack</div>
+            <small>CSC Treasurer Portal</small>
+          </div>
+          <button
+            class="btn btn-sm sidebar-collapse"
+            type="button"
+            onclick="toggleSidebar()"
+          >
+            ☰
+          </button>
+        </div>
+        <div class="sidebar-label">Main Menu</div>
+        <nav>
+          <a class="nav-link" href="treasurer_dashboard.html">
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-link active" href="csc_fee.html">
+            <span>CSC Fee</span>
+          </a>
+          <a class="nav-link" href="concerns.html">
+            <span>Concerns</span>
+          </a>
+          <a class="nav-link" href="treasurer_reports.html">
+            <span>Reports</span>
+          </a>
+        </nav>
+        <div class="sidebar-label-text">
+          Bicol University Polangui<br>
+          College Student Council<br>
+          Financial Tracking System
         </div>
       </aside>
 
       <!-- Workspace -->
       <div class="workspace">
         <header class="topbar">
-          <div>
-            <div class="topbar-title">Bicol University Polangui - College Student Council PayTrack</div>
+          <div class="topbar-left">
+            <i class="bi bi-calendar3 topbar-date-icon"></i>
             <small id="currentDateTime" class="text-muted"></small>
           </div>
           <div class="topbar-actions">
-            <button type="button" class="icon-btn theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle dark mode">🌓</button>
-            <div class="notification-menu">
-              <button type="button" class="icon-btn" onclick="toggleNotifications()" aria-label="Notifications">🔔</button>
-            </div>
+            <button
+              type="button"
+              class="icon-btn theme-toggle-btn"
+              onclick="toggleTheme()"
+              aria-label="Toggle dark mode"
+            >
+              🌓
+            </button>
+            <button
+              type="button"
+              class="icon-btn notification-btn"
+              aria-label="Notifications"
+              onclick="toggleNotifications()"
+            >
+              <span class="notification-badge">3</span>
+              🔔
+            </button>
             <div class="user-menu">
-              <div class="user-avatar" onclick="toggleUserMenu()" role="button">VR</div>
+              <div
+                class="user-avatar"
+                onclick="toggleUserMenu()"
+                role="button"
+              >
+                <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+              </div>
               <div id="userDropdown" class="user-dropdown">
                 <div class="user-dropdown-header">
                   <strong>VANNESA ROSE B.</strong>
                   <div class="small text-muted">BSIT | 3rd Year</div>
                 </div>
-                <a href="#">Profile</a>
-                <a href="#">Manage Password</a>
-                <a href="#">Contact Admin</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Profile</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#managePasswordModal">Manage Password</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#contactAdminModal">Contact Admin</a>
                 <a href="../login.html" class="sign-out">Sign Out</a>
+              </div>
+              <div id="notificationPanel" class="notification-panel">
+                <div class="notification-item unread">
+                  <strong>Payment Pending Verification</strong>
+                  <p>Maria Santos submitted ₱500 for verification</p>
+                  <small>2 hours ago</small>
+                </div>
               </div>
             </div>
           </div>

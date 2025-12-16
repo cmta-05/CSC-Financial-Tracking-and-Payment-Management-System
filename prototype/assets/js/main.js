@@ -28,7 +28,7 @@ const moduleCardConfig = [
   {
     key: "lanyards",
     label: "LANYARDS",
-    amount: "₱150.00",
+    amount: "₱120.00",
     description: "Official BU Polangui ID lace with guidelines.",
     target: "student_info_lanyards.html",
     theme: "lanyards",
@@ -36,7 +36,7 @@ const moduleCardConfig = [
   {
     key: "pe",
     label: "PE UNIFORM",
-    amount: "₱300.00",
+    amount: "₱450.00",
     description: "Required attire for PE classes with sizing tips.",
     target: "student_info_pe_uniform.html",
     theme: "pe",
@@ -44,7 +44,7 @@ const moduleCardConfig = [
   {
     key: "seal",
     label: "SEAL & PLATES",
-    amount: "₱50.00",
+    amount: "₱60.00 / ₱40.00",
     description: "CSC seal & plate for ID validation.",
     target: "student_info_seal_plate.html",
     theme: "seal",
@@ -52,7 +52,7 @@ const moduleCardConfig = [
   {
     key: "merch",
     label: "MERCH SHIRT",
-    amount: "₱350.00",
+    amount: "₱300.00",
     description: "Event shirts and official CSC merchandise.",
     target: "student_info_merch.html",
     theme: "merch",
@@ -346,6 +346,30 @@ function setThemeToggleTitle(nextMode) {
 
 function toggleSidebar() {
   document.body.classList.toggle("sidebar-collapsed");
+  // Save preference
+  try {
+    localStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed') ? 'true' : 'false');
+  } catch (e) {}
+}
+
+// Ensure user dropdown links open their modals reliably
+function bindUserDropdownModalTriggers() {
+  const links = document.querySelectorAll(".user-dropdown a[data-bs-target]");
+  links.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const target = link.getAttribute("data-bs-target");
+      if (!target) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const menu = document.getElementById("userDropdown");
+      if (menu) menu.classList.remove("show");
+      const modalEl = document.querySelector(target);
+      if (modalEl && typeof bootstrap !== "undefined" && bootstrap.Modal) {
+        const modal = new bootstrap.Modal(modalEl, { backdrop: true, keyboard: true });
+        modal.show();
+      }
+    });
+  });
 }
 
 function toggleUserMenu() {
@@ -1443,6 +1467,7 @@ function setActiveLink() {
 
 // Basic per-page init hook (kept for flexibility)
 function initPage(pageId) {
+  bindUserDropdownModalTriggers();
   if (pageId === "treasurer-csc-fee") {
     loadTreasurerCscFeePage();
   }
@@ -1452,6 +1477,7 @@ function initPage(pageId) {
 document.addEventListener("DOMContentLoaded", () => {
   setActiveLink();
   initRevealOnScroll();
+  bindUserDropdownModalTriggers();
 });
 
 function initRevealOnScroll() {

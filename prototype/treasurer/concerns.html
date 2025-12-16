@@ -65,105 +65,87 @@
 <div class="app-shell">
   <!-- Sidebar -->
   <aside class="sidebar" id="appSidebar" aria-label="Sidebar">
-    <div class="sidebar-top">
-      <div class="sidebar-profile d-flex align-items-center" id="sidebarProfile" role="button" tabindex="0" title="Click to collapse sidebar">
-        <div class="logo-circle me-2">VR</div>
-        <div class="sidebar-profile-meta">
-          <div class="fw-bold user-fullname">VANNESA ROSE B.</div>
-          <div class="small user-role text-muted">Treasurer · BSIT</div>
-        </div>
+    <div class="sidebar-brand">
+      <div class="sidebar-logo-wrapper">
+        <img src="../assets/img/csc-paytrack-logo.png" alt="SynTrack" class="sidebar-logo" />
       </div>
+      <div class="sidebar-brand-text">
+        <div class="fw-bold" style="font-size: 1.5rem;">SynTrack</div>
+        <small>CSC Treasurer Portal</small>
+      </div>
+      <button
+        class="btn btn-sm sidebar-collapse"
+        type="button"
+        onclick="toggleSidebar()"
+      >
+        ☰
+      </button>
     </div>
-
     <div class="sidebar-label">Main Menu</div>
-
-    <nav class="sidebar-nav">
-      <a class="nav-link" href="treasurer_dashboard.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
-        <i class="bi bi-house-door"></i>
-        <span class="nav-text">Dashboard</span>
+    <nav>
+      <a class="nav-link" href="treasurer_dashboard.html">
+        <span>Dashboard</span>
       </a>
-
-      <a class="nav-link" href="csc_fee.html" data-bs-toggle="tooltip" data-bs-placement="right" title="CSC Fee">
-        <i class="bi bi-cash-stack"></i>
-        <span class="nav-text">CSC Fee</span>
+      <a class="nav-link" href="csc_fee.html">
+        <span>CSC Fee</span>
       </a>
-
-      <a class="nav-link active" href="concerns.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Concerns">
-        <i class="bi bi-chat-left-dots"></i>
-        <span class="nav-text">Concerns</span>
+      <a class="nav-link active" href="concerns.html">
+        <span>Concerns</span>
       </a>
-
-      <a class="nav-link" href="treasurer_reports.html" data-bs-toggle="tooltip" data-bs-placement="right" title="Reports">
-        <i class="bi bi-graph-up"></i>
-        <span class="nav-text">Reports</span>
+      <a class="nav-link" href="treasurer_reports.html">
+        <span>Reports</span>
       </a>
     </nav>
-
-    <div class="sidebar-footer">
-      <div class="sidebar-actions d-flex flex-column">
-        <a href="#" class="small text-decoration-none text-muted">Profile</a>
-        <a href="../login.html" class="small text-decoration-none text-muted mt-1">Sign Out</a>
-      </div>
+    <div class="sidebar-label-text">
+      Bicol University Polangui<br>
+      College Student Council<br>
+      Financial Tracking System
     </div>
   </aside>
 
   <!-- Workspace -->
   <div class="workspace">
     <header class="topbar">
-      <div>
-        <div class="topbar-title">Bicol University Polangui - College Student Council PayTrack</div>
+      <div class="topbar-left">
+        <i class="bi bi-calendar3 topbar-date-icon"></i>
         <small id="currentDateTime" class="text-muted"></small>
       </div>
       <div class="topbar-actions">
-        <button type="button" class="icon-btn" onclick="toggleTheme()" aria-label="Toggle dark mode">🌓</button>
-        <div class="notification-menu">
-          <button type="button" class="icon-btn" onclick="toggleNotifications()" aria-label="Notifications">🔔<span id="notificationBadge" class="badge badge-notification">3</span></button>
-          <div id="notificationDropdown" class="notification-dropdown">
-            <div class="notification-header">
-              <strong>Notifications</strong>
-              <button type="button" class="btn-close" onclick="closeNotifications()" aria-label="Close"></button>
-            </div>
-            <div id="notificationList" class="notification-list">
-              <div class="notification-item unread">
-                <div class="notification-icon">⏳</div>
-                <div class="notification-content">
-                  <div class="notification-title">Payment Pending Verification</div>
-                  <div class="notification-text">Maria Santos submitted ₱500 for verification</div>
-                  <div class="notification-time">2 hours ago</div>
-                </div>
-              </div>
-              <div class="notification-item unread">
-                <div class="notification-icon">⚠️</div>
-                <div class="notification-content">
-                  <div class="notification-title">Concern Submitted</div>
-                  <div class="notification-text">Carlos Reyes filed a concern - Payment Not Reflected</div>
-                  <div class="notification-time">5 hours ago</div>
-                </div>
-              </div>
-              <div class="notification-item">
-                <div class="notification-icon">✓</div>
-                <div class="notification-content">
-                  <div class="notification-title">Payment Verified</div>
-                  <div class="notification-text">Diana Lopez's payment (₱500) has been verified</div>
-                  <div class="notification-time">1 day ago</div>
-                </div>
-              </div>
-            </div>
-            <div class="notification-footer">
-              <button class="btn btn-sm btn-outline-primary w-100" onclick="closeNotifications()">Clear All</button>
-            </div>
-          </div>
-        </div>
+        <button type="button" class="icon-btn theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle dark mode">🌓</button>
+        <button type="button" class="icon-btn notification-btn" aria-label="Notifications" onclick="toggleNotifications()">
+          <span class="notification-badge">3</span>
+          🔔
+        </button>
         <div class="user-menu">
-          <div class="user-avatar" onclick="toggleUserMenu()" role="button">VR</div>
+          <div class="user-avatar" onclick="toggleUserMenu()" role="button">
+            <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+          </div>
           <div id="userDropdown" class="user-dropdown">
             <div class="user-dropdown-header">
               <strong>VANNESA ROSE B.</strong>
               <div class="small text-muted">BSIT | 3rd Year</div>
             </div>
-            <a href="#">Profile</a>
-            <a href="#">Manage Password</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Profile</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#managePasswordModal">Manage Password</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#contactAdminModal">Contact Admin</a>
             <a href="../login.html" class="sign-out">Sign Out</a>
+          </div>
+          <div id="notificationPanel" class="notification-panel">
+            <div class="notification-item unread">
+              <strong>Payment Pending Verification</strong>
+              <p>Maria Santos submitted ₱500 for verification</p>
+              <small>2 hours ago</small>
+            </div>
+            <div class="notification-item unread">
+              <strong>Concern Submitted</strong>
+              <p>Carlos Reyes filed a concern - Payment Not Reflected</p>
+              <small>5 hours ago</small>
+            </div>
+            <div class="notification-item">
+              <strong>Payment Verified</strong>
+              <p>Diana Lopez's payment (₱500) has been verified</p>
+              <small>1 day ago</small>
+            </div>
           </div>
         </div>
       </div>
