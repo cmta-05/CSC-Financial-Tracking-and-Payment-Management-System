@@ -1,0 +1,474 @@
+==============================================
+RDR CSC FINANCIAL SYSTEM GROUP 3 - VERSION 4
+REVISION NOTES AND RECOMMENDATIONS
+==============================================
+Date: December 17, 2025
+Prepared by: AI Assistant based on current system implementation
+Status: DRAFT - Requires Human Review and Approval
+
+==============================================
+DOCUMENT PURPOSE
+==============================================
+
+This document outlines necessary updates and corrections to align the Requirements Definition Report (RDR) Version 3 with the current system implementation. The original RDR v3 document (.doc format) requires the following updates to maintain consistency with the actual system behavior, UI patterns, and functionality.
+
+==============================================
+SECTION 1: UI/UX CONSISTENCY UPDATES
+==============================================
+
+1.1 SECTION TITLES AND HEADERS
+-------------------------------
+Current Implementation:
+- All section titles now use UPPERCASE format consistently across all pages
+- Card headers use consistent styling: 
+  * Class: "card-header fw-semibold d-flex justify-content-between align-items-center"
+  * Removed "bg-gradient" in favor of "fw-semibold" for better consistency
+- Section headings use: <h4 class="fw-bold mb-3">SECTION TITLE</h4>
+
+Required RDR Updates:
+- Update all UI mockups and screenshots to reflect uppercase section titles
+- Document the standardized card header pattern across all user roles
+- Update FR (Functional Requirements) screenshots showing:
+  * Student pages: CSC Fee, Lanyards, PE Uniform, Seal & Plates, Merch Items
+  * Treasurer pages: Dashboard, CSC Fee, Concerns, Reports
+  * Business Manager pages: Dashboard, Lanyards, PE Uniform, Seal & Plates, Merch, Concerns, Reports
+
+1.2 NOTIFICATION SYSTEM
+-----------------------
+Current Implementation:
+- Notification panel structure is consistent across all treasurer pages
+- Notification items follow this format:
+  ```html
+  <div class="notification-item unread">
+    <strong>Title</strong>
+    <p>Description</p>
+    <small>Time</small>
+  </div>
+  ```
+- Notifications are consistent across:
+  * treasurer_dashboard.html
+  * csc_fee.html
+  * concerns.html
+  * treasurer_reports.html
+
+Required RDR Updates:
+- FR-08 (Notification System): Update to specify consistent notification structure
+- Document notification badge positioning and styling
+- Specify that notification panel must be identical across all pages within each user role
+- Add requirement for notification synchronization across user sessions
+
+1.3 SIDEBAR AND NAVIGATION
+---------------------------
+Current Implementation:
+- Consistent sidebar structure across all pages within each role
+- Sidebar includes:
+  * Logo and branding (SynTrack)
+  * Role indicator (e.g., "CSC Treasurer Portal")
+  * Main menu navigation with active state indicators
+  * Footer text: "Bicol University Polangui College Student Council Financial Tracking System"
+- Sidebar collapse functionality with persistent state
+
+Required RDR Updates:
+- FR-02 (User Navigation): Document the exact sidebar structure for each role
+- Add requirement for sidebar state persistence
+- Specify the "Main Menu" label that appears in all sidebars
+- Document role-specific navigation items for each user type
+
+1.4 TOPBAR CONSISTENCY
+----------------------
+Current Implementation:
+- Topbar structure is identical across all pages:
+  * Left side: Calendar icon + current date/time
+  * Right side: Theme toggle, notification button, user menu
+- Icons and spacing are consistent
+- Date/time display uses shared JavaScript function: startClock()
+
+Required RDR Updates:
+- FR-03 (Dashboard Layout): Add topbar as a consistent component
+- Specify icon sizing and spacing requirements
+- Document the real-time clock update mechanism
+- Add requirement for theme persistence across page navigation
+
+1.5 FOOTER CONSISTENCY
+----------------------
+Current Implementation:
+- Footer is identical across all pages:
+  * Row 1: SynTrack logo and name | System description
+  * Row 2: Facebook link | Copyright notice
+- Facebook link: https://www.facebook.com/bupc.csc.one
+- Footer styling matches the role's theme
+
+Required RDR Updates:
+- Add NFR (Non-Functional Requirement) for footer consistency
+- Document the exact footer structure and content
+- Specify Facebook page link as a configurable system parameter
+
+==============================================
+SECTION 2: FUNCTIONAL REQUIREMENTS UPDATES
+==============================================
+
+2.1 CSC FEE MANAGEMENT (FR-03, FR-05)
+--------------------------------------
+Current Implementation:
+- Section titles: "CSC FEE RECORDS" and "Audit Logs"
+- Card headers with download PDF buttons (marked as "Mock")
+- Filters include: Search bar, Department, Course, Block, Status
+- Table columns are standardized
+- Audit logs appear below main records
+
+Required RDR Updates:
+- FR-03: Update screenshots to show new section title format
+- FR-05: Specify audit log placement and format
+- Add requirement for filter state persistence
+- Document the "Attach New Records" modal functionality
+- Specify table column requirements and sorting capabilities
+
+2.2 CONCERNS MANAGEMENT (FR-15, FR-16)
+---------------------------------------
+Current Implementation:
+- Concerns page structure is consistent for both Treasurer and Business Manager roles
+- Section title: "CONCERNS RECORDS"
+- Filters: Status, Type, Search
+- Table includes: Student, Issue, Proof, Date, Other Details, Status
+- Audit logs section at bottom
+- Review modal for concern details
+
+Required RDR Updates:
+- FR-15 (Student Concern Submission): Update UI flow
+- FR-16 (Treasurer/BM Concern Review): Document current table structure
+- Specify concern status workflow:
+  * New → Pending Verification → Under Review → Resolved/Rejected
+- Add requirement for concern notification to students
+- Document proof attachment requirements (max 3 files, max 5MB each)
+
+2.3 REPORTS FUNCTIONALITY (FR-06)
+----------------------------------
+Current Implementation:
+- Report cards use "fw-semibold" styling for headers
+- Charts display:
+  * Treasurer: CSC Fee Collections per AY, CSC Fee Concerns per AY
+  * Business Manager: Sales by Category per AY, Concerns by Category per AY
+- Summary tables show last 5 academic years
+- Academic year filter affects both charts and tables
+- Download PDF buttons (marked as "Mock")
+
+Required RDR Updates:
+- FR-06: Update to reflect current chart types and data visualization
+- Specify the 5-year historical data requirement
+- Document chart library used (Chart.js)
+- Add requirement for academic year filtering
+- Specify summary table column requirements
+- Add data export functionality requirements (PDF, Excel)
+
+2.4 STUDENT PAGES (FR-04, FR-07, FR-08, FR-09, FR-10, FR-11)
+-------------------------------------------------------------
+Current Implementation:
+- All student item pages follow consistent structure:
+  * Section titles in UPPERCASE
+  * Card headers with proper styling
+  * "YOUR CURRENT ORDER UPDATE" section
+  * "ORDER HISTORY" section with table
+  * "ANNOUNCEMENTS" section
+- Image carousels for product display (CSC Fee, Merch)
+- Accordion sections for instructions and guidelines
+- View receipt functionality for all transactions
+
+Required RDR Updates:
+- FR-07 (Lanyards): Update to reflect current "PURCHASE HISTORY" section
+- FR-08 (PE Uniform): Add "CURRENT ORDER UPDATE" section requirement
+- FR-09 (Seal & Plates): Specify dual purchase methods (walk-in, pre-order)
+- FR-10 (Merchandise): Document guidelines accordion structure
+- FR-11 (Student Dashboard): Update to show current summary card layout
+- Add requirement for unofficial receipt generation
+- Specify order status tracking workflow
+
+2.5 BUSINESS MANAGER PAGES (FR-12, FR-13, FR-14)
+-------------------------------------------------
+Current Implementation:
+- All BM management pages (Lanyards, PE Uniform, Seal & Plates, Merch) follow consistent structure:
+  * "SEARCH" card
+  * "FILTERS" card
+  * "[ITEM] RECORDS" card with table
+  * "Audit Logs" card
+- Payment action buttons: Verify, Reject
+- Filters include: Department, Course, Block, Payment Status
+- Records table with comprehensive student information
+
+Required RDR Updates:
+- FR-12 (BM Item Management): Document the standardized page structure
+- FR-13 (Payment Verification): Specify the two-button action system
+- FR-14 (Stock Management): Add requirements for stock level display
+- Add requirement for search functionality
+- Specify filter combinations and their logic (AND vs OR)
+- Document verification workflow and audit trail
+
+==============================================
+SECTION 3: NON-FUNCTIONAL REQUIREMENTS UPDATES
+==============================================
+
+3.1 USER INTERFACE CONSISTENCY (NEW NFR)
+-----------------------------------------
+Add new NFR:
+- All pages within a user role must maintain visual consistency
+- Section titles must use uppercase format
+- Card headers must use "fw-semibold" class
+- Navigation elements must be identical across pages
+- Footer content must be consistent
+- Icons and spacing must follow a design system
+
+3.2 ACCESSIBILITY REQUIREMENTS (ENHANCE EXISTING)
+--------------------------------------------------
+Current Implementation:
+- ARIA labels on sidebar and buttons
+- Keyboard navigation support
+- Theme toggle for dark mode
+- Responsive design for mobile devices
+
+Required RDR Updates:
+- Add specific ARIA requirement compliance (WCAG 2.1 Level AA)
+- Document keyboard shortcuts if implemented
+- Specify minimum contrast ratios for themes
+- Add requirement for screen reader compatibility
+
+3.3 PERFORMANCE REQUIREMENTS (ENHANCE EXISTING)
+------------------------------------------------
+Current Implementation:
+- Client-side filtering and search
+- Lazy loading of modals
+- Optimized chart rendering
+- Theme preference stored in localStorage
+
+Required RDR Updates:
+- Specify maximum page load time (e.g., < 3 seconds)
+- Add requirement for lazy loading of large datasets
+- Document pagination requirements for tables with > 100 rows
+- Specify localStorage usage and browser support requirements
+
+==============================================
+SECTION 4: DATA MODEL UPDATES
+==============================================
+
+4.1 CSC FEE PAYMENT RECORDS
+----------------------------
+Current Fields Displayed:
+- Student Name, Student ID
+- Academic Year
+- Year Level, Course, Block
+- Amount
+- Receipt Number
+- Date
+- Status (Paid, Pending Verification, Payment Pending, Rejected)
+- Proof of payment (images/PDF)
+
+Required RDR Updates:
+- Update ERD to include receipt number field
+- Specify proof of payment file storage requirements
+- Add audit trail fields: verified_by, verified_date, rejection_reason
+- Document status transition rules
+
+4.2 CONCERN/DISPUTE RECORDS
+----------------------------
+Current Fields Displayed:
+- Concern ID
+- Student Name, Student ID
+- Module/Type (CSC Fee, Lanyards, PE Uniform, Seal & Plates, Merch)
+- Issue Description
+- Amount
+- Reference/Receipt Number
+- Payment Date
+- Proof Attachments (max 3 files)
+- Status (Pending Verification, Under Review, Resolved, Rejected)
+- Resolution Notes
+- Created Date/Time
+
+Required RDR Updates:
+- Add concern module to ERD
+- Specify attachment file types and size limits
+- Add resolution fields: resolved_by, resolved_date, resolution_notes
+- Document notification triggers for status changes
+
+4.3 ORDER MANAGEMENT (PE UNIFORM, SEAL & PLATES, MERCH)
+--------------------------------------------------------
+Current Fields Displayed:
+- Order ID
+- Student information
+- Item details (type, size, quantity)
+- Amount
+- Order Date
+- Status (Order Placed, Pending Payment Verification, Paid & Verified, Processing Order, Ready for Pickup)
+- Receipt Number
+
+Required RDR Updates:
+- Add order management module to ERD
+- Specify order status workflow and transitions
+- Add fields: size, quantity, pickup_date, claimed_by
+- Document notification requirements for status changes
+
+==============================================
+SECTION 5: SECURITY AND AUDIT REQUIREMENTS
+==============================================
+
+5.1 AUDIT LOGGING (ENHANCE FR-17)
+----------------------------------
+Current Implementation:
+- Audit logs displayed on all major pages
+- Log entries include: Date/Time, Action, User, Details
+- Actions logged:
+  * Payment verification/rejection
+  * Record additions/modifications
+  * Concern status changes
+  * Report generation
+  * User actions (filters applied, records viewed)
+
+Required RDR Updates:
+- FR-17: Specify comprehensive audit log requirements
+- Add requirement for immutable audit trail
+- Specify log retention period (e.g., 5 years)
+- Document which actions must be logged
+- Add requirement for audit log export functionality
+- Specify audit log storage and backup requirements
+
+5.2 ACCESS CONTROL
+------------------
+Current Implementation:
+- Role-based access (Student, Treasurer, Business Manager, Admin)
+- Profile dropdown with role display
+- Sign out functionality
+- Separate portals for each role
+
+Required RDR Updates:
+- Add FR for session management and timeout
+- Specify password complexity requirements
+- Add requirement for "Manage Password" functionality
+- Document role-specific access permissions matrix
+- Add requirement for activity logging per user session
+
+==============================================
+SECTION 6: MODAL AND POPUP DIALOGS
+==============================================
+
+6.1 COMMON MODALS
+-----------------
+Current Implementation:
+- All pages load common modals from common_modals.html:
+  * Profile Modal
+  * Manage Password Modal
+  * Contact Admin Modal
+  * Send Feedback Modal
+  * About Developers Modal
+  * FAQs Modal (Student only)
+
+Required RDR Updates:
+- Document each modal's purpose and fields
+- Specify modal loading mechanism (fetch from common file)
+- Add requirement for modal accessibility (keyboard navigation, focus trap)
+- Document form validation requirements for each modal
+
+6.2 PAGE-SPECIFIC MODALS
+-------------------------
+Current Implementation:
+- Treasurer CSC Fee: Payment Details Modal, Attach Records Modal
+- Treasurer/BM Concerns: Review/Resolve Modal
+- Student CSC Fee: Receipt Modal, Image Fullscreen Modal
+
+Required RDR Updates:
+- Document each page-specific modal
+- Specify data displayed and actions available
+- Add requirement for modal responsiveness
+- Document modal state management
+
+==============================================
+SECTION 7: RECOMMENDATIONS FOR NEXT VERSION
+==============================================
+
+7.1 FEATURES TO ADD
+-------------------
+1. Real-time notifications using WebSocket or Server-Sent Events
+2. Bulk actions (verify multiple payments at once)
+3. Advanced reporting with date range selection
+4. Email notifications for important events
+5. Mobile app version
+6. QR code generation for receipts
+7. Integration with university student database
+8. Payment gateway integration for online payments
+9. Inventory management for merchandise
+10. Role-based dashboard customization
+
+7.2 UI/UX IMPROVEMENTS
+----------------------
+1. Add loading indicators for async operations
+2. Implement skeleton screens for better perceived performance
+3. Add confirmation dialogs for destructive actions
+4. Implement inline editing for quick updates
+5. Add keyboard shortcuts documentation
+6. Improve mobile responsiveness
+7. Add data export options (CSV, Excel, PDF)
+8. Implement drag-and-drop for file uploads
+
+7.3 TECHNICAL DEBT
+------------------
+1. Replace mock PDF download buttons with actual implementation
+2. Implement proper backend API integration
+3. Add comprehensive error handling and user feedback
+4. Implement data validation on both client and server
+5. Add automated testing (unit, integration, E2E)
+6. Implement proper authentication and session management
+7. Add database migration scripts
+8. Implement proper logging and monitoring
+
+==============================================
+SECTION 8: IMPLEMENTATION CHECKLIST
+==============================================
+
+[ ] Update all FR screenshots to reflect new UI
+[ ] Update ERD with new fields and relationships
+[ ] Update sequence diagrams for new workflows
+[ ] Add NFR for UI consistency
+[ ] Document all modal specifications
+[ ] Create user manual with current UI
+[ ] Update security requirements section
+[ ] Add audit logging specifications
+[ ] Document notification system completely
+[ ] Add mobile responsiveness requirements
+[ ] Specify browser compatibility requirements
+[ ] Add performance benchmarks
+[ ] Document API endpoints (for backend team)
+[ ] Create admin portal requirements
+[ ] Add data backup and recovery requirements
+
+==============================================
+SECTION 9: NOTES FOR DOCUMENT REVISION
+==============================================
+
+The original RDR_CSC_Financial_System_Group3_v3.doc file is in Microsoft Word format (.doc) and requires manual updating using Microsoft Word or compatible software. The following process is recommended:
+
+1. Open the original v3.doc file in Microsoft Word
+2. Review each section against these notes
+3. Update screenshots by capturing new UI from the current prototype
+4. Revise text descriptions to match current implementation
+5. Add new sections where noted above
+6. Update diagrams (ERD, sequence diagrams, use case diagrams)
+7. Review with stakeholders before finalizing
+8. Save as RDR_CSC_Financial_System_Group3_v4.doc
+9. Export a PDF version for distribution
+
+==============================================
+DOCUMENT CONTROL
+==============================================
+
+Version History:
+- v3: Previous version (date unknown)
+- v4 NOTES: December 17, 2025 - Created by AI Assistant based on system analysis
+
+Next Review Date: To be determined by project team
+Document Owner: Development Team / Project Manager
+Approval Required From: 
+  - Project Sponsor
+  - Stakeholders (BU Polangui CSC Officers)
+  - Technical Lead
+  - QA Lead
+
+==============================================
+END OF DOCUMENT
+==============================================
+
